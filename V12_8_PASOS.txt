@@ -1,0 +1,43 @@
+RIVER STORE V12.8 — GESTIÓN PROFESIONAL DE PEDIDOS
+
+BASE
+Esta versión fue creada directamente sobre el ZIP V12.7.5 entregado por el usuario.
+NO cambia la lógica de Supabase, inventario, devolución por cancelación ni descuento
+al regresar a un estado que usa inventario.
+
+NUEVO EN PEDIDOS
+- Tarjetas rápidas por estado:
+  Todos / Nuevos / Confirmados / Pagados / Enviados / Entregados / Cancelados.
+- Las tarjetas muestran la cantidad real de pedidos.
+- Clic en una tarjeta = filtrar inmediatamente.
+- Buscador por:
+  folio, cliente, teléfono, correo, producto, dirección, ciudad, pago o notas.
+- Filtro tradicional por estado.
+- Ordenamiento:
+  más recientes, más antiguos, mayor total, menor total y cliente A-Z.
+- Botón “Limpiar filtros”.
+- Total de pedidos visibles y monto total visible.
+- Exportar únicamente los pedidos actualmente filtrados a CSV.
+- Indicador visual del estado en cada tarjeta.
+- Diseño responsive para computadora y celular.
+
+SE CONSERVA
+- Supabase.
+- Cambio de estados.
+- Cancelado devuelve inventario.
+- Confirmado/Pagado/Enviado/Entregado aplican inventario según la lógica ya validada.
+- Notificación por WhatsApp.
+- Notas internas.
+- Motivo de cancelación.
+- Productos, fotos, videos, logo, portada y configuración de tienda.
+
+PRUEBA RECOMENDADA
+1. Abrir admin.html.
+2. Entrar a Pedidos.
+3. Buscar un folio existente.
+4. Probar las tarjetas de estados.
+5. Ordenar por mayor total.
+6. Limpiar filtros.
+7. Exportar CSV.
+8. Cambiar un pedido a Cancelado y verificar devolución.
+9. Cambiarlo a Entregado y verificar descuento.

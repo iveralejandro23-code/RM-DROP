@@ -1,0 +1,18 @@
+RIVER STORE V12.7 — CONFIGURACIÓN DE TIENDA
+
+ANTES DE ABRIR ESTA VERSIÓN:
+1. Supabase > SQL Editor > New query.
+2. Abre supabase/V12_7_STORE_SETTINGS.sql.
+3. Copia TODO el contenido.
+4. Pégalo en SQL Editor.
+5. Run.
+6. Debe aparecer Success. No rows returned.
+
+DESPUÉS:
+- Abre login.html.
+- En RIVER ADMIN aparecerá “Datos de la tienda”.
+- Ahí el propietario podrá cambiar nombre, WhatsApp, correo, dirección,
+  ciudad, moneda, redes sociales, entregas, pagos y pie de página.
+
+OBJETIVO:
+Que RIVER pueda entregarse a otra persona sin que tenga que editar código.

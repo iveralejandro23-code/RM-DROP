@@ -1,0 +1,26 @@
+RIVER STORE V12.6 — CHECKLIST DE PUBLICACIÓN
+
+ANTES DE PUBLICAR
+[ ] index.html abre correctamente
+[ ] login.html inicia sesión
+[ ] admin.html exige autenticación
+[ ] productos cargan desde Supabase
+[ ] fotos cargan desde product-images
+[ ] videos cargan desde product-videos
+[ ] pedido nuevo aparece en RIVER ADMIN
+[ ] Confirmado descuenta inventario
+[ ] Cancelado devuelve inventario
+[ ] WhatsApp abre correctamente
+[ ] probar en celular
+
+AL PUBLICAR
+1. Sube TODO el contenido de esta carpeta al hosting.
+2. El archivo principal debe ser index.html.
+3. Después de tener el dominio/URL final:
+   - configurar esa URL en Supabase Authentication > URL Configuration.
+   - probar login desde la URL pública.
+4. No publiques ni uses ninguna Secret Key en frontend.
+
+IMPORTANTE
+No necesitas borrar Supabase ni volver a crear las tablas.
+Esta versión usa la misma base de datos que ya configuraste.

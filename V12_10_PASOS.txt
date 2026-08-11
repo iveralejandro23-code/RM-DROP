@@ -1,0 +1,53 @@
+RIVER STORE V12.10 — CLIENTES E HISTORIAL DE COMPRAS
+
+BASE
+Construida sobre V12.9 ya validada, incluyendo la corrección:
+- Stock 0 = Agotado.
+- Stock 1 a 3 = Reponer.
+
+NUEVO MÓDULO: CLIENTES
+Los clientes se crean automáticamente a partir de los pedidos.
+No requiere nueva tabla de Supabase.
+
+DATOS MOSTRADOS
+- Nombre.
+- Teléfono.
+- Correo.
+- Cantidad de pedidos.
+- Total comprado.
+- Ticket promedio.
+- Última compra.
+- Entregados.
+- Cancelados.
+
+FUNCIONES
+- Buscar por nombre, teléfono, correo, folio o producto.
+- Ordenar por compra reciente, mayor gasto, más pedidos o nombre.
+- Filtrar:
+  Todos / Con compra / Recurrentes / Con cancelaciones.
+- Cliente recurrente = 2 o más pedidos.
+- Ver historial completo de pedidos por cliente.
+- Botón directo a WhatsApp.
+- Exportar clientes a CSV compatible con Excel.
+- Indicadores de:
+  Clientes únicos / Con compra / Recurrentes / Venta acumulada.
+
+IMPORTANTE
+No se modificó la lógica de:
+- Pedidos.
+- Inventario.
+- Cancelaciones y devoluciones.
+- Productos.
+- Fotos y videos.
+- Reportes.
+- Configuración de tienda.
+- Supabase.
+
+PRUEBA
+1. Abrir admin.html.
+2. Entrar en Clientes.
+3. Debe aparecer el cliente del pedido JR-0001.
+4. Pulsar Ver historial.
+5. Probar búsqueda.
+6. Probar Exportar clientes.
+7. Si se genera otro pedido con el mismo correo/teléfono, debe acumularse bajo el mismo cliente.

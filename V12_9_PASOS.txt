@@ -1,0 +1,54 @@
+RIVER STORE V12.9 — REPORTES Y RESUMEN DEL NEGOCIO
+
+BASE
+Construida directamente sobre V12.8 Gestión Profesional de Pedidos.
+
+NUEVO MÓDULO: REPORTES
+Se agregó “Reportes” al menú lateral.
+
+INDICADORES
+- Venta confirmada.
+- Venta entregada.
+- Ticket promedio.
+- Unidades vendidas.
+- Productos con stock bajo.
+- Monto y cantidad de pedidos cancelados.
+
+FILTRO POR PERÍODO
+- Todo el historial.
+- Hoy.
+- Últimos 7 días.
+- Últimos 30 días.
+- Mes actual.
+
+REPORTES VISUALES
+- Ventas por día.
+- Distribución de pedidos por estado.
+- Top 10 productos más vendidos.
+- Productos activos con stock de 3 piezas o menos.
+- Últimos movimientos de inventario.
+- Indicadores operativos.
+
+EXPORTACIÓN
+Botón “Exportar reporte” genera CSV compatible con Excel.
+
+IMPORTANTE
+V12.9 NO cambia:
+- Supabase.
+- Lógica de estados de pedidos.
+- Descuento/devolución de inventario.
+- Productos, fotos o videos.
+- Configuración de tienda.
+- WhatsApp y redes.
+- Exportación de pedidos de V12.8.
+
+Los reportes leen la caché que Supabase actualiza en el administrador,
+por lo que se refrescan automáticamente junto con productos y pedidos.
+
+PRUEBA
+1. Abrir admin.html.
+2. Elegir “Reportes” en el menú.
+3. Verificar que aparezcan los datos del pedido JR-0001.
+4. Cambiar el período.
+5. Revisar productos más vendidos y stock bajo.
+6. Pulsar “Exportar reporte” y abrir el CSV en Excel.

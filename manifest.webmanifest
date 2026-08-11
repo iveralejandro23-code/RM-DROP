@@ -1,0 +1,9 @@
+{
+  "name": "Julián Reynoso Store",
+  "short_name": "Julián Store",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#111111",
+  "theme_color": "#111111",
+  "icons": []
+}

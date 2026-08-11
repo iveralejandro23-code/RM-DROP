@@ -1,0 +1,22 @@
+RIVER STORE — PRODUCCIÓN
+
+ARCHIVOS PÚBLICOS
+- index.html: tienda pública
+- assets/: recursos públicos
+
+ACCESO ADMINISTRATIVO
+- login.html: acceso de administrador
+- admin.html: protegido por Supabase Authentication + admin_users
+
+CLAVES
+- config.js contiene únicamente Project URL + Publishable Key.
+- Esto es correcto para frontend cuando RLS/policies están configuradas.
+- NUNCA colocar una sb_secret_... o service_role en estos archivos.
+
+SUPABASE
+- products: catálogo e inventario
+- orders / order_items: pedidos
+- order_notes: notas
+- inventory_movements: historial
+- Storage product-images: fotografías
+- Storage product-videos: videos

@@ -1,0 +1,42 @@
+# RIVER Store — V12.5 Galería Multimedia
+
+NUEVO
+- Hasta 6 fotografías por producto.
+- 1 video MP4 opcional por producto.
+- Video recomendado: 10–30 segundos.
+- Límite configurado en la app: 30 MB.
+- El video puede llevar la música ya incorporada en el MP4.
+- El video aparece como una miniatura “VIDEO” dentro de Ver producto.
+- Reproducción con controles y sonido al presionar Play.
+
+ZOOM DE FOTOS
+- Botones + / −.
+- Restablecer.
+- Rueda del mouse en PC.
+- Doble clic: alterna zoom.
+- Arrastrar la foto cuando está ampliada.
+- Pellizcar con dos dedos en celular.
+- Zoom máximo: 400%.
+
+ANTES DE PROBAR V12.5
+1. En Supabase > Storage crea un bucket NUEVO:
+   Nombre: product-videos
+   Public bucket: activado
+   Límite: 30 MB
+   MIME permitido: video/mp4
+
+2. En Supabase > SQL Editor:
+   abre supabase/V12_5_MIGRATION.sql
+   copia todo
+   Run query
+
+3. Después abre login.html de V12.5.
+
+PRUEBA
+- Edita o crea una gorra.
+- Agrega varias fotos.
+- Agrega un MP4 corto.
+- Guarda.
+- Abre index.html > Ver producto.
+- Deben aparecer fotos + miniatura VIDEO.
+- Prueba zoom y reproducción.

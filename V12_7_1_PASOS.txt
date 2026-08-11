@@ -1,0 +1,26 @@
+RIVER STORE V12.7.1 — CONFIGURACIÓN PROFESIONAL
+
+MEJORAS
+- Todos los títulos están resaltados y claramente identificados.
+- Cada campo tiene explicación de qué debe escribir el propietario.
+- Opciones de venta/pago en tarjetas.
+- Vista previa directa de la tienda.
+- Logo editable.
+- Portada editable.
+- Los datos siguen guardándose en store_settings.
+
+PARA ACTIVAR LOGO Y PORTADA
+1. Supabase > Storage > New bucket.
+2. Nombre: store-branding
+3. Public bucket: ACTIVADO
+4. Restrict file size: 5 MB
+5. Restrict MIME types:
+   image/jpeg,image/png,image/webp
+6. Create.
+7. Supabase > SQL Editor > New query.
+8. Abre supabase/V12_7_1_STORE_BRANDING.sql
+9. Copia todo y ejecuta Run.
+10. Después abre login.html de esta versión.
+
+Si todavía no creas store-branding, los demás datos de configuración seguirán funcionando;
+solo la carga de logo/portada fallará hasta completar esos pasos.

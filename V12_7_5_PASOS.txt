@@ -1,0 +1,30 @@
+RIVER STORE V12.7.5 — ENLACES DE REDES CORREGIDOS
+
+CORRECCIÓN
+Cuando la tienda se abre desde la computadora con file:///,
+un enlace como instagram.com/usuario podía interpretarse como archivo local.
+
+AHORA RIVER NORMALIZA AUTOMÁTICAMENTE:
+- @usuario
+- usuario
+- instagram.com/usuario
+- www.instagram.com/usuario
+- https://instagram.com/usuario
+
+Y hace lo mismo para:
+- Instagram
+- Facebook
+- TikTok
+- YouTube
+
+PRUEBA
+1. Abre admin.html.
+2. En Datos de la tienda puedes escribir, por ejemplo:
+   Instagram: @usuario
+   TikTok: @usuario
+   Facebook: pagina
+   YouTube: canal
+3. Guarda configuración.
+4. Abre Vista previa.
+5. Pulsa cada red.
+6. Debe abrir una página web https:// y ya no intentar abrir un archivo local.

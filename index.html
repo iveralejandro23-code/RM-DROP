@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Tienda oficial de Julian Reynoso. Música, colección oficial y mercancía." />
+  <title>Julián Reynoso | Tienda Oficial</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css" />
+  <!-- RIVER_PRODUCTION_URL: agrega aquí el dominio final cuando se publique -->
+  <link rel="manifest" href="manifest.webmanifest">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container nav-wrap">
+      <a class="brand" href="#inicio">
+        <img class="store-brand-logo" data-store-logo alt="Logo de la tienda" style="display:none">
+        <span data-store-name>JULIAN REYNOSO</span>
+      </a>
+
+      <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
+
+      <nav class="main-nav" id="mainNav">
+        <a href="#inicio">Inicio</a>
+        <a href="#coleccion">Tienda</a>
+        <a href="#musica">Música</a>
+        <a href="#videos">Videos</a>
+        <a href="#contacto">Contacto</a>
+      </nav>
+
+      <button class="cart-button" id="cartButton" aria-label="Abrir carrito">
+        🛒 <span id="cartCount">0</span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero hero-v4" id="inicio">
+      <div class="hero-photo" data-store-cover aria-hidden="true"></div>
+      <div class="hero-vignette"></div>
+      <div class="hero-overlay"></div>
+
+      <div class="container hero-content hero-content-v4">
+        <div class="hero-copy-block">
+          <p class="eyebrow" data-store-location>TIJUANA · MÚSICA · MERCH</p>
+          <h1 data-store-owner>JULIAN REYNOSO</h1>
+          <p class="hero-copy" data-store-tagline>Sitio oficial de música y colección.</p>
+          <div class="hero-actions">
+            <a href="#coleccion" class="btn btn-primary">Comprar colección</a>
+            <a href="https://www.youtube.com/channel/UCJyLkIltjB4pschTIptDSMA" target="_blank" rel="noopener" class="btn btn-secondary">Escuchar música</a>
+          </div>
+
+          <div class="hero-socials">
+            <a data-social="youtube" href="#" target="_blank" rel="noopener">YouTube</a>
+            <span>•</span>
+            <a data-social="instagram" href="#" target="_blank" rel="noopener">Instagram</a>
+            <span>•</span>
+            <a data-social="tiktok" href="#" target="_blank" rel="noopener">TikTok</a>
+            <span>•</span>
+            <a data-social="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
+          </div>
+        </div>
+
+        <div class="hero-release-card">
+          <span class="mini-label">LANZAMIENTO DESTACADO</span>
+          <strong>EMPÍRICO</strong>
+          <a href="https://www.youtube.com/watch?v=bYZOr-E7hVg" target="_blank" rel="noopener">Ver ahora →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section collection" id="coleccion">
+      <div class="container">
+        <div class="section-heading">
+          <div>
+            <span class="section-kicker">COLECCIÓN OFICIAL</span>
+            <h2>Gorras</h2>
+          </div>
+          <p>Explora la colección disponible. Los productos, precios y existencias pueden administrarse desde RIVER Admin.</p>
+        </div>
+
+                <div class="store-category-filter-wrap" id="storeCategoryFilterWrap" hidden>
+          <div class="store-category-filter-title">Explorar colección</div>
+          <div id="storeCategoryFilters" class="store-category-filters"></div>
+        </div>
+        <div class="store-product-grid" id="storeProductGrid"></div>
+      </div>
+    </section>
+
+    <section class="section music-section" id="musica">
+      <div class="container music-grid">
+        <a class="music-cover real-release" href="https://www.youtube.com/watch?v=bYZOr-E7hVg" target="_blank" rel="noopener">
+          <img src="https://img.youtube.com/vi/bYZOr-E7hVg/maxresdefault.jpg" alt="Julian Reynoso - Empírico">
+          <div class="release-play">▶</div>
+        </a>
+        <div class="music-copy">
+          <span class="section-kicker">ÚLTIMO LANZAMIENTO DESTACADO</span>
+          <h2>EMPÍRICO</h2>
+          <p>VideoLyric oficial de Julian Reynoso. Esta sección conecta cada lanzamiento musical con la colección y mercancía oficial.</p>
+          <div class="music-actions">
+            <a class="btn btn-primary" href="https://www.youtube.com/watch?v=bYZOr-E7hVg" target="_blank" rel="noopener">Ver en YouTube</a>
+            <a class="btn btn-secondary" href="https://www.youtube.com/channel/UCJyLkIltjB4pschTIptDSMA" target="_blank" rel="noopener">Canal oficial</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section video-section" id="videos">
+      <div class="container">
+        <div class="section-heading compact">
+          <div>
+            <span class="section-kicker">VIDEOS</span>
+            <h2>Últimos lanzamientos</h2>
+          </div>
+          <a class="view-channel-link" href="https://www.youtube.com/channel/UCJyLkIltjB4pschTIptDSMA" target="_blank" rel="noopener">Ver canal completo →</a>
+        </div>
+
+        <div class="video-grid video-grid-v3">
+          <a class="video-card" href="https://www.youtube.com/watch?v=bYZOr-E7hVg" target="_blank" rel="noopener">
+            <div class="video-thumb real-thumb">
+              <img src="https://img.youtube.com/vi/bYZOr-E7hVg/hqdefault.jpg" alt="Empírico">
+              <span>▶</span>
+            </div>
+            <div class="video-info">
+              <strong>Empírico</strong>
+              <small>VideoLyric Oficial</small>
+            </div>
+          </a>
+
+          <a class="video-card" href="https://www.youtube.com/watch?v=tYfbY9LU1uQ" target="_blank" rel="noopener">
+            <div class="video-thumb real-thumb">
+              <img src="https://img.youtube.com/vi/tYfbY9LU1uQ/hqdefault.jpg" alt="Morrillo Soñador">
+              <span>▶</span>
+            </div>
+            <div class="video-info">
+              <strong>Morrillo Soñador</strong>
+              <small>Video Oficial</small>
+            </div>
+          </a>
+
+          <a class="video-card" href="https://www.youtube.com/watch?v=yeeWGVFcL_M" target="_blank" rel="noopener">
+            <div class="video-thumb real-thumb">
+              <img src="https://img.youtube.com/vi/yeeWGVFcL_M/hqdefault.jpg" alt="664">
+              <span>▶</span>
+            </div>
+            <div class="video-info">
+              <strong>664</strong>
+              <small>Julian Reynoso</small>
+            </div>
+          </a>
+
+          <a class="video-card" href="https://www.youtube.com/watch?v=bdNZg4_D3g4" target="_blank" rel="noopener">
+            <div class="video-thumb real-thumb">
+              <img src="https://img.youtube.com/vi/bdNZg4_D3g4/hqdefault.jpg" alt="La Que Llamaba">
+              <span>▶</span>
+            </div>
+            <div class="video-info">
+              <strong>La Que Llamaba</strong>
+              <small>feat. Uriel Cuellar</small>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="artist-social-section">
+      <div class="container artist-social-inner">
+        <div>
+          <span class="section-kicker">SIGUE A <span data-store-owner>JULIAN</span></span>
+          <h2>Más música. Más lanzamientos.</h2>
+        </div>
+        <div class="artist-social-buttons">
+          <a class="social-button" data-social="youtube" href="#" target="_blank" rel="noopener">
+            <span>YouTube</span><strong data-social-label="youtube">Canal oficial ↗</strong>
+          </a>
+          <a class="social-button" data-social="instagram" href="#" target="_blank" rel="noopener">
+            <span>Instagram</span><strong data-social-label="instagram">Instagram ↗</strong>
+          </a>
+          <a class="social-button" data-social="tiktok" href="#" target="_blank" rel="noopener">
+            <span>TikTok</span><strong data-social-label="tiktok">TikTok ↗</strong>
+          </a>
+          <a class="social-button" data-social="facebook" href="#" target="_blank" rel="noopener">
+            <span>Facebook</span><strong data-social-label="facebook">Facebook ↗</strong>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section trust-section">
+      <div class="container trust-grid">
+        <div class="trust-item"><strong>Compra sencilla</strong><span>Carrito rápido y claro.</span></div>
+        <div class="trust-item"><strong>Atención directa</strong><span>Pedido y contacto por WhatsApp.</span></div>
+        <div class="trust-item"><strong>Diseño móvil</strong><span>Preparada para clientes de redes sociales.</span></div>
+      </div>
+    </section>
+  <div id="storeCategoryFilters" class="store-category-filters"></div>
+</main>
+
+  <footer id="contacto">
+    <div class="container footer-grid">
+      <div>
+        <div class="footer-brand" data-store-name>JULIAN REYNOSO</div>
+        <p data-store-footer>Tienda oficial · Música · Merch</p>
+      </div>
+      <div class="footer-contact">
+        <a data-contact-whatsapp href="#" target="_blank" rel="noopener">WhatsApp</a>
+        <a data-contact-email href="#">Correo</a>
+        <span data-store-location></span>
+        <div class="footer-links">
+          <a data-social="instagram" href="#" target="_blank" rel="noopener">Instagram</a>
+          <a data-social="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
+          <a data-social="tiktok" href="#" target="_blank" rel="noopener">TikTok</a>
+          <a data-social="youtube" href="#" target="_blank" rel="noopener">YouTube</a>
+        </div>
+      </div>
+      <div class="river-credit">Desarrollado por <strong>RIVER</strong><br><a href="admin.html" style="color:#777;text-decoration:none;font-size:11px">Administración</a></div>
+    </div>
+  </footer>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-header">
+      <div>
+        <small>TU PEDIDO</small>
+        <h3>Carrito</h3>
+      </div>
+      <button id="closeCart" class="icon-button">✕</button>
+    </div>
+
+    <div class="cart-items" id="cartItems"></div>
+
+    <div class="cart-footer">
+      <div class="cart-total-row">
+        <span>Total</span>
+        <strong id="cartTotal">$0 MXN</strong>
+      </div>
+      <button class="btn btn-primary full" id="whatsappCheckout">Continuar compra</button>
+      <small class="cart-note">El pago en línea se integrará en una fase posterior.</small>
+    </div>
+  </aside>
+
+  <div class="drawer-backdrop" id="drawerBackdrop"></div>
+
+
+
+  <div class="checkout-modal" id="checkoutModal" aria-hidden="true">
+    <div class="checkout-panel">
+      <div class="checkout-header">
+        <div>
+          <small>FINALIZAR COMPRA</small>
+          <h3>Datos del pedido</h3>
+        </div>
+        <button id="closeCheckout" class="icon-button">✕</button>
+      </div>
+
+      <form id="checkoutForm" class="checkout-form">
+        <div class="checkout-grid">
+          <label>
+            <span>Nombre completo *</span>
+            <input type="text" id="customerName" required>
+          </label>
+
+          <label>
+            <span>Teléfono *</span>
+            <input type="tel" id="customerPhone" required>
+          </label>
+
+          <label class="full-field">
+            <span>Correo electrónico</span>
+            <input type="email" id="customerEmail">
+          </label>
+        </div>
+
+        <div class="checkout-section">
+          <h4>Entrega</h4>
+          <div class="option-cards">
+            <label class="option-card selected">
+              <input type="radio" name="deliveryType" value="Entrega local" checked>
+              <span class="option-title">Entrega local</span>
+              <small>Coordinar ubicación y horario por WhatsApp.</small>
+            </label>
+
+            <label class="option-card">
+              <input type="radio" name="deliveryType" value="Envío">
+              <span class="option-title">Envío</span>
+              <small>El costo se confirmará según destino.</small>
+            </label>
+          </div>
+        </div>
+
+        <div class="shipping-fields" id="shippingFields">
+          <div class="checkout-grid">
+            <label class="full-field">
+              <span>Dirección</span>
+              <input type="text" id="customerAddress" placeholder="Calle, número, colonia">
+            </label>
+            <label>
+              <span>Ciudad</span>
+              <input type="text" id="customerCity" value="Tijuana">
+            </label>
+            <label>
+              <span>Código postal</span>
+              <input type="text" id="customerZip">
+            </label>
+          </div>
+        </div>
+
+        <div class="checkout-section">
+          <h4>Forma de pago</h4>
+          <div class="option-cards">
+            <label class="option-card selected">
+              <input type="radio" name="paymentType" value="Transferencia" checked>
+              <span class="option-title">Transferencia</span>
+              <small>Se enviarán los datos bancarios por WhatsApp.</small>
+            </label>
+
+            <label class="option-card">
+              <input type="radio" name="paymentType" value="Efectivo">
+              <span class="option-title">Efectivo</span>
+              <small>Disponible al coordinar entrega local.</small>
+            </label>
+
+            <label class="option-card disabled-option">
+              <input type="radio" name="paymentType" value="Tarjeta" disabled>
+              <span class="option-title">Tarjeta</span>
+              <small>Próximamente.</small>
+            </label>
+          </div>
+        </div>
+
+        <div class="checkout-summary">
+          <div class="summary-title">Resumen</div>
+          <div id="checkoutItems"></div>
+          <div class="checkout-total-row">
+            <span>Total de productos</span>
+            <strong id="checkoutTotal">$0 MXN</strong>
+          </div>
+          <small>El costo de envío, si aplica, se confirmará antes del pago.</small>
+        </div>
+
+        <label class="full-field notes-field">
+          <span>Notas del pedido</span>
+          <textarea id="customerNotes" rows="3" placeholder="Ej. horario preferido, referencia de entrega..."></textarea>
+        </label>
+
+        <div id="orderSuccess" class="order-success" hidden>
+          <small>PEDIDO REGISTRADO</small>
+          <strong id="orderSuccessFolio">JR-0000</strong>
+          <span>El pedido ya quedó guardado en RIVER ADMIN.</span>
+        </div>
+
+        <div class="checkout-actions">
+          <button type="submit" class="btn btn-primary" id="confirmOrderBtn">Confirmar por WhatsApp</button>
+          <button type="button" class="btn btn-secondary" id="finishCheckout">Listo</button>
+        </div>
+        <p class="checkout-disclaimer">Al confirmar, se generará un folio, se guardará el pedido y se abrirá WhatsApp con los datos listos para enviar.</p>
+      </form>
+    </div>
+  </div>
+
+  
+  <div class="lightbox" id="lightbox" aria-hidden="true">
+    <button class="lightbox-close" id="lightboxClose" type="button" aria-label="Cerrar">×</button>
+
+    <div class="product-gallery-viewer">
+      <button class="gallery-nav gallery-prev" id="lightboxPrev" type="button" aria-label="Foto anterior">‹</button>
+
+      <div class="gallery-main-wrap">
+        <div id="galleryMediaStage" class="gallery-media-stage">
+          <img id="lightboxImage" alt="Producto">
+          <video id="lightboxVideo" controls playsinline preload="metadata"></video>
+        </div>
+
+        <div id="zoomControls" class="zoom-controls">
+          <button id="zoomOut" type="button" aria-label="Alejar">−</button>
+          <span id="zoomLevel">100%</span>
+          <button id="zoomIn" type="button" aria-label="Acercar">+</button>
+          <button id="zoomReset" type="button">Restablecer</button>
+        </div>
+
+        <div id="lightboxCounter" class="gallery-counter"></div>
+        <div id="lightboxThumbs" class="gallery-thumbs"></div>
+      </div>
+
+      <button class="gallery-nav gallery-next" id="lightboxNext" type="button" aria-label="Foto siguiente">›</button>
+    </div>
+  </div>
+
+
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="store-settings-store.js"></script>
+  <script src="app.js"></script>
+  <script src="supabase-products-store.js"></script>
+  <script src="supabase-categories-store.js"></script>
+</body>
+</html>

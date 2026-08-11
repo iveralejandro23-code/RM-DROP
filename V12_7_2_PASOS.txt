@@ -1,0 +1,28 @@
+RIVER STORE V12.7.2 — MENÚ ADMINISTRATIVO
+
+CORRECCIÓN PRINCIPAL
+La sección Datos de la tienda ya no queda “perdida” al final sin acceso.
+Se agregó un menú lateral fijo con:
+
+- Dashboard
+- Pedidos
+- Productos
+- Inventario
+- Agregar producto
+- Datos de la tienda
+- Ver tienda
+- Cerrar sesión
+
+Al hacer clic en una opción, RIVER lleva directamente a esa sección.
+En pantallas pequeñas el menú se abre con el botón ☰.
+
+IMPORTANTE
+No es necesario crear nuevas tablas ni políticas para usar este menú.
+Usa la misma configuración de Supabase y store-branding que ya terminaste.
+
+PRUEBA
+1. Abre admin.html.
+2. Debe aparecer el menú azul oscuro del lado izquierdo.
+3. Haz clic en “Datos de la tienda”.
+4. Debe llevarte directamente al formulario de configuración.
+5. Prueba “Dashboard”, “Pedidos”, “Productos” e “Inventario”.

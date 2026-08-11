@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>RIVER Storage Test</title>
+<style>
+body{font-family:Arial,sans-serif;background:#111;color:#fff;padding:30px}
+.box{max-width:700px;margin:auto;background:#1a1a1a;padding:24px;border:1px solid #333}
+.ok{color:#9fe0ab}.bad{color:#f3aaaa}
+</style>
+</head>
+<body>
+<div class="box">
+<h1>RIVER Storage Test</h1>
+<p id="status">Comprobando bucket...</p>
+</div>
+<script src="config.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(async()=>{
+  const cfg=window.RIVER_CONFIG;
+  const client=supabase.createClient(cfg.SUPABASE_URL,cfg.SUPABASE_ANON_KEY);
+  const {data,error}=await client.storage.from("product-images").list("",{limit:1});
+  const status=document.getElementById("status");
+  if(error){
+    status.className="bad";
+    status.textContent="No se pudo leer Storage: "+error.message;
+  }else{
+    status.className="ok";
+    status.textContent="Storage responde correctamente.";
+  }
+})();
+</script>
+</body>
+</html>

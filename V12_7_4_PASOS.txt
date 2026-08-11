@@ -1,0 +1,13 @@
+RIVER STORE V12.7.4 — CONTACTO Y REDES DINÁMICOS
+
+1. Conserva todo lo que ya funcionaba en V12.7.3.
+2. La sección social inferior ahora usa las URLs guardadas en Datos de la tienda.
+3. Contacto muestra WhatsApp, correo y ubicación guardados.
+4. WhatsApp abre el número configurado y correo abre mailto.
+5. Instagram, Facebook, TikTok y YouTube se ocultan si no tienen URL configurada.
+
+PRUEBA:
+- Abre admin.html.
+- En Datos de la tienda guarda WhatsApp, correo y redes.
+- Abre Vista previa de la tienda.
+- Pulsa Contacto y prueba cada enlace.

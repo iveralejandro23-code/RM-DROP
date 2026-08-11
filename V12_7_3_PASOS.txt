@@ -1,0 +1,33 @@
+RIVER STORE V12.7.3 — DATOS DE TIENDA DINÁMICOS
+
+CORRECCIÓN
+En V12.7.2 los datos se guardaban correctamente en Supabase,
+pero index.html todavía tenía textos fijos como JULIAN REYNOSO.
+
+V12.7.3 conecta la tienda pública con store_settings.
+
+AHORA CAMBIAN AUTOMÁTICAMENTE:
+- Nombre de la tienda
+- Propietario / artista
+- Frase o presentación
+- Ciudad / dirección del encabezado
+- WhatsApp usado por productos y checkout
+- Instagram
+- Facebook
+- TikTok
+- YouTube
+- Logo
+- Portada
+- Texto del pie de página
+- Título de la pestaña del navegador
+
+PRUEBA RECOMENDADA
+1. Abre admin.html de V12.7.3.
+2. Cambia NOMBRE DE LA TIENDA a una prueba.
+3. Cambia PROPIETARIO / ARTISTA.
+4. Pulsa GUARDAR CONFIGURACIÓN.
+5. Pulsa Vista previa de la tienda.
+6. En la tienda deben aparecer esos nuevos datos.
+7. Luego vuelve a poner los datos reales y guarda.
+
+NO ES NECESARIO HACER CAMBIOS NUEVOS EN SUPABASE.

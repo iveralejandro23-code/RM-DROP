@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <style>html{visibility:hidden}</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RIVER Admin | Julián Reynoso Store</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+  <aside class="river-admin-sidebar" id="riverAdminSidebar">
+    <div class="river-sidebar-brand">
+      <div class="river-sidebar-mark">R</div>
+      <div>
+        <strong>RIVER ADMIN</strong>
+        <small>Panel de administración</small>
+      </div>
+    </div>
+
+    <nav class="river-admin-nav" aria-label="Navegación administrativa">
+      <a href="#dashboardPanel" data-admin-nav="dashboardPanel">⌂ <span>Dashboard</span></a>
+      <a href="#ordersPanel" data-admin-nav="ordersPanel">🛒 <span>Pedidos</span></a>
+      <a href="#productsPanel" data-admin-nav="productsPanel">▦ <span>Productos</span></a>
+      <a href="#categoriesPanel" data-admin-nav="categoriesPanel">▧ <span>Categorías</span></a>
+      <a href="#inventoryMovementsPanel" data-admin-nav="inventoryMovementsPanel">▥ <span>Inventario</span></a>
+      <a href="#clientsPanel" data-admin-nav="clientsPanel">👥 <span>Clientes</span></a>
+      <a href="#reportsPanel" data-admin-nav="reportsPanel">▤ <span>Reportes</span></a>
+      <a href="#editorPanel" data-admin-nav="editorPanel">＋ <span>Agregar producto</span></a>
+      <a href="#storeSettingsPanel" data-admin-nav="storeSettingsPanel" class="river-nav-settings">⚙ <span>Datos de la tienda</span></a>
+    </nav>
+
+    <div class="river-sidebar-bottom">
+      <a href="index.html" target="_blank" rel="noopener">👁 <span>Ver tienda</span></a>
+      <button id="sidebarLogoutBtn" type="button">↪ <span>Cerrar sesión</span></button>
+    </div>
+  </aside>
+
+  <button class="river-sidebar-toggle" id="riverSidebarToggle" type="button" aria-label="Mostrar u ocultar menú">☰</button>
+
+  <div class="river-admin-page">
+
+  <header class="river-admin-topbar">
+    <div>
+      <small>RIVER ADMIN</small>
+      <h1>Julian Reynoso Store</h1>
+    </div>
+    <div class="admin-top-actions"><a href="index.html">← Ver tienda</a><button id="logoutBtn" class="logout-btn" type="button">Cerrar sesión</button></div>
+  </header>
+
+  <main class="river-admin-main">
+    <div id="onlineProductStatus" class="online-product-status">Conectando productos con Supabase…</div>
+    <div id="onlineOrderStatus" class="online-order-status">Conectando pedidos con Supabase…</div>
+    <div class="online-storage-status ok">Fotos: Supabase Storage preparado · bucket product-images</div>
+    <section class="notice" id="dashboardPanel">
+      <strong>Panel administrativo</strong>
+      <p>Administración de productos, pedidos e inventario conectada con Supabase.</p>
+    </section>
+
+    <section class="stats stats-v9" id="statsPanel">
+      <article><span>Productos</span><strong id="statProducts">0</strong></article>
+      <article><span>Stock total</span><strong id="statStock">0</strong></article>
+      <article><span>Activos</span><strong id="statActive">0</strong></article>
+      <article><span>Pedidos</span><strong id="statOrders">0</strong></article>
+      <article><span>Nuevos</span><strong id="statNewOrders">0</strong></article>
+      <article><span>Venta confirmada</span><strong id="statSales">$0</strong></article>
+          <article><span>Cancelados</span><strong id="statCancelled">0</strong></article>
+          <article><span>Monto cancelado</span><strong id="statCancelledAmount">$0</strong></article>
+    </section>
+
+    <section class="panel" id="ordersPanel">
+      <div class="panel-heading">
+        <div>
+          <small>VENTAS</small>
+          <h2>Pedidos</h2>
+        </div>
+        <button id="clearOrdersBtn" class="secondary" type="button">Limpiar pruebas</button>
+      </div>
+
+      <div class="orders-dashboard">
+        <div class="order-status-summary" id="orderStatusSummary">
+          <button type="button" class="order-summary-chip active" data-order-filter="Todos">
+            <span>Todos</span><strong id="orderCountAll">0</strong>
+          </button>
+          <button type="button" class="order-summary-chip status-chip-new" data-order-filter="Nuevo">
+            <span>Nuevos</span><strong id="orderCountNew">0</strong>
+          </button>
+          <button type="button" class="order-summary-chip status-chip-confirmed" data-order-filter="Confirmado">
+            <span>Confirmados</span><strong id="orderCountConfirmed">0</strong>
+          </button>
+          <button type="button" class="order-summary-chip status-chip-paid" data-order-filter="Pagado">
+            <span>Pagados</span><strong id="orderCountPaid">0</strong>
+          </button>
+          <button type="button" class="order-summary-chip status-chip-sent" data-order-filter="Enviado">
+            <span>Enviados</span><strong id="orderCountSent">0</strong>
+          </button>
+          <button type="button" class="order-summary-chip status-chip-delivered" data-order-filter="Entregado">
+            <span>Entregados</span><strong id="orderCountDelivered">0</strong>
+          </button>
+          <button type="button" class="order-summary-chip status-chip-cancelled" data-order-filter="Cancelado">
+            <span>Cancelados</span><strong id="orderCountCancelled">0</strong>
+          </button>
+        </div>
+
+        <div class="order-management-toolbar">
+          <label class="order-search-field">
+            <span>BUSCAR PEDIDO</span>
+            <input id="orderSearchInput" type="search" placeholder="Folio, cliente, teléfono, correo o producto…">
+          </label>
+
+          <label>
+            <span>ESTADO</span>
+            <select id="orderStatusFilter">
+              <option value="Todos">Todos</option>
+              <option value="Nuevo">Nuevo</option>
+              <option value="Confirmado">Confirmado</option>
+              <option value="Pagado">Pagado</option>
+              <option value="Enviado">Enviado</option>
+              <option value="Entregado">Entregado</option>
+              <option value="Cancelado">Cancelado</option>
+            </select>
+          </label>
+
+          <label>
+            <span>ORDENAR</span>
+            <select id="orderSortSelect">
+              <option value="newest">Más recientes</option>
+              <option value="oldest">Más antiguos</option>
+              <option value="highest">Mayor total</option>
+              <option value="lowest">Menor total</option>
+              <option value="customer">Cliente A–Z</option>
+            </select>
+          </label>
+
+          <button id="clearOrderSearchBtn" class="secondary order-toolbar-btn" type="button">Limpiar filtros</button>
+          <button id="exportOrdersCsvBtn" class="primary order-toolbar-btn" type="button">Exportar CSV</button>
+        </div>
+
+        <div class="order-results-info">
+          <span id="orderResultsInfo">0 pedidos</span>
+          <span id="orderVisibleAmount">$0</span>
+        </div>
+      </div>
+
+      <div id="orderList" class="admin-order-list"></div>
+    </section>
+
+    <section class="panel" id="productsPanel">
+      <div class="panel-heading">
+        <div>
+          <small>CATÁLOGO</small>
+          <h2>Productos</h2>
+        </div>
+        <div class="heading-actions"><button id="loadDemoBtn" class="secondary" type="button">Cargar 3 pruebas</button><button id="newProductBtn" class="primary">+ Agregar producto</button></div>
+      </div>
+
+      <div class="product-admin-toolbar">
+        <label><span>FILTRAR POR CATEGORÍA</span>
+          <select id="productCategoryFilter">
+            <option value="all">Todas</option>
+            <option value="uncategorized">Sin categoría</option>
+          </select>
+        </label>
+        <label><span>BUSCAR PRODUCTO</span>
+          <input id="productSearchInput" type="search" placeholder="Nombre, color o categoría…">
+        </label>
+      </div>
+      <div id="productList" class="admin-product-list"></div>
+    </section>
+
+
+    
+    <section class="panel categories-panel" id="categoriesPanel">
+      <div class="panel-heading">
+        <div>
+          <small>CATÁLOGO</small>
+          <h2>Categorías y colecciones</h2>
+          <p class="categories-subtitle">Organiza los productos sin modificar el inventario ni los pedidos.</p>
+        </div>
+        <button id="newCategoryBtn" class="primary" type="button">+ Nueva categoría</button>
+      </div>
+
+      <div class="category-kpi-grid">
+        <article><span>CATEGORÍAS</span><strong id="categoryCountTotal">0</strong><small>Total creadas</small></article>
+        <article><span>ACTIVAS</span><strong id="categoryCountActive">0</strong><small>Visibles en tienda</small></article>
+        <article><span>COLECCIONES</span><strong id="collectionCountTotal">0</strong><small>Colecciones especiales</small></article>
+        <article><span>SIN CATEGORÍA</span><strong id="uncategorizedCount">0</strong><small>Productos pendientes</small></article>
+      </div>
+
+      <div id="categoryEditor" class="category-editor" hidden>
+        <form id="categoryForm">
+          <input type="hidden" id="categoryId">
+          <div class="category-editor-grid">
+            <label><span>NOMBRE</span><input id="categoryName" required placeholder="Ej. Gorras"></label>
+            <label><span>TIPO</span>
+              <select id="categoryType">
+                <option value="category">Categoría</option>
+                <option value="collection">Colección</option>
+              </select>
+            </label>
+            <label><span>ESTADO</span>
+              <select id="categoryActive">
+                <option value="true">Activa</option>
+                <option value="false">Oculta</option>
+              </select>
+            </label>
+            <label class="wide"><span>DESCRIPCIÓN</span><input id="categoryDescription" placeholder="Ej. Merch oficial de El Callejón"></label>
+          </div>
+          <div class="category-editor-actions">
+            <button class="primary" type="submit">Guardar categoría</button>
+            <button id="cancelCategoryBtn" class="secondary" type="button">Cancelar</button>
+          </div>
+        </form>
+      </div>
+      <div id="categoryList" class="category-list"></div>
+    </section>
+
+    <section class="panel" id="inventoryMovementsPanel">
+      <div class="panel-heading">
+        <div>
+          <small>INVENTARIO</small>
+          <h2>Historial de movimientos</h2>
+        </div>
+        <label class="movement-filter">Filtrar
+          <select id="inventoryMovementFilter">
+            <option>Todos</option>
+            <option>Entrada</option>
+            <option>Salida</option>
+          </select>
+        </label>
+      </div>
+      <p class="movement-help">Aquí quedan registradas entradas, salidas por pedidos, devoluciones por cancelación y ajustes manuales de existencias.</p>
+      <div id="inventoryMovementList" class="inventory-movement-list"></div>
+    </section>
+
+
+    
+    <section class="panel clients-panel" id="clientsPanel">
+      <div class="panel-heading clients-heading">
+        <div>
+          <small>RELACIÓN CON CLIENTES</small>
+          <h2>Clientes</h2>
+          <p class="clients-subtitle">Base automática creada a partir de los pedidos registrados en RIVER.</p>
+        </div>
+        <button id="exportClientsCsvBtn" class="primary" type="button">Exportar clientes</button>
+      </div>
+
+      <div class="client-kpi-grid">
+        <article><span>CLIENTES</span><strong id="clientCountTotal">0</strong><small>Clientes únicos</small></article>
+        <article><span>CON COMPRA</span><strong id="clientCountBuyers">0</strong><small>Con venta confirmada</small></article>
+        <article><span>RECURRENTES</span><strong id="clientCountRepeat">0</strong><small>2 o más pedidos</small></article>
+        <article><span>VENTA DE CLIENTES</span><strong id="clientTotalSales">$0</strong><small>Importe acumulado</small></article>
+      </div>
+
+      <div class="client-toolbar">
+        <label class="client-search-field">
+          <span>BUSCAR CLIENTE</span>
+          <input id="clientSearchInput" type="search" placeholder="Nombre, teléfono o correo…">
+        </label>
+        <label>
+          <span>ORDENAR</span>
+          <select id="clientSortSelect">
+            <option value="recent">Compra más reciente</option>
+            <option value="spent">Mayor gasto</option>
+            <option value="orders">Más pedidos</option>
+            <option value="name">Nombre A–Z</option>
+          </select>
+        </label>
+        <label>
+          <span>FILTRAR</span>
+          <select id="clientFilterSelect">
+            <option value="all">Todos</option>
+            <option value="buyers">Con compra</option>
+            <option value="repeat">Recurrentes</option>
+            <option value="cancelled">Con cancelaciones</option>
+          </select>
+        </label>
+        <button id="clearClientFiltersBtn" class="secondary" type="button">Limpiar filtros</button>
+      </div>
+
+      <div class="client-results-line">
+        <span id="clientResultsInfo">0 clientes</span>
+        <span id="clientResultsSales">$0 en ventas visibles</span>
+      </div>
+
+      <div id="clientList" class="client-list"></div>
+    </section>
+
+    <section class="panel reports-panel" id="reportsPanel">
+      <div class="panel-heading reports-heading">
+        <div>
+          <small>ANÁLISIS</small>
+          <h2>Reportes del negocio</h2>
+          <p class="reports-subtitle">Resumen de ventas, pedidos, productos e inventario con los datos actuales de RIVER.</p>
+        </div>
+        <div class="reports-actions">
+          <label>
+            <span>PERÍODO</span>
+            <select id="reportPeriod">
+              <option value="all">Todo el historial</option>
+              <option value="today">Hoy</option>
+              <option value="7">Últimos 7 días</option>
+              <option value="30">Últimos 30 días</option>
+              <option value="month">Mes actual</option>
+            </select>
+          </label>
+          <button id="refreshReportsBtn" class="secondary" type="button">Actualizar</button>
+          <button id="exportReportCsvBtn" class="primary" type="button">Exportar reporte</button>
+        </div>
+      </div>
+
+      <div class="report-kpi-grid">
+        <article class="report-kpi">
+          <span>VENTA CONFIRMADA</span>
+          <strong id="reportConfirmedSales">$0</strong>
+          <small id="reportConfirmedOrders">0 pedidos</small>
+        </article>
+        <article class="report-kpi">
+          <span>ENTREGADO</span>
+          <strong id="reportDeliveredSales">$0</strong>
+          <small id="reportDeliveredOrders">0 pedidos</small>
+        </article>
+        <article class="report-kpi">
+          <span>TICKET PROMEDIO</span>
+          <strong id="reportAverageTicket">$0</strong>
+          <small>Pedidos con venta aplicada</small>
+        </article>
+        <article class="report-kpi">
+          <span>UNIDADES VENDIDAS</span>
+          <strong id="reportUnitsSold">0</strong>
+          <small>Unidades en pedidos de venta</small>
+        </article>
+        <article class="report-kpi report-kpi-warning">
+          <span>STOCK BAJO</span>
+          <strong id="reportLowStockCount">0</strong>
+          <small>Productos con 3 piezas o menos</small>
+        </article>
+        <article class="report-kpi report-kpi-danger">
+          <span>CANCELADO</span>
+          <strong id="reportCancelledAmount">$0</strong>
+          <small id="reportCancelledOrders">0 pedidos</small>
+        </article>
+      </div>
+
+      <div class="report-grid report-grid-main">
+        <article class="report-card">
+          <div class="report-card-head">
+            <div>
+              <small>VENTAS</small>
+              <h3>Ventas por día</h3>
+            </div>
+            <span id="reportSalesChartTotal">$0</span>
+          </div>
+          <div id="reportSalesChart" class="report-sales-chart"></div>
+        </article>
+
+        <article class="report-card">
+          <div class="report-card-head">
+            <div>
+              <small>PEDIDOS</small>
+              <h3>Distribución por estado</h3>
+            </div>
+            <span id="reportOrdersTotal">0</span>
+          </div>
+          <div id="reportStatusBars" class="report-status-bars"></div>
+        </article>
+      </div>
+
+      <div class="report-grid">
+        <article class="report-card">
+          <div class="report-card-head">
+            <div>
+              <small>PRODUCTOS</small>
+              <h3>Más vendidos</h3>
+            </div>
+            <span>Por unidades</span>
+          </div>
+          <div id="reportTopProducts" class="report-table-wrap"></div>
+        </article>
+
+        <article class="report-card">
+          <div class="report-card-head">
+            <div>
+              <small>INVENTARIO</small>
+              <h3>Productos con stock bajo</h3>
+            </div>
+            <span>≤ 3 piezas</span>
+          </div>
+          <div id="reportLowStock" class="report-table-wrap"></div>
+        </article>
+      </div>
+
+      <div class="report-grid">
+        <article class="report-card">
+          <div class="report-card-head">
+            <div>
+              <small>INVENTARIO</small>
+              <h3>Movimientos recientes</h3>
+            </div>
+            <span id="reportMovementCount">0 movimientos</span>
+          </div>
+          <div id="reportRecentMovements" class="report-table-wrap"></div>
+        </article>
+
+        <article class="report-card">
+          <div class="report-card-head">
+            <div>
+              <small>RESUMEN</small>
+              <h3>Indicadores operativos</h3>
+            </div>
+            <span id="reportGeneratedAt">Actualizado ahora</span>
+          </div>
+          <div id="reportOperationalSummary" class="operational-summary"></div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel" id="editorPanel">
+      <div class="panel-heading">
+        <div>
+          <small id="editorMode">NUEVO PRODUCTO</small>
+          <h2 id="editorTitle">Agregar producto</h2>
+        </div>
+        <button id="cancelEdit" class="secondary" type="button">Cancelar</button>
+      </div>
+
+      <form id="productForm">
+        <input type="hidden" id="productId">
+
+        <div class="grid">
+          <label class="wide">Nombre
+            <input id="name" required placeholder="Ej. Gorra 664 Negra">
+          </label>
+
+          <label>Precio MXN
+            <input id="price" type="number" min="0" required>
+          </label>
+
+          <label>Existencias
+            <input id="stock" type="number" min="0" required>
+          </label>
+
+          <label>Color
+            <input id="color" placeholder="Ej. Negro / rojo">
+          </label>
+
+          <label>Categoría / colección
+            <select id="category">
+              <option value="">Sin categoría</option>
+            </select>
+          </label>
+
+          <label>Estado
+            <select id="active">
+              <option value="true">Activo</option>
+              <option value="false">Oculto</option>
+            </select>
+          </label>
+
+          <label class="wide">Descripción
+            <textarea id="description" rows="5" placeholder="Descripción del producto"></textarea>
+          </label>
+
+          <div class="wide photo-field">
+            <div class="photo-title">Fotografías del producto</div>
+            <p class="photo-help">Puedes agregar fotos en varias tandas, hasta 6 en total. Haz clic sobre una miniatura para usarla como foto principal.</p>
+            <input id="photos" type="file" accept="image/jpeg,image/png,image/webp" multiple>
+            <div id="photoPreview" class="photo-preview"></div>
+            <button id="clearPhotos" class="secondary small-btn" type="button">Quitar fotografías</button>
+          </div>
+
+          <div class="wide video-field">
+            <div class="photo-title">Video corto del producto</div>
+            <p class="photo-help">Opcional: 1 video MP4 de hasta 30 MB. Recomendado 10–30 segundos. Si llevará música, súbelo ya editado con el audio incluido.</p>
+            <input id="productVideo" type="file" accept="video/mp4">
+            <div id="videoPreview" class="video-preview"></div>
+            <button id="clearVideo" class="secondary small-btn" type="button">Quitar video</button>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button class="primary" type="submit">Guardar producto</button>
+          <span id="savedMessage"></span>
+        </div>
+      </form>
+    </section>
+  
+
+<section class="settings-panel settings-panel-pro" id="storeSettingsPanel">
+  <div class="settings-pro-header">
+    <div>
+      <small>CONFIGURACIÓN GENERAL</small>
+      <h2>Datos de la tienda</h2>
+      <p>Personaliza la información que verán tus clientes.</p>
+    </div>
+    <a class="secondary settings-preview-link" href="index.html" target="_blank" rel="noopener">👁 Vista previa de la tienda</a>
+  </div>
+
+  <div class="settings-info-banner">
+    <strong>ℹ Esta información se mostrará en tu tienda en línea y en la comunicación con tus clientes.</strong>
+  </div>
+
+  <form id="storeSettingsForm" class="settings-form settings-form-pro">
+    <label class="settings-field">
+      <span class="settings-label">🏪 NOMBRE DE LA TIENDA</span>
+      <span class="settings-help">Este es el nombre que verán tus clientes.</span>
+      <input id="settingStoreName" required placeholder="Ej. Julián Reynoso Store">
+    </label>
+
+    <label class="settings-field">
+      <span class="settings-label">👤 PROPIETARIO / ARTISTA</span>
+      <span class="settings-help">Tu nombre o el de tu marca artística.</span>
+      <input id="settingOwnerName" placeholder="Ej. Julián Reynoso">
+    </label>
+
+    <label class="settings-field wide">
+      <span class="settings-label">🎤 FRASE O PRESENTACIÓN</span>
+      <span class="settings-help">Una breve descripción que represente tu tienda o marca.</span>
+      <textarea id="settingTagline" rows="2" placeholder="Ej. Colección oficial"></textarea>
+    </label>
+
+    <label class="settings-field">
+      <span class="settings-label">🟢 WHATSAPP</span>
+      <span class="settings-help">Número de WhatsApp para pedidos y atención.</span>
+      <input id="settingWhatsapp" inputmode="tel" placeholder="Ej. 5216641234567">
+    </label>
+
+    <label class="settings-field">
+      <span class="settings-label">✉ CORREO ELECTRÓNICO</span>
+      <span class="settings-help">Correo de contacto de tu tienda.</span>
+      <input id="settingEmail" type="email" placeholder="correo@ejemplo.com">
+    </label>
+
+    <label class="settings-field">
+      <span class="settings-label">📍 DIRECCIÓN</span>
+      <span class="settings-help">Dirección de tu tienda o negocio.</span>
+      <input id="settingAddress" placeholder="Ej. Av. Principal 123">
+    </label>
+
+    <label class="settings-field">
+      <span class="settings-label">🏙 CIUDAD</span>
+      <span class="settings-help">Ciudad donde te encuentras.</span>
+      <input id="settingCity" placeholder="Ej. Tijuana, Baja California">
+    </label>
+
+    <label class="settings-field">
+      <span class="settings-label">💲 MONEDA</span>
+      <span class="settings-help">Moneda en la que vendes.</span>
+      <select id="settingCurrency">
+        <option value="MXN">MXN — Peso mexicano</option>
+        <option value="USD">USD — Dólar estadounidense</option>
+      </select>
+    </label>
+
+    <div class="settings-field">
+      <span class="settings-label">🔗 REDES SOCIALES</span>
+      <span class="settings-help">Enlaces a tus redes sociales y plataformas.</span>
+      <div class="social-settings-grid">
+        <label><span>Instagram</span><input id="settingInstagram" placeholder="https://instagram.com/..."></label>
+        <label><span>Facebook</span><input id="settingFacebook" placeholder="https://facebook.com/..."></label>
+        <label><span>TikTok</span><input id="settingTiktok" placeholder="https://tiktok.com/@..."></label>
+        <label><span>YouTube</span><input id="settingYoutube" placeholder="https://youtube.com/@..."></label>
+      </div>
+    </div>
+
+    <div class="settings-field wide">
+      <span class="settings-label">🛒 OPCIONES DE VENTA Y PAGO</span>
+      <span class="settings-help">Selecciona las opciones disponibles en tu tienda.</span>
+      <div class="settings-option-cards">
+        <label class="settings-option-card">
+          <input id="settingPickup" type="checkbox">
+          <span class="option-icon">🛍</span>
+          <strong>RECOGER PEDIDO</strong>
+          <small>Los clientes pueden recoger su pedido.</small>
+        </label>
+        <label class="settings-option-card">
+          <input id="settingShipping" type="checkbox">
+          <span class="option-icon">🚚</span>
+          <strong>ENVÍO</strong>
+          <small>Realizamos envíos a domicilio.</small>
+        </label>
+        <label class="settings-option-card">
+          <input id="settingTransfer" type="checkbox">
+          <span class="option-icon">🏦</span>
+          <strong>TRANSFERENCIA</strong>
+          <small>Pago por transferencia bancaria.</small>
+        </label>
+        <label class="settings-option-card">
+          <input id="settingCash" type="checkbox">
+          <span class="option-icon">💵</span>
+          <strong>EFECTIVO</strong>
+          <small>Pago en efectivo al recoger o recibir.</small>
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-field">
+      <span class="settings-label">🖼 LOGO DE LA TIENDA</span>
+      <span class="settings-help">Sube el logo que aparecerá en tu tienda.</span>
+      <div class="branding-upload-box">
+        <img id="settingLogoPreview" class="branding-preview" alt="Vista previa del logo">
+        <input id="settingLogoFile" type="file" accept="image/jpeg,image/png,image/webp">
+        <small>JPG, PNG o WEBP · Máx. 5 MB</small>
+      </div>
+    </div>
+
+    <div class="settings-field">
+      <span class="settings-label">🌄 PORTADA DE LA TIENDA</span>
+      <span class="settings-help">Sube una imagen de portada para tu tienda.</span>
+      <div class="branding-upload-box">
+        <img id="settingCoverPreview" class="branding-preview branding-cover-preview" alt="Vista previa de portada">
+        <input id="settingCoverFile" type="file" accept="image/jpeg,image/png,image/webp">
+        <small>JPG, PNG o WEBP · Recomendado 1920×600 · Máx. 5 MB</small>
+      </div>
+    </div>
+
+    <label class="settings-field wide">
+      <span class="settings-label">📝 TEXTO DEL PIE DE PÁGINA</span>
+      <span class="settings-help">Texto final que aparecerá en la parte inferior de la tienda.</span>
+      <input id="settingFooter" placeholder="Ej. © Tienda oficial">
+    </label>
+
+    <div class="wide settings-actions settings-actions-pro">
+      <button class="primary" type="submit">💾 GUARDAR CONFIGURACIÓN</button>
+      <span id="settingsSavedMessage"></span>
+    </div>
+  </form>
+</section>
+
+</main>
+
+  <script src="config.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="auth-guard.js"></script>
+  <script src="admin.js"></script>
+  <script src="supabase-products-admin.js"></script>
+  <script src="supabase-categories-admin.js"></script>
+  <script src="supabase-orders-admin.js"></script>
+  <script src="store-settings-admin.js"></script>
+  </div>
+  <script src="admin-navigation.js"></script>
+</body>
+</html>

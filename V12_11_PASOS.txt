@@ -1,0 +1,21 @@
+RIVER STORE V12.11 — CATEGORÍAS Y COLECCIONES
+
+NUEVO:
+- Módulo Categorías en RIVER ADMIN.
+- Crear, editar, ocultar y eliminar categorías.
+- Categoría o Colección.
+- Asignación desde Agregar/Editar producto.
+- Filtro y buscador de productos en administrador.
+- Filtros de categoría en tienda.
+- Categorías iniciales: Gorras, Merch oficial y El Callejón.
+
+SE CONSERVA:
+Clientes, Reportes, Pedidos, Inventario, Supabase, multimedia, configuración y WhatsApp.
+
+PRUEBA:
+1. Abre admin.html.
+2. Categorías.
+3. Crea una categoría.
+4. Edita un producto y asígnala.
+5. Ve a Productos y filtra.
+6. Abre Ver tienda y prueba los botones de categoría.
