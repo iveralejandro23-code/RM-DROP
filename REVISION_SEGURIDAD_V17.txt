@@ -1,0 +1,11 @@
+ROCKSTAR STORE V17 — REVISIÓN DE SEGURIDAD
+
+OK: no se detectó una referencia evidente a service_role en config.js.
+
+PASOS:
+1. Ejecuta supabase/V17_SEGURIDAD_RLS.sql en SQL Editor.
+2. El resultado mostrará las políticas RLS actuales.
+3. Confirma que escritura/edición/borrado administrativos no estén abiertos a public/anon.
+4. La anon key puede existir en frontend si RLS está correctamente configurado.
+5. Nunca publiques una service role key.
+6. Usa una cuenta distinta para el propietario y no compartas contraseñas.

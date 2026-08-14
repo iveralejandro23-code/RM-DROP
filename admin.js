@@ -15,6 +15,13 @@ const form = document.getElementById("productForm");
 const productId = document.getElementById("productId");
 const fieldName = document.getElementById("name");
 const fieldPrice = document.getElementById("price");
+const fieldPromoActive = document.getElementById("promoActive");
+const fieldPromoType = document.getElementById("promoType");
+const fieldPromoPercent = document.getElementById("promoPercent");
+const fieldPromoPrice = document.getElementById("promoPrice");
+const fieldPromoLabel = document.getElementById("promoLabel");
+const fieldPromoStart = document.getElementById("promoStart");
+const fieldPromoEnd = document.getElementById("promoEnd");
 const fieldStock = document.getElementById("stock");
 const fieldColor = document.getElementById("color");
 const fieldCategory = document.getElementById("category");
@@ -300,11 +307,11 @@ function buildStatusMessage(order){
   const itemLines=items.map(item=>`• ${item.name} × ${Number(item.qty)||0}`).join("\n");
   const status=order.status||"Nuevo";
   const messages={
-    "Nuevo":`Hola ${customer.name||""} 👋\nRecibimos tu pedido *${order.folio}* en JULIAN REYNOSO STORE. En breve lo revisaremos para confirmarlo.`,
+    "Nuevo":`Hola ${customer.name||""} 👋\nRecibimos tu pedido *${order.folio}* en ROCKSTAR. En breve lo revisaremos para confirmarlo.`,
     "Confirmado":`Hola ${customer.name||""} 👋\nTu pedido *${order.folio}* ha sido *CONFIRMADO*.\n\n${itemLines}\n\nTotal: ${adminMoney(order.total)} MXN\n\nGracias por tu compra.`,
     "Pagado":`Hola ${customer.name||""} 👋\nEl pago de tu pedido *${order.folio}* ha sido registrado como *PAGADO*. ✅\n\n${itemLines}\n\nTotal: ${adminMoney(order.total)} MXN\n\nGracias por tu compra.`,
     "Enviado":`Hola ${customer.name||""} 👋\nTu pedido *${order.folio}* ya fue marcado como *ENVIADO*. 📦\n\n${itemLines}\n\nTe mantendremos informado sobre la entrega.`,
-    "Entregado":`Hola ${customer.name||""} 👋\nTu pedido *${order.folio}* ha sido marcado como *ENTREGADO*. ✅\n\nMuchas gracias por comprar en JULIAN REYNOSO STORE.`,
+    "Entregado":`Hola ${customer.name||""} 👋\nTu pedido *${order.folio}* ha sido marcado como *ENTREGADO*. ✅\n\nMuchas gracias por comprar en ROCKSTAR.`,
     "Cancelado":`Hola ${customer.name||""}.
 Tu pedido *${order.folio}* ha sido marcado como *CANCELADO*.
 
@@ -1654,6 +1661,39 @@ function nextId(products) {
   return products.length ? Math.max(...products.map(p => Number(p.id) || 0)) + 1 : 1;
 }
 
+
+function promoLocalDate(value){
+  if(!value)return "";
+  const d=new Date(value); if(Number.isNaN(d.getTime()))return "";
+  const z=n=>String(n).padStart(2,"0");
+  return `${d.getFullYear()}-${z(d.getMonth()+1)}-${z(d.getDate())}T${z(d.getHours())}:${z(d.getMinutes())}`;
+}
+function promoLive(p, now=new Date()){
+  if(!p?.promoActive)return false;
+  const a=p.promoStart?new Date(p.promoStart):null, b=p.promoEnd?new Date(p.promoEnd):null;
+  return !(a&&!Number.isNaN(a)&&now<a) && !(b&&!Number.isNaN(b)&&now>b);
+}
+function promoEffectivePrice(p){
+  const base=Number(p.price)||0;
+  if(!promoLive(p))return base;
+  if(p.promoType==="price"){const v=Number(p.promoPrice);return Number.isFinite(v)&&v>=0&&v<base?v:base;}
+  const pct=Number(p.promoPercent)||0; return pct>0&&pct<100?base*(1-pct/100):base;
+}
+function updatePromoUI(){
+  const type=fieldPromoType?.value||"percent", active=!!fieldPromoActive?.checked, base=Number(fieldPrice.value)||0;
+  document.getElementById("promoPercentWrap").hidden=type!=="percent";
+  document.getElementById("promoPriceWrap").hidden=type!=="price";
+  let offer=base;
+  if(type==="percent"){const q=Number(fieldPromoPercent.value)||0;if(q>0&&q<100)offer=base*(1-q/100);}
+  else {const q=Number(fieldPromoPrice.value);if(Number.isFinite(q)&&q>=0&&q<base)offer=q;}
+  document.getElementById("promoPreview").textContent=active&&base>0&&offer<base
+    ? `Vista previa: $${base.toLocaleString("es-MX")} → $${offer.toLocaleString("es-MX",{maximumFractionDigits:2})}`
+    : "Promoción desactivada o incompleta";
+}
+[fieldPromoActive,fieldPromoType,fieldPromoPercent,fieldPromoPrice,fieldPrice].forEach(el=>{
+  el?.addEventListener("input",updatePromoUI); el?.addEventListener("change",updatePromoUI);
+});
+
 function resetForm() {
   productId.value = "";
   fieldName.value = "";
@@ -1663,6 +1703,14 @@ function resetForm() {
   if(fieldCategory)fieldCategory.value = "";
   fieldActive.value = "true";
   fieldDescription.value = "";
+  fieldPromoActive.checked=false;
+  fieldPromoType.value="percent";
+  fieldPromoPercent.value="";
+  fieldPromoPrice.value="";
+  fieldPromoLabel.value="";
+  fieldPromoStart.value="";
+  fieldPromoEnd.value="";
+  updatePromoUI();
   editorMode.textContent = "NUEVO PRODUCTO";
   editorTitle.textContent = "Agregar producto";
   savedMessage.textContent = "";
@@ -1695,6 +1743,14 @@ function editProduct(id) {
   if(fieldCategory)fieldCategory.value = product.categoryId ? String(product.categoryId) : "";
   fieldActive.value = String(product.active !== false);
   fieldDescription.value = product.description || "";
+  fieldPromoActive.checked=!!product.promoActive;
+  fieldPromoType.value=product.promoType||"percent";
+  fieldPromoPercent.value=product.promoPercent??"";
+  fieldPromoPrice.value=product.promoPrice??"";
+  fieldPromoLabel.value=product.promoLabel||"";
+  fieldPromoStart.value=promoLocalDate(product.promoStart);
+  fieldPromoEnd.value=promoLocalDate(product.promoEnd);
+  updatePromoUI();
   workingImages = Array.isArray(product.images) && product.images.length ? [...product.images] : [product.image || "assets/gorra_collage.jpg"];
   pendingPhotoFiles = [];
   mainImageIndex = Math.max(0, workingImages.indexOf(product.image));
@@ -1720,6 +1776,7 @@ function deleteProduct(id) {
 
 function renderProducts() {
   const allProducts = getProducts();
+  const LOW_STOCK_THRESHOLD = 3;
   const filter=document.getElementById("productCategoryFilter")?.value||"all";
   const query=clientNormalize(document.getElementById("productSearchInput")?.value||"");
 
@@ -1729,11 +1786,27 @@ function renderProducts() {
   renderBusinessReports();
   renderCategories();
 
+  const lowStock=allProducts.filter(p=>p.active!==false && Number(p.stock)>0 && Number(p.stock)<=LOW_STOCK_THRESHOLD);
+  const outStock=allProducts.filter(p=>p.active!==false && Number(p.stock)<=0);
+  const stockAlert=document.getElementById("lowStockAdminAlert");
+  const stockText=document.getElementById("lowStockAdminText");
+  if(stockAlert){
+    const totalIssues=lowStock.length+outStock.length;
+    stockAlert.hidden=totalIssues===0;
+    if(stockText){
+      const parts=[];
+      if(outStock.length)parts.push(`${outStock.length} agotado(s)`);
+      if(lowStock.length)parts.push(`${lowStock.length} con ${LOW_STOCK_THRESHOLD} piezas o menos`);
+      stockText.textContent=parts.join(" · ");
+    }
+  }
+
   const products=allProducts.filter(p=>{
     const catName=categoryNameById(p.categoryId);
     const searchOk=!query || clientNormalize([p.name,p.color,catName].join(" ")).includes(query);
     let filterOk=true;
     if(filter==="uncategorized")filterOk=!p.categoryId;
+    else if(filter==="lowstock")filterOk=Number(p.stock)<=LOW_STOCK_THRESHOLD;
     else if(filter!=="all")filterOk=Number(p.categoryId)===Number(filter);
     return searchOk && filterOk;
   });
@@ -1743,13 +1816,24 @@ function renderProducts() {
     return;
   }
 
-  productList.innerHTML = products.map(p => `
-    <article class="admin-product-card">
+  productList.innerHTML = products.map(p => {
+    const stock=Number(p.stock)||0;
+    const stockClass=stock<=0?"stock-out":(stock<=LOW_STOCK_THRESHOLD?"stock-low":"");
+    const stockBadge=stock<=0
+      ? `<span class="admin-stock-warning out">AGOTADO</span>`
+      : stock<=LOW_STOCK_THRESHOLD
+        ? `<span class="admin-stock-warning low">STOCK BAJO</span>`
+        : "";
+    return `
+    <article class="admin-product-card ${stockClass}">
       <div>
         <h3>${escapeHtml(p.name)}</h3>
         <div class="admin-product-meta">
-          <span>$${Number(p.price).toLocaleString("es-MX")} MXN</span>
+          ${promoLive(p)&&promoEffectivePrice(p)<Number(p.price)
+ ? `<span><s>$${Number(p.price).toLocaleString("es-MX")}</s> <strong>$${promoEffectivePrice(p).toLocaleString("es-MX",{maximumFractionDigits:2})}</strong></span><span class="admin-promo-warning">${escapeHtml(p.promoLabel||"PROMOCIÓN")}</span>`
+ : `<span>$${Number(p.price).toLocaleString("es-MX")} MXN</span>`}
           <span>Stock: ${p.stock}</span>
+          ${stockBadge}
           <span>${escapeHtml(p.color || "Sin color")}</span>
           <span>${escapeHtml(categoryNameById(p.categoryId))}</span>
           <span class="status-badge ${p.active !== false ? "status-active" : "status-hidden"}">
@@ -1762,8 +1846,19 @@ function renderProducts() {
         <button class="danger" type="button" onclick="deleteProduct(${p.id})">Eliminar</button>
       </div>
     </article>
-  `).join("");
+  `}).join("");
 }
+
+document.getElementById("showLowStockOnlyBtn")?.addEventListener("click",()=>{
+  const filter=document.getElementById("productCategoryFilter");
+  if(!filter)return;
+  if(!Array.from(filter.options).some(o=>o.value==="lowstock")){
+    filter.add(new Option("Stock bajo / agotado","lowstock"));
+  }
+  filter.value="lowstock";
+  renderProducts();
+});
+
 
 async function uploadProductPhotosToStorage(productId){
   if(!pendingPhotoFiles.length){
@@ -1874,7 +1969,14 @@ form.addEventListener("submit", async (event) => {
     description: fieldDescription.value.trim(),
     images: workingImages.length ? [...workingImages] : (editingId ? (products.find(p => p.id === editingId)?.images || [products.find(p => p.id === editingId)?.image || "assets/gorra_collage.jpg"]) : ["assets/gorra_collage.jpg"]),
     image: workingImages.length ? workingImages[mainImageIndex] : (editingId ? (products.find(p => p.id === editingId)?.image || "assets/gorra_collage.jpg") : "assets/gorra_collage.jpg"),
-    video: workingVideoUrl || ""
+    video: workingVideoUrl || "",
+    promoActive: !!fieldPromoActive.checked,
+    promoType: fieldPromoType.value || "percent",
+    promoPercent: fieldPromoPercent.value ? Number(fieldPromoPercent.value) : null,
+    promoPrice: fieldPromoPrice.value ? Number(fieldPromoPrice.value) : null,
+    promoLabel: fieldPromoLabel.value.trim(),
+    promoStart: fieldPromoStart.value ? new Date(fieldPromoStart.value).toISOString() : null,
+    promoEnd: fieldPromoEnd.value ? new Date(fieldPromoEnd.value).toISOString() : null
   };
 
   if (!product.name) return alert("Escribe el nombre del producto.");

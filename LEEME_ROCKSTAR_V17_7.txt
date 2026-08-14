@@ -1,0 +1,27 @@
+ROCKSTAR STORE V17.7 — POLÍTICAS EDITABLES
+
+NUEVO:
+Admin > Datos de la tienda > POLÍTICAS DE LA TIENDA
+- Envíos
+- Cambios y devoluciones
+- Privacidad
+- Términos y condiciones
+
+El propietario puede editar y guardar los textos sin tocar código.
+Las páginas públicas leen automáticamente esos textos desde Supabase.
+Si un campo está vacío, se conserva como respaldo el texto que ya tenía la V17.6.
+
+IMPORTANTE — SOLO UNA VEZ:
+Ejecuta en Supabase > SQL Editor:
+supabase/V17_7_POLITICAS_EDITABLES.sql
+
+NO SE MODIFICÓ:
+- diseño aprobado V17.6
+- transparencia de productos
+- visor / zoom
+- carrito / checkout
+- música / sonido
+- fondo imagen/video
+- productos / inventario / pedidos
+- cuenta del administrador
+- RLS existente

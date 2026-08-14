@@ -1,0 +1,29 @@
+ROCKSTAR STORE V17.4
+
+ÚNICAMENTE SE MODIFICÓ:
+
+1. VISOR DE FOTOGRAFÍAS
+- Ya no pertenece al flujo del BODY.
+- Se monta directamente en el viewport del navegador.
+- Se abre exactamente encima de la pantalla donde haces clic.
+- No desplaza al usuario al footer ni a otra altura.
+- Al cerrar conserva la posición de scroll.
+- Funciona tanto al tocar la foto como VER PRODUCTO.
+
+SE CONSERVA:
+- zoom con rueda
+- botones + / -
+- zoom hasta 400%
+- arrastre de la imagen ampliada
+- miniaturas
+- flechas
+- reset
+- cerrar
+
+2. TARJETAS DE PRODUCTO
+- MISMO tamaño
+- MISMA distribución
+- solo se hizo más transparente su fondo para permitir ver el escenario detrás.
+
+NO REQUIERE SQL.
+NO SE MODIFICÓ NINGUNA OTRA FUNCIÓN.

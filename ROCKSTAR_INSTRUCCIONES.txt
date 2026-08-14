@@ -1,0 +1,20 @@
+ROCKSTAR V13 — PRIMERA TRANSFORMACIÓN VISUAL
+
+Esta versión conserva la lógica existente de productos, carrito, pedidos, Supabase, categorías e inventario.
+
+ARCHIVOS NUEVOS / ESPERADOS EN assets:
+1. rockstar-bg.mp4       -> video de fondo de portada (recomendado vertical 1080x1920 o adaptable, sin audio, comprimido para web)
+2. rockstar-poster.jpg   -> imagen que se muestra mientras carga el video
+3. rockstar-music.mp3    -> música ambiental elegida por el dueño
+
+IMPORTANTE SOBRE MÚSICA:
+Los navegadores móviles normalmente bloquean audio automático. Por eso existe el botón "ACTIVAR MÚSICA". El video sí intenta iniciar automáticamente, pero va silenciado.
+
+PARA PROBAR:
+- Abre index.html.
+- La tienda ya muestra identidad ROCKSTAR y mantiene el catálogo dinámico.
+- Si todavía no agregas rockstar-bg.mp4, se usa la portada/fondo como respaldo.
+- Si todavía no agregas rockstar-music.mp3, el resto de la tienda funciona normalmente.
+
+SIGUIENTE ETAPA RECOMENDADA:
+Agregar en ROCKSTAR Admin campos para subir/cambiar video de portada y música sin editar archivos manualmente.

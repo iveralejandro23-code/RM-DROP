@@ -1,0 +1,5 @@
+ROCKSTAR V17.8 — PROMOCIONES
+Admin > Productos permite activar promoción, elegir porcentaje o precio de oferta, etiqueta y fechas.
+La tienda muestra precio anterior tachado + precio promocional y el carrito usa el precio vigente.
+EJECUTAR UNA VEZ: supabase/V17_8_PROMOCIONES.sql
+No se modificó el diseño aprobado, transparencia, visor/zoom, música/fondo, políticas, checkout, pedidos, inventario ni cuenta Admin.

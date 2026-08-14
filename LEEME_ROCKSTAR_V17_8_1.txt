@@ -1,0 +1,31 @@
+ROCKSTAR STORE V17.8.1 — PROMOCIONES CORREGIDAS
+
+ERROR CORREGIDO:
+En V17.8 la tienda llamaba las funciones de promociones, pero esas funciones
+no quedaron insertadas en app.js. Por eso la oferta guardada desde Admin
+no se reflejaba correctamente en la tienda.
+
+AHORA:
+- Promoción por porcentaje funciona.
+- Promoción por precio fijo funciona.
+- Fecha de inicio y término funciona.
+- Etiqueta OFERTA / % OFF funciona.
+- Precio normal aparece tachado.
+- Precio promocional aparece destacado.
+- El carrito usa el precio promocional vigente.
+- Si el catálogo se refresca desde Supabase, el carrito NO vuelve al precio normal.
+- Si agregas otra unidad de un producto ya en carrito, actualiza al precio promocional.
+
+SQL:
+Si YA ejecutaste supabase/V17_8_PROMOCIONES.sql, NO lo ejecutes otra vez.
+Si todavía no lo ejecutaste, ejecútalo una sola vez.
+
+NO SE MODIFICÓ:
+- diseño/transparencia
+- visor/zoom
+- música/fondo
+- políticas
+- carrito visual
+- checkout
+- pedidos/inventario
+- cuenta Admin/RLS

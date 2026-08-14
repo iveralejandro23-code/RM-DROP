@@ -715,3 +715,2866 @@ linear-gradient(135deg,#161616 0%,#0b0b0b 58%,#050505 100%)}
   }
   .store-category-filters button{flex:0 0 auto}
 }
+
+/* ===== ROCKSTAR V13 — CINEMATIC STOREFRONT ===== */
+:root{--rockstar-cream:#f2efe8;--rockstar-black:#070707}
+body{background:var(--rockstar-cream)}
+.site-header{background:rgba(5,5,5,.68);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.10)}
+.brand{letter-spacing:2px}.main-nav a{letter-spacing:1.4px}
+.rockstar-hero{position:relative;min-height:100svh;background:#050505;color:#fff;overflow:hidden;display:flex;align-items:stretch}
+.rockstar-bg-video,.rockstar-fallback{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.rockstar-fallback{background-image:linear-gradient(145deg,#281516,#070707 65%);background-size:cover;background-position:center;z-index:0}
+.rockstar-bg-video{z-index:1;filter:saturate(.82) contrast(1.08);background:#090909}
+.rockstar-shade{position:absolute;z-index:2;inset:0;background:linear-gradient(90deg,rgba(0,0,0,.78) 0%,rgba(0,0,0,.34) 48%,rgba(0,0,0,.18) 100%),linear-gradient(0deg,rgba(0,0,0,.64) 0%,transparent 42%,rgba(0,0,0,.25) 100%)}
+.rockstar-hero-content{position:relative;z-index:3;min-height:100svh;width:100%;display:flex;align-items:center;justify-content:space-between;padding-top:120px;padding-bottom:72px}
+.rockstar-wordmark{max-width:850px}.rockstar-overline{display:block;font-size:11px;font-weight:800;letter-spacing:4px;margin-bottom:18px;color:rgba(255,255,255,.78)}
+.rockstar-wordmark h1{font-family:'Oswald',sans-serif;font-size:clamp(82px,16vw,220px);line-height:.82;letter-spacing:-5px;margin:0;text-transform:uppercase;text-shadow:0 12px 50px rgba(0,0,0,.45)}
+.rockstar-wordmark p{max-width:520px;font-size:clamp(16px,2vw,21px);line-height:1.55;color:rgba(255,255,255,.88);margin:26px 0 30px}
+.rockstar-shop-btn{background:#fff!important;color:#080808!important;border-color:#fff!important;min-width:210px;text-align:center}
+.rockstar-scroll-cue{align-self:flex-end;display:flex;flex-direction:column;align-items:center;gap:10px;font-size:9px;letter-spacing:2px;writing-mode:vertical-rl;color:rgba(255,255,255,.7)}.rockstar-scroll-cue b{font-size:22px;font-weight:400}
+.rockstar-sound{position:absolute;z-index:4;right:28px;top:105px;border:1px solid rgba(255,255,255,.35);background:rgba(0,0,0,.38);backdrop-filter:blur(10px);color:#fff;padding:12px 15px;cursor:pointer;font:700 10px 'Montserrat';letter-spacing:1px}.rockstar-sound.playing{background:#fff;color:#111}.rockstar-sound span{margin-left:7px}
+.collection{position:relative;z-index:5;background:var(--rockstar-cream)}
+.rockstar-statement{background:#090909;color:#fff;padding:100px 0}.rockstar-statement span{font-size:11px;letter-spacing:5px;font-weight:800}.rockstar-statement h2{font:700 clamp(48px,8vw,105px)/.95 'Oswald';margin:18px 0 35px;max-width:1100px}.rockstar-statement a{color:#fff;text-decoration:none;font-size:12px;font-weight:800;letter-spacing:2px;border-bottom:1px solid #fff;padding-bottom:6px}
+@media(max-width:800px){.rockstar-bg-video,.rockstar-fallback{object-position:center center}.rockstar-shade{background:linear-gradient(0deg,rgba(0,0,0,.82) 0%,rgba(0,0,0,.34) 62%,rgba(0,0,0,.24) 100%)}.rockstar-hero-content{align-items:flex-end;padding:120px 24px 72px}.rockstar-wordmark h1{font-size:clamp(76px,25vw,126px);letter-spacing:-3px}.rockstar-wordmark p{font-size:15px;max-width:360px}.rockstar-scroll-cue{display:none}.rockstar-sound{right:16px;top:92px}.rockstar-sound span{display:none}.rockstar-statement{padding:70px 0}}
+
+
+/* ==========================================================
+   ROCKSTAR V13.2 — VIDEO CINEMATOGRÁFICO DE FONDO
+   ========================================================== */
+.rockstar-hero{
+  position:relative;
+  min-height:100svh;
+  overflow:hidden;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  isolation:isolate;
+  background:#090909;
+}
+.rockstar-video-stage{
+  position:absolute;
+  inset:0;
+  z-index:-3;
+  overflow:hidden;
+}
+.rockstar-bg-video,
+.rockstar-video-fallback,
+.rockstar-video-overlay{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+.rockstar-bg-video{
+  object-fit:cover;
+  object-position:center center;
+  opacity:0;
+  transition:opacity .55s ease;
+}
+.rockstar-bg-video.is-ready{
+  opacity:1;
+}
+.rockstar-video-fallback{
+  z-index:-2;
+  background:
+    radial-gradient(circle at 50% 28%, rgba(255,255,255,.12), transparent 25%),
+    linear-gradient(180deg, rgba(9,9,9,.1), rgba(9,9,9,.55)),
+    url("assets/media/rockstar-poster.jpg") center/cover no-repeat,
+    #111;
+}
+.rockstar-video-overlay{
+  z-index:1;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.25) 0%, rgba(0,0,0,.12) 38%, rgba(0,0,0,.68) 100%),
+    linear-gradient(90deg, rgba(0,0,0,.28), transparent 45%, rgba(0,0,0,.18));
+  pointer-events:none;
+}
+.rockstar-hero-content{
+  width:min(1120px, calc(100% - 40px));
+  margin:auto;
+  padding:120px 0 100px;
+  text-align:center;
+  color:#fff;
+  text-shadow:0 2px 18px rgba(0,0,0,.55);
+}
+.rockstar-eyebrow{
+  margin:0 0 14px;
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:4px;
+}
+.rockstar-hero-content h1{
+  margin:0;
+  font-size:clamp(72px, 15vw, 190px);
+  line-height:.82;
+  letter-spacing:-5px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+.rockstar-hero-copy{
+  max-width:560px;
+  margin:24px auto 0;
+  font-size:clamp(16px,2vw,22px);
+  font-weight:700;
+}
+.rockstar-hero-actions{
+  display:flex;
+  justify-content:center;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-top:30px;
+}
+.rockstar-primary-cta,
+.rockstar-sound-button{
+  min-height:48px;
+  padding:14px 20px;
+  border:1px solid rgba(255,255,255,.85);
+  font-size:11px;
+  font-weight:900;
+  letter-spacing:1.2px;
+  text-transform:uppercase;
+  text-decoration:none;
+  cursor:pointer;
+}
+.rockstar-primary-cta{
+  background:#fff;
+  color:#111;
+}
+.rockstar-sound-button{
+  background:rgba(0,0,0,.28);
+  color:#fff;
+  backdrop-filter:blur(8px);
+}
+.rockstar-scroll-cue{
+  position:absolute;
+  left:50%;
+  bottom:22px;
+  transform:translateX(-50%);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:3px;
+  color:#fff;
+  text-decoration:none;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:2px;
+}
+.rockstar-scroll-cue b{
+  font-size:20px;
+  animation:rockstarBounce 1.4s ease-in-out infinite;
+}
+@keyframes rockstarBounce{
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(7px)}
+}
+@media(max-width:700px){
+  .rockstar-hero{
+    min-height:100svh;
+  }
+  .rockstar-bg-video{
+    object-position:center center;
+  }
+  .rockstar-hero-content{
+    width:calc(100% - 28px);
+    padding:100px 0 90px;
+  }
+  .rockstar-hero-content h1{
+    font-size:clamp(64px,24vw,108px);
+    letter-spacing:-3px;
+  }
+  .rockstar-eyebrow{
+    font-size:9px;
+    letter-spacing:2.4px;
+  }
+  .rockstar-hero-actions{
+    align-items:stretch;
+    flex-direction:column;
+    width:min(330px,100%);
+    margin-left:auto;
+    margin-right:auto;
+  }
+  .rockstar-primary-cta,
+  .rockstar-sound-button{
+    width:100%;
+    box-sizing:border-box;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .rockstar-bg-video{display:none}
+  .rockstar-scroll-cue b{animation:none}
+}
+
+
+/* ==========================================================
+   ROCKSTAR V13.3 — VIDEO COMO FONDO GLOBAL DE TODA LA TIENDA
+   ========================================================== */
+html,body{
+  background:#090909 !important;
+}
+body{
+  position:relative;
+  min-height:100%;
+  color:#fff;
+}
+.rockstar-global-bg{
+  position:fixed;
+  inset:0;
+  z-index:-50;
+  overflow:hidden;
+  background:#090909;
+}
+.rockstar-global-video,
+.rockstar-global-fallback,
+.rockstar-global-overlay{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+.rockstar-global-video{
+  object-fit:cover;
+  object-position:center center;
+  opacity:0;
+  transition:opacity .6s ease;
+}
+.rockstar-global-video.is-ready{
+  opacity:1;
+}
+.rockstar-global-fallback{
+  z-index:-2;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(255,255,255,.10), transparent 25%),
+    linear-gradient(180deg, rgba(10,10,10,.15), rgba(10,10,10,.7)),
+    url("assets/media/rockstar-poster.jpg") center/cover no-repeat,
+    #101010;
+}
+.rockstar-global-overlay{
+  z-index:1;
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.30), rgba(0,0,0,.42) 42%, rgba(0,0,0,.66)),
+    linear-gradient(90deg, rgba(0,0,0,.18), transparent 50%, rgba(0,0,0,.18));
+  pointer-events:none;
+}
+
+/* La portada ya no necesita fondo propio */
+.rockstar-hero{
+  background:transparent !important;
+  min-height:100svh;
+}
+.rockstar-video-stage{
+  display:none !important;
+}
+
+/* Contenedor general transparente */
+.rockstar-page-shell,
+main,
+section{
+  background:transparent;
+}
+
+/* Header flotante oscuro */
+.site-header,
+header{
+  background:rgba(8,8,8,.55) !important;
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
+}
+
+/* Secciones de contenido */
+.store-section,
+.collection-section,
+.contact-section,
+.about-section,
+.music-section,
+.video-section,
+.newsletter-section,
+.site-footer,
+footer,
+[class*="section"]:not(.rockstar-hero){
+  background:rgba(245,241,233,.86) !important;
+  color:#171717 !important;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-top:1px solid rgba(255,255,255,.18);
+}
+
+/* Bloques principales para que el video siga asomándose entre secciones */
+.store-section,
+.collection-section,
+.contact-section,
+.about-section,
+.newsletter-section{
+  margin:22px auto;
+  width:min(1220px, calc(100% - 28px));
+  border-radius:2px;
+  box-shadow:0 18px 50px rgba(0,0,0,.18);
+}
+
+/* Cards algo translúcidas */
+.store-product-card,
+.product-card,
+.category-card,
+.contact-card,
+.summary-card{
+  background:rgba(255,255,255,.90) !important;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+
+/* Mantener tipografía clara en hero */
+.rockstar-hero,
+.rockstar-hero *{
+  color:#fff;
+}
+.rockstar-primary-cta{
+  color:#111 !important;
+}
+.rockstar-sound-button{
+  color:#fff !important;
+}
+
+/* Espacios transparentes entre bloques para mostrar el video */
+.rockstar-page-shell > section:not(.rockstar-hero){
+  position:relative;
+}
+.rockstar-page-shell > section:not(.rockstar-hero)::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+}
+
+/* Footer oscuro transparente */
+.site-footer,
+footer{
+  background:rgba(5,5,5,.72) !important;
+  color:#fff !important;
+}
+.site-footer *,
+footer *{
+  color:inherit;
+}
+
+@media(max-width:700px){
+  .rockstar-global-video{
+    object-position:center center;
+  }
+  .store-section,
+  .collection-section,
+  .contact-section,
+  .about-section,
+  .newsletter-section{
+    width:calc(100% - 16px);
+    margin:10px auto;
+    background:rgba(245,241,233,.88) !important;
+  }
+  .site-header,
+  header{
+    background:rgba(8,8,8,.62) !important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .rockstar-global-video{
+    display:none;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V13.4 — CORRECCIÓN DE PORTADA
+   La portada YA NO ocupa toda la pantalla.
+   El fondo global queda visible detrás de toda la tienda.
+   ========================================================== */
+.rockstar-hero{
+  min-height:0 !important;
+  height:auto !important;
+  padding:120px 0 54px !important;
+  display:block !important;
+  background:transparent !important;
+}
+.rockstar-hero-content{
+  width:min(1100px, calc(100% - 28px)) !important;
+  padding:0 !important;
+  margin:0 auto !important;
+  text-align:center !important;
+}
+.rockstar-hero-content h1{
+  font-size:clamp(64px, 13vw, 150px) !important;
+  line-height:.84 !important;
+}
+.rockstar-scroll-cue{
+  display:none !important;
+}
+
+/* Evita franjas negras sólidas heredadas de estilos antiguos */
+body,
+main,
+.rockstar-page-shell,
+#inicio,
+#tienda,
+#contacto{
+  background-color:transparent !important;
+}
+.rockstar-page-shell{
+  position:relative;
+  z-index:1;
+}
+
+/* Secciones flotantes; el fondo sigue viéndose alrededor */
+.store-section,
+.collection-section,
+.contact-section,
+.about-section,
+.newsletter-section{
+  background:rgba(245,241,233,.82) !important;
+  box-shadow:0 14px 40px rgba(0,0,0,.22);
+}
+.store-product-card,
+.product-card{
+  background:rgba(255,255,255,.88) !important;
+}
+
+/* Separación transparente entre secciones */
+.rockstar-page-shell > section:not(.rockstar-hero){
+  margin-top:18px !important;
+  margin-bottom:18px !important;
+}
+
+@media(max-width:700px){
+  .rockstar-hero{
+    padding:92px 0 36px !important;
+  }
+  .rockstar-hero-content h1{
+    font-size:clamp(54px, 22vw, 92px) !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V13.5 — DISEÑO APROBADO
+   Fondo global + glassmorphism + contraste adaptable.
+   ========================================================== */
+:root{
+  --rs-gold:#d5ad70;
+  --rs-gold-soft:#e5c38f;
+  --rs-ink:#07090c;
+  --rs-glass:rgba(7,9,12,.58);
+  --rs-glass-strong:rgba(5,7,10,.72);
+  --rs-line:rgba(213,173,112,.48);
+  --rs-text:#f7f2e9;
+  --rs-muted:rgba(247,242,233,.82);
+  --rs-overlay:rgba(0,0,0,.44);
+}
+
+html{
+  scroll-behavior:smooth;
+}
+body{
+  background:#06080b !important;
+  color:var(--rs-text) !important;
+}
+
+/* Protege legibilidad aunque el dueño ponga un fondo muy claro */
+.rockstar-global-overlay{
+  background:
+    linear-gradient(180deg, rgba(0,0,0,.42), rgba(0,0,0,.56)),
+    linear-gradient(90deg, rgba(0,0,0,.24), rgba(0,0,0,.08) 48%, rgba(0,0,0,.30)) !important;
+}
+.rockstar-global-bg::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:var(--rs-overlay);
+  pointer-events:none;
+  z-index:2;
+}
+
+/* Header igual al concepto aprobado */
+.site-header{
+  position:sticky !important;
+  top:0;
+  z-index:1000;
+  background:rgba(4,6,9,.72) !important;
+  border-bottom:1px solid rgba(255,255,255,.10) !important;
+  backdrop-filter:blur(14px) saturate(120%);
+  -webkit-backdrop-filter:blur(14px) saturate(120%);
+}
+.site-header .container{
+  max-width:1460px;
+}
+.brand{
+  color:var(--rs-text) !important;
+  font-family:"Oswald",sans-serif;
+  font-weight:700;
+  letter-spacing:2px;
+}
+.brand::before{
+  content:"★";
+  display:inline-grid;
+  place-items:center;
+  width:34px;
+  height:34px;
+  margin-right:10px;
+  border:1px solid var(--rs-gold);
+  border-radius:50%;
+  color:var(--rs-gold);
+  font-size:14px;
+}
+.store-brand-logo[style*="display: none"],
+.store-brand-logo[style*="display:none"]{
+  display:none !important;
+}
+.main-nav a{
+  color:var(--rs-text) !important;
+  font-weight:500;
+}
+.cart-button{
+  color:var(--rs-gold-soft) !important;
+}
+
+/* Ya no hay portada negra grande */
+.rockstar-anchor{
+  height:1px;
+}
+.rockstar-hero{
+  display:none !important;
+}
+
+/* La colección es ahora la portada/tienda principal */
+.section.collection{
+  width:min(1460px, calc(100% - 48px)) !important;
+  margin:0 auto !important;
+  padding:86px 0 42px !important;
+  background:transparent !important;
+  color:var(--rs-text) !important;
+  box-shadow:none !important;
+  border:0 !important;
+}
+.section.collection > .container{
+  max-width:none !important;
+  width:100% !important;
+}
+
+/* Cabecera GORRAS sin caja blanca */
+.section.collection .section-heading{
+  display:grid !important;
+  grid-template-columns:minmax(0,1fr) minmax(320px,.9fr);
+  gap:70px;
+  align-items:end;
+  margin:0 0 26px !important;
+  padding:0 12px 28px !important;
+  border-bottom:1px solid rgba(213,173,112,.56);
+  background:transparent !important;
+}
+.section.collection .section-heading > div{
+  background:transparent !important;
+}
+.section.collection .section-kicker{
+  display:block;
+  margin-bottom:10px;
+  color:var(--rs-gold-soft) !important;
+  font-size:12px;
+  font-weight:800;
+  letter-spacing:4px;
+  text-transform:uppercase;
+  text-shadow:0 2px 8px rgba(0,0,0,.85);
+}
+.section.collection .section-heading h2{
+  margin:0 !important;
+  color:#fff !important;
+  font-family:"Oswald",sans-serif;
+  font-size:clamp(64px,9vw,124px) !important;
+  font-weight:700;
+  line-height:.84;
+  letter-spacing:-2px;
+  text-transform:uppercase;
+  text-shadow:0 4px 18px rgba(0,0,0,.85);
+}
+.section.collection .section-heading p{
+  max-width:560px;
+  margin:0 0 8px !important;
+  color:#fff !important;
+  font-size:clamp(17px,2vw,25px);
+  line-height:1.55;
+  text-shadow:0 3px 14px rgba(0,0,0,.95);
+}
+
+/* Filtros */
+.store-category-filter-wrap{
+  margin:0 0 28px !important;
+  padding:20px 12px 26px !important;
+  border-top:0 !important;
+  border-bottom:1px solid rgba(213,173,112,.50) !important;
+  background:transparent !important;
+}
+.store-category-filter-title{
+  color:var(--rs-gold-soft) !important;
+  font-size:11px !important;
+  letter-spacing:3px !important;
+  text-shadow:0 2px 8px #000;
+}
+.store-category-filters{
+  justify-content:center !important;
+}
+.store-category-filters button{
+  min-width:126px;
+  border:1px solid var(--rs-gold) !important;
+  background:rgba(2,4,7,.62) !important;
+  color:var(--rs-gold-soft) !important;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+}
+.store-category-filters button.active{
+  background:var(--rs-gold-soft) !important;
+  color:#090909 !important;
+}
+
+/* GRID */
+.store-product-grid{
+  display:grid !important;
+  grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  gap:30px !important;
+  align-items:stretch;
+  padding:0 0 28px;
+}
+
+/* Tarjeta transparente elegida por el usuario */
+.store-product-card{
+  display:grid !important;
+  grid-template-columns:minmax(0,1.05fr) minmax(290px,.95fr) !important;
+  min-height:500px;
+  overflow:hidden;
+  border:1px solid var(--rs-line) !important;
+  border-radius:10px !important;
+  background:var(--rs-glass) !important;
+  color:var(--rs-text) !important;
+  box-shadow:0 18px 55px rgba(0,0,0,.26) !important;
+  backdrop-filter:blur(10px) saturate(115%);
+  -webkit-backdrop-filter:blur(10px) saturate(115%);
+}
+.store-product-card:hover{
+  border-color:rgba(229,195,143,.82) !important;
+  transform:translateY(-2px);
+}
+
+/* La foto conserva transparencia y fondo oscuro */
+.store-product-media{
+  background:rgba(3,5,8,.28) !important;
+  border-right:1px solid rgba(213,173,112,.24);
+}
+.store-product-main-media{
+  background:rgba(0,0,0,.18) !important;
+}
+.store-product-card-main-image,
+.store-product-card-main-video{
+  object-fit:contain !important;
+  filter:drop-shadow(0 16px 20px rgba(0,0,0,.30));
+}
+.store-product-media-label{
+  background:rgba(3,4,6,.72) !important;
+  color:#fff !important;
+  border:1px solid rgba(255,255,255,.14);
+}
+.store-product-media-selector{
+  background:rgba(2,4,6,.40) !important;
+}
+.store-media-thumb{
+  border-color:rgba(213,173,112,.28) !important;
+  background:rgba(0,0,0,.46) !important;
+}
+.store-media-thumb.active{
+  border-color:var(--rs-gold-soft) !important;
+}
+
+/* Información del producto siempre legible */
+.store-product-info{
+  position:relative;
+  padding:34px 32px 30px !important;
+  background:linear-gradient(180deg, rgba(5,7,10,.40), rgba(5,7,10,.66)) !important;
+  color:var(--rs-text) !important;
+  text-shadow:0 2px 10px rgba(0,0,0,.90);
+}
+.store-product-info::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:rgba(0,0,0,.10);
+  pointer-events:none;
+}
+.store-product-info > *{
+  position:relative;
+  z-index:1;
+}
+.store-product-info small{
+  color:var(--rs-gold-soft) !important;
+  letter-spacing:2.4px !important;
+  font-weight:800;
+}
+.store-product-info h3{
+  margin-top:10px !important;
+  color:#fff !important;
+  font-family:"Oswald",sans-serif;
+  font-size:clamp(34px,3.2vw,56px) !important;
+  line-height:.98;
+  text-transform:uppercase;
+  text-shadow:0 4px 14px rgba(0,0,0,.95);
+}
+.store-product-price{
+  color:var(--rs-gold-soft) !important;
+  font-size:28px !important;
+  font-weight:800;
+}
+.store-product-info p{
+  color:#fff !important;
+  line-height:1.55;
+  font-size:16px;
+  text-shadow:0 2px 10px #000;
+}
+.store-product-meta{
+  margin-top:auto !important;
+  padding-top:18px !important;
+  border-top:1px solid rgba(213,173,112,.40) !important;
+}
+.store-product-meta span{
+  color:rgba(255,255,255,.78) !important;
+}
+.store-product-meta strong{
+  color:var(--rs-gold-soft) !important;
+}
+
+/* Botones */
+.store-product-info .btn-primary,
+.store-product-info .btn.btn-primary{
+  border:1px solid var(--rs-gold-soft) !important;
+  background:var(--rs-gold-soft) !important;
+  color:#080808 !important;
+  text-shadow:none !important;
+  font-weight:900;
+}
+.store-product-info .btn-secondary,
+.product-whatsapp{
+  border:1px solid var(--rs-gold) !important;
+  background:rgba(0,0,0,.42) !important;
+  color:var(--rs-gold-soft) !important;
+  text-shadow:none !important;
+}
+
+/* Secciones inferiores mantienen el mismo lenguaje visual */
+.rockstar-statement,
+.trust-section{
+  width:min(1460px,calc(100% - 48px)) !important;
+  margin:24px auto !important;
+  border:1px solid rgba(213,173,112,.24) !important;
+  background:rgba(4,6,9,.60) !important;
+  color:#fff !important;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+.rockstar-statement *,
+.trust-section *{
+  color:inherit;
+}
+.rockstar-statement span,
+.rockstar-statement a{
+  color:var(--rs-gold-soft) !important;
+}
+.trust-item{
+  background:rgba(0,0,0,.12) !important;
+}
+
+/* Footer */
+footer,
+.site-footer{
+  background:rgba(3,5,8,.78) !important;
+  border-top:1px solid rgba(213,173,112,.25) !important;
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+footer *,
+.site-footer *{
+  color:#fff !important;
+}
+.footer-links a,
+.footer-contact a{
+  color:var(--rs-gold-soft) !important;
+}
+
+/* El badge no estorba en producción */
+#rockstarVersionBadge{
+  opacity:.52;
+}
+
+/* Modal/carrito: sólido suficiente para cualquier fondo */
+.cart-drawer,
+.checkout-modal,
+.product-viewer,
+.modal,
+.drawer{
+  background:rgba(8,10,13,.96) !important;
+  color:#fff !important;
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+}
+
+/* Responsive */
+@media(max-width:1100px){
+  .store-product-grid{
+    grid-template-columns:1fr !important;
+  }
+  .store-product-card{
+    max-width:900px;
+    margin-inline:auto;
+  }
+}
+@media(max-width:760px){
+  .section.collection{
+    width:calc(100% - 20px) !important;
+    padding-top:56px !important;
+  }
+  .section.collection .section-heading{
+    grid-template-columns:1fr !important;
+    gap:22px !important;
+  }
+  .section.collection .section-heading h2{
+    font-size:clamp(58px,24vw,94px) !important;
+  }
+  .section.collection .section-heading p{
+    font-size:17px;
+  }
+  .store-product-card{
+    grid-template-columns:1fr !important;
+    min-height:0;
+  }
+  .store-product-media{
+    border-right:0;
+    border-bottom:1px solid rgba(213,173,112,.22);
+  }
+  .store-product-info{
+    padding:26px 22px !important;
+  }
+  .store-product-info h3{
+    font-size:40px !important;
+  }
+  .rockstar-statement,
+  .trust-section{
+    width:calc(100% - 20px) !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V13.6 — CORRECCIÓN: FONDO GLOBAL VISIBLE + GLASS
+   Basado en la maqueta visual aprobada.
+   ========================================================== */
+
+html, body{
+  background:transparent !important;
+}
+body{
+  isolation:isolate;
+}
+.rockstar-global-bg{
+  z-index:-1 !important;
+  background:#05070a !important;
+}
+.rockstar-global-fallback{
+  z-index:0 !important;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.22)),
+    url("assets/media/rockstar-poster.jpg") center center/cover no-repeat !important;
+}
+.rockstar-global-video{
+  z-index:1 !important;
+}
+.rockstar-global-overlay{
+  z-index:2 !important;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.24)),
+    linear-gradient(90deg,rgba(0,0,0,.10),transparent 48%,rgba(0,0,0,.12)) !important;
+}
+.rockstar-global-bg::after{
+  display:none !important;
+}
+.rockstar-page-shell,
+.site-header,
+footer{
+  position:relative;
+  z-index:1;
+}
+
+/* Fondo visible a través de toda la colección */
+.section.collection,
+.section.collection > .container,
+.section.collection .section-heading,
+.store-category-filter-wrap{
+  background:transparent !important;
+}
+
+/* Encabezado estilo aprobado */
+.section.collection .section-heading{
+  padding:28px 34px !important;
+  border:1px solid rgba(255,255,255,.18) !important;
+  border-radius:16px !important;
+  background:rgba(235,235,235,.56) !important;
+  backdrop-filter:blur(9px) saturate(108%) !important;
+  -webkit-backdrop-filter:blur(9px) saturate(108%) !important;
+}
+.section.collection .section-kicker,
+.section.collection .section-heading h2,
+.section.collection .section-heading p{
+  color:#0a0b0d !important;
+  text-shadow:none !important;
+}
+.section.collection .section-heading p{
+  font-weight:500;
+}
+
+/* Tarjetas mucho más transparentes: el fondo debe verse */
+.store-product-card{
+  background:rgba(7,9,12,.27) !important;
+  border:1px solid rgba(229,195,143,.48) !important;
+  box-shadow:0 18px 48px rgba(0,0,0,.20) !important;
+  backdrop-filter:blur(5px) saturate(112%) !important;
+  -webkit-backdrop-filter:blur(5px) saturate(112%) !important;
+}
+.store-product-media{
+  background:rgba(4,6,9,.10) !important;
+}
+.store-product-main-media{
+  background:rgba(0,0,0,.08) !important;
+}
+.store-product-info{
+  background:linear-gradient(180deg,rgba(4,6,9,.18),rgba(4,6,9,.34)) !important;
+}
+.store-product-info::before{
+  background:transparent !important;
+}
+
+/* Mantener texto legible aunque el dueño cambie el fondo */
+.store-product-info h3,
+.store-product-info p{
+  color:#fff !important;
+  text-shadow:0 2px 8px rgba(0,0,0,.98), 0 0 18px rgba(0,0,0,.65) !important;
+}
+.store-product-info small,
+.store-product-price,
+.store-product-meta strong{
+  color:#e5c38f !important;
+  text-shadow:0 2px 8px rgba(0,0,0,.95) !important;
+}
+.store-product-meta span{
+  color:#fff !important;
+  text-shadow:0 2px 8px rgba(0,0,0,.95) !important;
+}
+
+/* Quitar la apariencia de rectángulo sólido detrás de las imágenes */
+.store-product-card-main-image,
+.store-product-card-main-video{
+  background:transparent !important;
+}
+
+/* El fondo de demostración manda. El video puede reemplazarse después
+   desde assets/media/rockstar-bg.mp4 por el que el dueño quiera. */
+@media (min-width:761px){
+  .rockstar-global-video{
+    opacity:0 !important;
+  }
+}
+@media (max-width:760px){
+  .section.collection .section-heading{
+    padding:22px 20px !important;
+    background:rgba(235,235,235,.58) !important;
+  }
+  .store-product-card{
+    background:rgba(7,9,12,.31) !important;
+  }
+  .rockstar-global-video{
+    opacity:0 !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V13.7 — FONDO CALLE VISIBLE / CAPAS CORREGIDAS
+   ========================================================== */
+html{
+  background:#05070a !important;
+}
+body{
+  position:relative !important;
+  min-height:100vh !important;
+  background:transparent !important;
+  isolation:isolate !important;
+}
+
+/* Fondo fijo visible en el mismo plano que el sitio */
+.rockstar-global-bg{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  display:block !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+  background:
+    linear-gradient(rgba(0,0,0,.10),rgba(0,0,0,.20)),
+    url("assets/media/rockstar-poster.jpg") center center / cover no-repeat !important;
+}
+.rockstar-global-fallback{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:0 !important;
+  display:block !important;
+  background:url("assets/media/rockstar-poster.jpg") center center / cover no-repeat !important;
+}
+.rockstar-global-video{
+  opacity:0 !important;
+  z-index:1 !important;
+}
+.rockstar-global-overlay{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:2 !important;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.12),rgba(0,0,0,.22)),
+    linear-gradient(90deg,rgba(0,0,0,.08),transparent 50%,rgba(0,0,0,.12)) !important;
+}
+.rockstar-global-bg::after{
+  display:none !important;
+}
+
+/* TODO EL SITIO sobre el fondo */
+body > *:not(.rockstar-global-bg){
+  position:relative !important;
+  z-index:2 !important;
+}
+
+main,
+.rockstar-page-shell,
+.section.collection,
+.section.collection > .container,
+.store-category-filter-wrap{
+  background:transparent !important;
+}
+
+/* Cabecera GORRAS transparente */
+.section.collection .section-heading{
+  background:rgba(8,10,13,.20) !important;
+  border:1px solid rgba(229,195,143,.30) !important;
+  backdrop-filter:blur(7px) saturate(112%) !important;
+  -webkit-backdrop-filter:blur(7px) saturate(112%) !important;
+}
+.section.collection .section-heading h2,
+.section.collection .section-heading p{
+  color:#fff !important;
+  text-shadow:0 3px 14px rgba(0,0,0,.98) !important;
+}
+.section.collection .section-kicker{
+  color:#e5c38f !important;
+  text-shadow:0 2px 9px rgba(0,0,0,.98) !important;
+}
+
+/* Tarjetas glass transparentes */
+.store-product-card{
+  background:rgba(5,7,10,.20) !important;
+  border:1px solid rgba(229,195,143,.50) !important;
+  box-shadow:0 18px 50px rgba(0,0,0,.18) !important;
+  backdrop-filter:blur(5px) saturate(110%) !important;
+  -webkit-backdrop-filter:blur(5px) saturate(110%) !important;
+}
+.store-product-media,
+.store-product-main-media{
+  background:rgba(0,0,0,.04) !important;
+}
+.store-product-info{
+  background:rgba(4,6,9,.18) !important;
+}
+
+/* Texto siempre legible con cualquier fondo */
+.store-product-info h3,
+.store-product-info p,
+.store-product-meta span{
+  color:#fff !important;
+  text-shadow:
+    0 2px 4px rgba(0,0,0,1),
+    0 0 16px rgba(0,0,0,.92) !important;
+}
+.store-product-info small,
+.store-product-price,
+.store-product-meta strong{
+  color:#e5c38f !important;
+  text-shadow:
+    0 2px 4px rgba(0,0,0,1),
+    0 0 14px rgba(0,0,0,.88) !important;
+}
+
+.site-header{
+  background:rgba(3,5,8,.46) !important;
+  backdrop-filter:blur(11px) !important;
+  -webkit-backdrop-filter:blur(11px) !important;
+}
+
+/* Más parecido a la referencia aprobada */
+.section.collection{
+  padding-top:64px !important;
+}
+.store-product-grid{
+  margin-top:26px !important;
+}
+
+@media(max-width:760px){
+  .rockstar-global-bg,
+  .rockstar-global-fallback{
+    background-position:center center !important;
+  }
+  .store-product-card{
+    background:rgba(5,7,10,.27) !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V13.8 — IMÁGENES DE PRODUCTO UN POCO MÁS PEQUEÑAS
+   ========================================================== */
+
+/* Mantiene el espacio de la tarjeta, pero reduce suavemente
+   la fotografía para que respire mejor el diseño. */
+.store-product-main-media img,
+.store-product-media img{
+  width:88% !important;
+  height:88% !important;
+  max-width:88% !important;
+  max-height:88% !important;
+  object-fit:contain !important;
+  margin:auto !important;
+  display:block !important;
+}
+
+/* En celular solo una reducción ligera para no hacerlas demasiado pequeñas */
+@media(max-width:760px){
+  .store-product-main-media img,
+  .store-product-media img{
+    width:92% !important;
+    height:92% !important;
+    max-width:92% !important;
+    max-height:92% !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V13.9 — MENÚ FIJO + FONDO LIMPIO + FOOTER AL FINAL
+   ========================================================== */
+
+/* 1. MENÚ SIEMPRE VISIBLE AL HACER SCROLL */
+.site-header{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  width:100% !important;
+  z-index:10000 !important;
+  background:rgba(3,5,8,.68) !important;
+  border-bottom:1px solid rgba(229,195,143,.20) !important;
+  backdrop-filter:blur(14px) saturate(120%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(120%) !important;
+}
+
+/* Compensa el header fijo para que no tape el contenido */
+body{
+  padding-top:78px !important;
+}
+#inicio,
+#tienda,
+#coleccion,
+#contacto{
+  scroll-margin-top:90px !important;
+}
+
+/* 2. FONDO LIMPIO GLOBAL */
+.rockstar-global-bg{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  display:block !important;
+  pointer-events:none !important;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.22)),
+    url("assets/media/rockstar-poster.jpg") center center / cover no-repeat !important;
+}
+.rockstar-global-fallback{
+  position:absolute !important;
+  inset:0 !important;
+  z-index:0 !important;
+  display:block !important;
+  background:url("assets/media/rockstar-poster.jpg") center center / cover no-repeat !important;
+}
+.rockstar-global-video{
+  opacity:0 !important;
+}
+.rockstar-global-overlay{
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.22)),
+    linear-gradient(90deg,rgba(0,0,0,.08),transparent 48%,rgba(0,0,0,.10)) !important;
+}
+
+/* Todo el contenido real queda encima */
+body > *:not(.rockstar-global-bg){
+  position:relative !important;
+  z-index:2 !important;
+}
+
+/* 3. FOOTER/CONTACTO SOLO AL FINAL, NUNCA FLOTANTE */
+.site-footer,
+footer{
+  position:relative !important;
+  top:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  left:auto !important;
+  z-index:3 !important;
+  width:100% !important;
+  margin-top:56px !important;
+  background:rgba(3,5,8,.82) !important;
+  border-top:1px solid rgba(229,195,143,.24) !important;
+  backdrop-filter:blur(12px) !important;
+  -webkit-backdrop-filter:blur(12px) !important;
+}
+
+/* 4. Mantener las fotos un poco más pequeñas */
+.store-product-main-media img,
+.store-product-media img{
+  width:86% !important;
+  height:86% !important;
+  max-width:86% !important;
+  max-height:86% !important;
+  object-fit:contain !important;
+  margin:auto !important;
+}
+
+/* 5. Tarjetas transparentes y texto protegido */
+.store-product-card{
+  background:rgba(5,7,10,.20) !important;
+  backdrop-filter:blur(5px) saturate(110%) !important;
+  -webkit-backdrop-filter:blur(5px) saturate(110%) !important;
+}
+.store-product-info{
+  background:rgba(3,5,8,.17) !important;
+}
+.store-product-info h3,
+.store-product-info p,
+.store-product-meta span{
+  color:#fff !important;
+  text-shadow:0 2px 4px #000,0 0 16px rgba(0,0,0,.92) !important;
+}
+.store-product-info small,
+.store-product-price,
+.store-product-meta strong{
+  color:#e5c38f !important;
+  text-shadow:0 2px 4px #000,0 0 14px rgba(0,0,0,.88) !important;
+}
+
+@media(max-width:760px){
+  body{
+    padding-top:68px !important;
+  }
+  #inicio,
+  #tienda,
+  #coleccion,
+  #contacto{
+    scroll-margin-top:78px !important;
+  }
+  .store-product-main-media img,
+  .store-product-media img{
+    width:90% !important;
+    height:90% !important;
+    max-width:90% !important;
+    max-height:90% !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V14 — TIENDA REAL, NO MAQUETA
+   ========================================================== */
+
+:root{
+  --rs-gold:#d9ad5a;
+  --rs-gold-2:#edc878;
+  --rs-white:#f7f3eb;
+  --rs-panel:rgba(7,9,12,.45);
+  --rs-panel-strong:rgba(7,9,12,.72);
+  --rs-border:rgba(217,173,90,.40);
+}
+
+/* Fondo global limpio */
+html{
+  background:#05070a !important;
+}
+body{
+  padding-top:76px !important;
+  background:transparent !important;
+  color:var(--rs-white) !important;
+}
+.rockstar-global-bg{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.30)),
+    url("assets/media/rockstar-poster.jpg") center center / cover no-repeat !important;
+}
+.rockstar-global-fallback{
+  background:url("assets/media/rockstar-poster.jpg") center center / cover no-repeat !important;
+}
+.rockstar-global-video{
+  display:none !important;
+}
+.rockstar-global-overlay{
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.14),rgba(0,0,0,.28)),
+    linear-gradient(90deg,rgba(0,0,0,.12),transparent 48%,rgba(0,0,0,.12)) !important;
+}
+body > *:not(.rockstar-global-bg){
+  position:relative;
+  z-index:2;
+}
+
+/* Header fijo */
+.site-header{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  z-index:10000 !important;
+  height:76px;
+  background:rgba(3,5,8,.76) !important;
+  border-bottom:1px solid rgba(217,173,90,.22) !important;
+  backdrop-filter:blur(14px) saturate(120%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(120%) !important;
+}
+.nav-wrap{
+  height:76px !important;
+}
+.brand{
+  color:#fff !important;
+  font-size:24px !important;
+}
+.main-nav a{
+  color:#fff !important;
+  font-size:15px !important;
+}
+.main-nav a:hover{
+  color:var(--rs-gold-2) !important;
+}
+
+/* Hero REAL */
+.rockstar-real-hero{
+  min-height:480px;
+  display:flex;
+  align-items:center;
+  background:transparent !important;
+}
+.rockstar-real-hero-inner{
+  width:min(1240px,calc(100% - 40px));
+}
+.rockstar-real-hero-copy{
+  width:min(560px,100%);
+  padding:68px 0 54px;
+}
+.rockstar-real-kicker{
+  color:var(--rs-gold-2);
+  font-size:14px;
+  font-weight:800;
+  letter-spacing:3px;
+}
+.rockstar-real-hero h1{
+  margin:12px 0 22px;
+  font-family:"Oswald",sans-serif;
+  font-size:clamp(82px,10vw,142px);
+  line-height:.84;
+  color:#fff;
+  letter-spacing:-2px;
+  text-shadow:0 4px 18px rgba(0,0,0,.90);
+}
+.rockstar-gold-divider{
+  width:380px;
+  max-width:100%;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  color:var(--rs-gold);
+  margin:0 0 24px;
+}
+.rockstar-gold-divider::before,
+.rockstar-gold-divider::after{
+  content:"";
+  height:1px;
+  flex:1;
+  background:var(--rs-gold);
+}
+.rockstar-real-hero p{
+  max-width:500px;
+  color:#fff;
+  font-size:18px;
+  line-height:1.7;
+  text-shadow:0 2px 12px rgba(0,0,0,.95);
+}
+.rockstar-real-actions{
+  margin-top:24px;
+}
+.rockstar-real-actions .btn-primary{
+  border-color:var(--rs-gold-2) !important;
+  background:var(--rs-gold-2) !important;
+  color:#090909 !important;
+}
+
+/* Sección real de tienda */
+.section.collection{
+  width:min(1260px,calc(100% - 36px)) !important;
+  margin:0 auto !important;
+  padding:32px 0 70px !important;
+  background:transparent !important;
+}
+.section.collection > .container{
+  width:100% !important;
+  max-width:none !important;
+  background:transparent !important;
+}
+.section.collection .section-heading{
+  display:block !important;
+  padding:0 0 22px !important;
+  margin:0 0 18px !important;
+  background:transparent !important;
+  border:0 !important;
+  border-bottom:1px solid rgba(217,173,90,.35) !important;
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+.section.collection .section-kicker{
+  color:var(--rs-gold-2) !important;
+  text-shadow:0 2px 8px rgba(0,0,0,.95) !important;
+}
+.section.collection .section-heading h2{
+  font-size:clamp(42px,5vw,70px) !important;
+  color:#fff !important;
+  text-shadow:0 3px 14px rgba(0,0,0,.95) !important;
+}
+.section.collection .section-heading p{
+  max-width:620px;
+  margin-top:12px !important;
+  color:#fff !important;
+  font-size:16px !important;
+  text-shadow:0 2px 10px rgba(0,0,0,.95) !important;
+}
+
+/* Filtros reales */
+.store-category-filter-wrap{
+  margin:0 0 22px !important;
+  padding:14px 0 22px !important;
+  background:transparent !important;
+  border-bottom:1px solid rgba(217,173,90,.25) !important;
+}
+.store-category-filter-title{
+  color:var(--rs-gold-2) !important;
+}
+.store-category-filters{
+  justify-content:flex-start !important;
+  gap:10px !important;
+}
+.store-category-filters button{
+  min-width:110px !important;
+  background:rgba(6,8,11,.62) !important;
+  color:#fff !important;
+  border:1px solid var(--rs-border) !important;
+  backdrop-filter:blur(6px);
+  -webkit-backdrop-filter:blur(6px);
+}
+.store-category-filters button.active{
+  background:var(--rs-gold-2) !important;
+  color:#080808 !important;
+}
+
+/* PRODUCTOS: tamaño MEDIO, 3 por fila en escritorio */
+.store-product-grid{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:22px !important;
+  align-items:stretch;
+}
+.store-product-card{
+  display:flex !important;
+  flex-direction:column !important;
+  min-height:0 !important;
+  overflow:hidden;
+  border-radius:10px !important;
+  background:rgba(5,7,10,.48) !important;
+  border:1px solid rgba(217,173,90,.34) !important;
+  box-shadow:0 18px 44px rgba(0,0,0,.22) !important;
+  backdrop-filter:blur(7px) saturate(110%) !important;
+  -webkit-backdrop-filter:blur(7px) saturate(110%) !important;
+}
+.store-product-media{
+  min-height:260px !important;
+  height:260px !important;
+  background:rgba(0,0,0,.16) !important;
+  border-right:0 !important;
+  border-bottom:1px solid rgba(217,173,90,.16) !important;
+}
+.store-product-main-media{
+  height:100% !important;
+  min-height:260px !important;
+  background:transparent !important;
+}
+.store-product-main-media img,
+.store-product-media img,
+.store-product-card-main-image,
+.store-product-card-main-video{
+  width:82% !important;
+  height:82% !important;
+  max-width:82% !important;
+  max-height:82% !important;
+  object-fit:contain !important;
+  margin:auto !important;
+  display:block !important;
+  filter:drop-shadow(0 14px 16px rgba(0,0,0,.30));
+}
+.store-product-info{
+  flex:1;
+  padding:20px 20px 22px !important;
+  background:rgba(4,6,9,.18) !important;
+  color:#fff !important;
+}
+.store-product-info small{
+  color:var(--rs-gold-2) !important;
+  font-size:10px !important;
+  letter-spacing:2px !important;
+}
+.store-product-info h3{
+  margin:8px 0 8px !important;
+  color:#fff !important;
+  font-size:clamp(25px,2.3vw,34px) !important;
+  line-height:1.05 !important;
+  text-shadow:0 2px 9px rgba(0,0,0,.95) !important;
+}
+.store-product-price{
+  margin:0 0 12px !important;
+  color:var(--rs-gold-2) !important;
+  font-size:21px !important;
+}
+.store-product-info p{
+  font-size:14px !important;
+  line-height:1.5 !important;
+  color:#f7f7f7 !important;
+}
+.store-product-meta{
+  padding-top:12px !important;
+  margin-top:auto !important;
+}
+.store-product-info .btn,
+.product-whatsapp{
+  min-height:42px !important;
+  padding:0 14px !important;
+  font-size:11px !important;
+}
+
+/* CARRITO: panel compacto arriba a la derecha, NO gigante */
+.cart-drawer{
+  position:fixed !important;
+  top:86px !important;
+  right:18px !important;
+  bottom:auto !important;
+  left:auto !important;
+  width:min(390px,calc(100vw - 28px)) !important;
+  height:auto !important;
+  max-height:72vh !important;
+  border:1px solid rgba(217,173,90,.35) !important;
+  border-radius:10px !important;
+  background:rgba(7,9,12,.96) !important;
+  transform:translateY(-14px) scale(.98) !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  transition:.22s ease !important;
+  box-shadow:0 24px 70px rgba(0,0,0,.48) !important;
+  overflow:hidden !important;
+}
+.cart-drawer.open{
+  transform:translateY(0) scale(1) !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+.cart-header{
+  padding:16px 18px !important;
+}
+.cart-header h3{
+  font-size:22px !important;
+}
+.cart-items{
+  max-height:42vh !important;
+  padding:10px 16px !important;
+}
+.cart-item{
+  grid-template-columns:48px minmax(0,1fr) auto !important;
+  padding:12px 0 !important;
+}
+.cart-item-thumb{
+  width:48px !important;
+  height:48px !important;
+}
+.cart-footer{
+  padding:14px 16px !important;
+}
+.cart-total-row{
+  margin-bottom:12px !important;
+  font-size:16px !important;
+}
+.drawer-backdrop{
+  background:rgba(0,0,0,.22) !important;
+}
+
+/* footer siempre al final */
+.site-footer,
+footer{
+  position:relative !important;
+  margin-top:36px !important;
+  background:rgba(3,5,8,.84) !important;
+}
+
+/* Responsive */
+@media(max-width:1050px){
+  .store-product-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+@media(max-width:720px){
+  body{
+    padding-top:68px !important;
+  }
+  .rockstar-real-hero{
+    min-height:420px;
+  }
+  .rockstar-real-hero-copy{
+    padding:54px 0 36px;
+  }
+  .rockstar-real-hero h1{
+    font-size:clamp(68px,21vw,96px);
+  }
+  .store-product-grid{
+    grid-template-columns:1fr !important;
+  }
+  .store-product-card{
+    max-width:560px;
+    margin-inline:auto;
+  }
+  .store-product-media,
+  .store-product-main-media{
+    height:250px !important;
+    min-height:250px !important;
+  }
+  .store-product-main-media img,
+  .store-product-media img,
+  .store-product-card-main-image,
+  .store-product-card-main-video{
+    width:86% !important;
+    height:86% !important;
+    max-width:86% !important;
+    max-height:86% !important;
+  }
+  .cart-drawer{
+    top:74px !important;
+    right:10px !important;
+    width:calc(100vw - 20px) !important;
+    max-height:78vh !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V15 — CORRECCIÓN DEFINITIVA DE FUNCIONAMIENTO
+   ========================================================== */
+
+/* ----- FONDO: solo escena, nunca una maqueta ----- */
+html{
+  background:#05070a !important;
+}
+body.rockstar-v15{
+  margin:0 !important;
+  padding-top:76px !important;
+  background:transparent !important;
+  min-height:100vh !important;
+}
+body.rockstar-v15 > .rockstar-global-bg{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  display:block !important;
+  pointer-events:none !important;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.30)),
+    url("assets/media/rockstar-poster.jpg") center center / cover no-repeat !important;
+}
+body.rockstar-v15 > .rockstar-global-bg .rockstar-global-fallback{
+  position:absolute !important;
+  inset:0 !important;
+  background:url("assets/media/rockstar-poster.jpg") center center / cover no-repeat !important;
+}
+body.rockstar-v15 > .rockstar-global-bg .rockstar-global-video{
+  display:none !important;
+}
+body.rockstar-v15 > .rockstar-global-bg .rockstar-global-overlay{
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.26)),
+    linear-gradient(90deg,rgba(0,0,0,.10),transparent 48%,rgba(0,0,0,.12)) !important;
+}
+
+/* El contenido NORMAL sí es relativo */
+body.rockstar-v15 > main,
+body.rockstar-v15 > footer,
+body.rockstar-v15 > .checkout-modal,
+body.rockstar-v15 > .product-viewer{
+  position:relative !important;
+  z-index:2 !important;
+}
+
+/* ----- MENÚ: FIJO DE VERDAD ----- */
+body.rockstar-v15 > header.site-header{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:auto !important;
+  width:100% !important;
+  height:76px !important;
+  z-index:20000 !important;
+  margin:0 !important;
+  background:rgba(2,4,7,.82) !important;
+  border-bottom:1px solid rgba(217,173,90,.24) !important;
+  backdrop-filter:blur(14px) saturate(120%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(120%) !important;
+}
+body.rockstar-v15 > header.site-header .nav-wrap{
+  height:76px !important;
+}
+body.rockstar-v15 #inicio,
+body.rockstar-v15 #coleccion,
+body.rockstar-v15 #contacto{
+  scroll-margin-top:90px !important;
+}
+
+/* ----- HERO REAL: así se ve la tienda, no es parte del fondo ----- */
+body.rockstar-v15 .rockstar-real-hero{
+  min-height:430px !important;
+  display:flex !important;
+  align-items:center !important;
+  background:transparent !important;
+}
+body.rockstar-v15 .rockstar-real-hero-copy{
+  padding:58px 0 46px !important;
+}
+body.rockstar-v15 .rockstar-real-hero h1{
+  font-size:clamp(78px,9vw,130px) !important;
+}
+body.rockstar-v15 .rockstar-real-hero p{
+  max-width:520px !important;
+}
+
+/* ----- TIENDA: sin repetir otro encabezado gigante ----- */
+body.rockstar-v15 .section.collection{
+  width:min(1320px,calc(100% - 36px)) !important;
+  margin:0 auto !important;
+  padding:18px 0 62px !important;
+  background:transparent !important;
+}
+body.rockstar-v15 .section.collection > .container{
+  width:100% !important;
+  max-width:none !important;
+  background:transparent !important;
+}
+body.rockstar-v15 .section.collection .section-heading{
+  display:none !important;
+}
+
+/* Filtros reales, pequeños y alineados */
+body.rockstar-v15 .store-category-filter-wrap{
+  margin:0 0 20px !important;
+  padding:12px 0 20px !important;
+  background:transparent !important;
+  border-bottom:1px solid rgba(217,173,90,.25) !important;
+}
+body.rockstar-v15 .store-category-filter-title{
+  color:#edc878 !important;
+  margin-bottom:10px !important;
+}
+body.rockstar-v15 .store-category-filters{
+  justify-content:flex-start !important;
+  gap:9px !important;
+}
+body.rockstar-v15 .store-category-filters button{
+  min-width:105px !important;
+  min-height:42px !important;
+  padding:0 18px !important;
+  background:rgba(5,7,10,.62) !important;
+  border:1px solid rgba(217,173,90,.42) !important;
+  color:#fff !important;
+}
+body.rockstar-v15 .store-category-filters button.active{
+  background:#e4ba68 !important;
+  color:#090909 !important;
+}
+
+/* ----- PRODUCTOS REALES: tamaño MEDIO ----- */
+body.rockstar-v15 .store-product-grid{
+  display:grid !important;
+  grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+  gap:20px !important;
+  align-items:stretch !important;
+}
+body.rockstar-v15 .store-product-card{
+  display:flex !important;
+  flex-direction:column !important;
+  min-height:0 !important;
+  border-radius:10px !important;
+  overflow:hidden !important;
+  background:rgba(5,7,10,.50) !important;
+  border:1px solid rgba(217,173,90,.32) !important;
+  box-shadow:0 16px 42px rgba(0,0,0,.22) !important;
+  backdrop-filter:blur(7px) saturate(108%) !important;
+  -webkit-backdrop-filter:blur(7px) saturate(108%) !important;
+}
+body.rockstar-v15 .store-product-media{
+  height:235px !important;
+  min-height:235px !important;
+  background:rgba(0,0,0,.12) !important;
+  border-right:0 !important;
+  border-bottom:1px solid rgba(217,173,90,.15) !important;
+}
+body.rockstar-v15 .store-product-main-media{
+  height:235px !important;
+  min-height:235px !important;
+  background:transparent !important;
+}
+body.rockstar-v15 .store-product-main-media img,
+body.rockstar-v15 .store-product-media img,
+body.rockstar-v15 .store-product-card-main-image,
+body.rockstar-v15 .store-product-card-main-video{
+  width:78% !important;
+  height:78% !important;
+  max-width:78% !important;
+  max-height:78% !important;
+  object-fit:contain !important;
+  margin:auto !important;
+}
+body.rockstar-v15 .store-product-info{
+  flex:1 !important;
+  padding:18px 18px 20px !important;
+  background:rgba(3,5,8,.18) !important;
+}
+body.rockstar-v15 .store-product-info h3{
+  font-size:clamp(23px,2vw,31px) !important;
+  line-height:1.04 !important;
+  margin:7px 0 7px !important;
+}
+body.rockstar-v15 .store-product-price{
+  font-size:20px !important;
+  margin-bottom:9px !important;
+}
+body.rockstar-v15 .store-product-info p{
+  font-size:13px !important;
+  line-height:1.48 !important;
+}
+body.rockstar-v15 .store-product-info .btn,
+body.rockstar-v15 .product-whatsapp{
+  min-height:40px !important;
+  padding:0 12px !important;
+  font-size:10px !important;
+}
+
+/* ----- CARRITO: PANEL LATERAL SUPERIOR, jamás en el flujo ----- */
+body.rockstar-v15 > aside.cart-drawer{
+  position:fixed !important;
+  top:86px !important;
+  right:18px !important;
+  left:auto !important;
+  bottom:auto !important;
+  z-index:30000 !important;
+  width:min(390px,calc(100vw - 28px)) !important;
+  height:auto !important;
+  max-height:76vh !important;
+  margin:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  background:rgba(7,9,12,.98) !important;
+  border:1px solid rgba(217,173,90,.35) !important;
+  border-radius:10px !important;
+  box-shadow:0 25px 80px rgba(0,0,0,.52) !important;
+  overflow:hidden !important;
+
+  /* cerrado */
+  transform:translateY(-12px) scale(.985) !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+  transition:transform .20s ease,opacity .20s ease,visibility .20s ease !important;
+}
+body.rockstar-v15 > aside.cart-drawer.open{
+  transform:translateY(0) scale(1) !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+body.rockstar-v15 > aside.cart-drawer .cart-header{
+  flex:0 0 auto !important;
+  padding:15px 17px !important;
+}
+body.rockstar-v15 > aside.cart-drawer .cart-header h3{
+  font-size:22px !important;
+}
+body.rockstar-v15 > aside.cart-drawer .cart-items{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  max-height:43vh !important;
+  overflow-y:auto !important;
+  padding:8px 16px !important;
+}
+body.rockstar-v15 > aside.cart-drawer .cart-item{
+  grid-template-columns:52px minmax(0,1fr) auto !important;
+  gap:10px !important;
+  padding:11px 0 !important;
+}
+body.rockstar-v15 > aside.cart-drawer .cart-item-thumb{
+  width:52px !important;
+  height:52px !important;
+}
+body.rockstar-v15 > aside.cart-drawer .cart-footer{
+  flex:0 0 auto !important;
+  padding:13px 16px !important;
+}
+body.rockstar-v15 > aside.cart-drawer .cart-total-row{
+  margin-bottom:10px !important;
+  font-size:16px !important;
+}
+
+/* backdrop también fixed real */
+body.rockstar-v15 > .drawer-backdrop{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:25000 !important;
+  background:rgba(0,0,0,.24) !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+body.rockstar-v15 > .drawer-backdrop.show{
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+
+/* Footer sí pertenece al final del flujo */
+body.rockstar-v15 > footer{
+  position:relative !important;
+  z-index:2 !important;
+  margin-top:36px !important;
+  background:rgba(3,5,8,.86) !important;
+}
+
+/* ----- RESPONSIVE ----- */
+@media(max-width:1050px){
+  body.rockstar-v15 .store-product-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+  }
+}
+@media(max-width:720px){
+  body.rockstar-v15{
+    padding-top:68px !important;
+  }
+  body.rockstar-v15 > header.site-header,
+  body.rockstar-v15 > header.site-header .nav-wrap{
+    height:68px !important;
+  }
+  body.rockstar-v15 .rockstar-real-hero{
+    min-height:390px !important;
+  }
+  body.rockstar-v15 .rockstar-real-hero-copy{
+    padding:42px 0 30px !important;
+  }
+  body.rockstar-v15 .store-product-grid{
+    grid-template-columns:1fr !important;
+  }
+  body.rockstar-v15 .store-product-card{
+    max-width:540px !important;
+    width:100% !important;
+    margin-inline:auto !important;
+  }
+  body.rockstar-v15 .store-product-media,
+  body.rockstar-v15 .store-product-main-media{
+    height:225px !important;
+    min-height:225px !important;
+  }
+  body.rockstar-v15 > aside.cart-drawer{
+    top:76px !important;
+    right:10px !important;
+    width:calc(100vw - 20px) !important;
+    max-height:80vh !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V16 — FONDO LIMPIO + CHECKOUT + MÚSICA
+   El carrito de V15 NO SE MODIFICA.
+   ========================================================== */
+
+body.rockstar-v16{
+  margin:0 !important;
+  padding-top:76px !important;
+  background:transparent !important;
+  min-height:100vh !important;
+}
+
+/* Fondo limpio, sin ningún elemento falso de tienda */
+body.rockstar-v16 > .rockstar-global-bg{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:0 !important;
+  display:block !important;
+  pointer-events:none !important;
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.27)),
+    url("assets/media/rockstar-poster.jpg") center center / cover no-repeat !important;
+}
+body.rockstar-v16 > .rockstar-global-bg .rockstar-global-fallback{
+  position:absolute !important;
+  inset:0 !important;
+  background:url("assets/media/rockstar-poster.jpg") center center / cover no-repeat !important;
+}
+body.rockstar-v16 > .rockstar-global-bg .rockstar-global-video{
+  display:none !important;
+}
+body.rockstar-v16 > .rockstar-global-bg .rockstar-global-overlay{
+  background:
+    linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.24)),
+    linear-gradient(90deg,rgba(0,0,0,.10),transparent 48%,rgba(0,0,0,.12)) !important;
+}
+
+/* contenido normal */
+body.rockstar-v16 > main,
+body.rockstar-v16 > footer{
+  position:relative !important;
+  z-index:2 !important;
+}
+
+/* Menú fijo igual al aprobado */
+body.rockstar-v16 > header.site-header{
+  position:fixed !important;
+  top:0 !important;
+  left:0 !important;
+  right:0 !important;
+  bottom:auto !important;
+  width:100% !important;
+  height:76px !important;
+  z-index:20000 !important;
+  background:rgba(2,4,7,.82) !important;
+  border-bottom:1px solid rgba(217,173,90,.24) !important;
+  backdrop-filter:blur(14px) saturate(120%) !important;
+  -webkit-backdrop-filter:blur(14px) saturate(120%) !important;
+}
+
+/* Botón música integrado al header */
+body.rockstar-v16 .rockstar-sound{
+  position:static !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:5px !important;
+  min-height:36px !important;
+  padding:0 11px !important;
+  margin:0 !important;
+  border:1px solid rgba(217,173,90,.38) !important;
+  border-radius:4px !important;
+  background:rgba(0,0,0,.25) !important;
+  color:#edc878 !important;
+  font:700 9px 'Montserrat',sans-serif !important;
+  letter-spacing:.8px !important;
+  cursor:pointer !important;
+}
+body.rockstar-v16 .rockstar-sound.playing{
+  background:#edc878 !important;
+  color:#090909 !important;
+}
+
+/* FORMULARIO CHECKOUT: esta era la regla que estaba rota */
+body.rockstar-v16 > .checkout-modal{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:40000 !important;
+  display:none !important;
+  align-items:flex-start !important;
+  justify-content:center !important;
+  padding:28px !important;
+  overflow:auto !important;
+  margin:0 !important;
+  background:rgba(0,0,0,.76) !important;
+  color:#111 !important;
+  backdrop-filter:blur(8px) !important;
+  -webkit-backdrop-filter:blur(8px) !important;
+}
+body.rockstar-v16 > .checkout-modal.open{
+  display:flex !important;
+}
+body.rockstar-v16 > .checkout-modal .checkout-panel{
+  position:relative !important;
+  width:min(820px,100%) !important;
+  margin:auto !important;
+  background:#f4f1ec !important;
+  color:#111 !important;
+  border:1px solid #d9d5cf !important;
+  box-shadow:0 30px 90px rgba(0,0,0,.60) !important;
+}
+body.rockstar-v16 > .checkout-modal .checkout-panel *{
+  color:inherit;
+}
+body.rockstar-v16 > .checkout-modal .checkout-summary,
+body.rockstar-v16 > .checkout-modal .checkout-summary *{
+  color:#fff !important;
+}
+body.rockstar-v16 > .checkout-modal .checkout-header .icon-button{
+  color:#111 !important;
+}
+body.rockstar-v16 > .checkout-modal .checkout-actions .btn-primary{
+  background:#111 !important;
+  color:#fff !important;
+  border-color:#111 !important;
+}
+body.rockstar-v16 > .checkout-modal .checkout-actions .btn-secondary{
+  background:transparent !important;
+  color:#111 !important;
+  border-color:#111 !important;
+}
+
+@media(max-width:720px){
+  body.rockstar-v16{
+    padding-top:68px !important;
+  }
+  body.rockstar-v16 > header.site-header{
+    height:68px !important;
+  }
+  body.rockstar-v16 .rockstar-sound span{
+    display:none !important;
+  }
+  body.rockstar-v16 > .checkout-modal{
+    padding:0 !important;
+  }
+  body.rockstar-v16 > .checkout-modal .checkout-panel{
+    min-height:100vh !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V16.1 — SOLO AJUSTE DE CARRITO / CHECKOUT
+   No modifica fondo, música, productos ni diseño.
+   ========================================================== */
+
+/* CARRITO:
+   misma apariencia de V15, pero aplicada correctamente a body.rockstar-v16 */
+body.rockstar-v16 > aside.cart-drawer{
+  position:fixed !important;
+  top:86px !important;
+  right:18px !important;
+  bottom:auto !important;
+  left:auto !important;
+  z-index:30000 !important;
+
+  width:min(390px,calc(100vw - 28px)) !important;
+  height:auto !important;
+  max-height:76vh !important;
+  margin:0 !important;
+
+  display:flex !important;
+  flex-direction:column !important;
+
+  background:rgba(7,9,12,.98) !important;
+  border:1px solid rgba(217,173,90,.35) !important;
+  border-radius:10px !important;
+  box-shadow:0 25px 80px rgba(0,0,0,.52) !important;
+  overflow:hidden !important;
+
+  transform:translateY(-12px) scale(.985) !important;
+  opacity:0 !important;
+  visibility:hidden !important;
+  pointer-events:none !important;
+
+  transition:
+    transform .20s ease,
+    opacity .20s ease,
+    visibility .20s ease !important;
+}
+
+body.rockstar-v16 > aside.cart-drawer.open{
+  transform:translateY(0) scale(1) !important;
+  opacity:1 !important;
+  visibility:visible !important;
+  pointer-events:auto !important;
+}
+
+/* Se conserva la estructura visual del carrito aprobado */
+body.rockstar-v16 > aside.cart-drawer .cart-header{
+  flex:0 0 auto !important;
+  padding:15px 17px !important;
+}
+body.rockstar-v16 > aside.cart-drawer .cart-header h3{
+  font-size:22px !important;
+}
+body.rockstar-v16 > aside.cart-drawer .cart-items{
+  flex:1 1 auto !important;
+  min-height:0 !important;
+  max-height:43vh !important;
+  overflow-y:auto !important;
+  padding:8px 16px !important;
+}
+body.rockstar-v16 > aside.cart-drawer .cart-item{
+  grid-template-columns:52px minmax(0,1fr) auto !important;
+  gap:10px !important;
+  padding:11px 0 !important;
+}
+body.rockstar-v16 > aside.cart-drawer .cart-item-thumb{
+  width:52px !important;
+  height:52px !important;
+}
+body.rockstar-v16 > aside.cart-drawer .cart-footer{
+  flex:0 0 auto !important;
+  padding:13px 16px !important;
+}
+body.rockstar-v16 > aside.cart-drawer .cart-total-row{
+  margin-bottom:10px !important;
+  font-size:16px !important;
+}
+
+/* Fondo detrás del carrito, también fijo al viewport */
+body.rockstar-v16 > .drawer-backdrop{
+  position:fixed !important;
+  inset:0 !important;
+  z-index:25000 !important;
+  background:rgba(0,0,0,.24) !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+body.rockstar-v16 > .drawer-backdrop.show{
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+
+/* CHECKOUT:
+   debe abrir exactamente sobre la pantalla visible actual,
+   sin importar en qué altura de la página esté el cliente */
+body.rockstar-v16 > .checkout-modal{
+  position:fixed !important;
+  inset:0 !important;
+  top:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  left:0 !important;
+  z-index:40000 !important;
+  margin:0 !important;
+  overflow:auto !important;
+}
+
+/* En celular conserva comportamiento dentro de la pantalla actual */
+@media(max-width:720px){
+  body.rockstar-v16 > aside.cart-drawer{
+    top:76px !important;
+    right:10px !important;
+    width:calc(100vw - 20px) !important;
+    max-height:80vh !important;
+  }
+}
+
+
+/* ROCKSTAR V17 — stock público */
+.store-stock-badge{
+  display:inline-flex;
+  align-items:center;
+  min-height:26px;
+  margin:2px 0 12px;
+  padding:0 9px;
+  border-radius:3px;
+  font-size:9px;
+  font-weight:900;
+  letter-spacing:1px;
+}
+.stock-low-badge{
+  background:#edc878;
+  color:#111;
+  text-shadow:none;
+}
+.stock-out-badge{
+  background:#a92e2e;
+  color:#fff;
+  text-shadow:none;
+}
+.store-product-info .btn-primary:disabled{
+  opacity:.45 !important;
+  cursor:not-allowed !important;
+}
+
+
+/* ROCKSTAR V17.1 — visor de fotos con zoom */
+.store-product-card img,
+.product-card img,
+[data-product-card] img,
+.store-product-media img{cursor:zoom-in}
+html.rockstar-lightbox-open,html.rockstar-lightbox-open body{overflow:hidden}
+.rockstar-photo-lightbox{
+  position:fixed; inset:0; z-index:999999;
+  display:none; align-items:center; justify-content:center;
+  background:rgba(0,0,0,.92); backdrop-filter:blur(5px);
+}
+.rockstar-photo-lightbox.is-open{display:flex}
+.rockstar-lightbox-stage{
+  width:min(88vw,1100px); height:86vh;
+  display:flex; align-items:center; justify-content:center;
+  overflow:auto; overscroll-behavior:contain;
+}
+.rockstar-lightbox-image{
+  display:block; max-width:100%; max-height:100%;
+  width:auto; height:auto; object-fit:contain;
+  cursor:zoom-in; transition:transform .18s ease;
+}
+.rockstar-lightbox-image.is-zoomed{
+  max-width:none; max-height:none;
+  width:auto; height:auto;
+  min-width:min(1400px,160vw);
+  cursor:zoom-out;
+}
+.rockstar-lightbox-close,.rockstar-lightbox-nav{
+  position:fixed; z-index:2; border:1px solid rgba(255,255,255,.35);
+  background:rgba(15,15,15,.72); color:#fff;
+  width:48px; height:48px; border-radius:50%;
+  font-size:32px; line-height:1; cursor:pointer;
+}
+.rockstar-lightbox-close{top:18px;right:18px}
+.rockstar-lightbox-nav{top:50%;transform:translateY(-50%)}
+.rockstar-lightbox-nav.prev{left:18px}
+.rockstar-lightbox-nav.next{right:18px}
+.rockstar-lightbox-count{
+  position:fixed; left:50%; bottom:18px; transform:translateX(-50%);
+  color:#fff; background:rgba(15,15,15,.72);
+  border:1px solid rgba(255,255,255,.25);
+  padding:7px 12px; border-radius:999px; font-size:12px;
+}
+@media(max-width:700px){
+  .rockstar-lightbox-stage{width:100vw;height:82vh}
+  .rockstar-lightbox-nav{width:40px;height:40px;font-size:26px}
+  .rockstar-lightbox-nav.prev{left:8px}.rockstar-lightbox-nav.next{right:8px}
+  .rockstar-lightbox-close{top:12px;right:12px;width:42px;height:42px}
+  .rockstar-lightbox-image.is-zoomed{min-width:180vw}
+}
+
+
+/* ==========================================================
+   ROCKSTAR V17.2 — VISOR DE PRODUCTOS CORREGIDO
+   ========================================================== */
+
+/* El visor anterior queda inutilizado por compatibilidad */
+#rockstarPhotoLightbox{display:none !important}
+
+html.rpv172-lock,
+body.rpv172-lock{
+  overflow:hidden !important;
+}
+
+.rockstar-product-viewer-v172{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100dvh !important;
+  z-index:9999999 !important;
+  display:none !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin:0 !important;
+  padding:0 !important;
+  transform:none !important;
+  isolation:isolate;
+}
+
+.rockstar-product-viewer-v172.is-open{
+  display:flex !important;
+}
+
+.rpv172-backdrop{
+  position:absolute !important;
+  inset:0 !important;
+  background:rgba(0,0,0,.92) !important;
+  backdrop-filter:blur(7px);
+  -webkit-backdrop-filter:blur(7px);
+}
+
+.rpv172-dialog{
+  position:relative !important;
+  z-index:2 !important;
+  width:min(1180px,94vw) !important;
+  height:min(860px,92dvh) !important;
+  display:grid !important;
+  grid-template-rows:auto minmax(0,1fr) auto !important;
+  overflow:hidden !important;
+  border:1px solid rgba(229,195,143,.38) !important;
+  border-radius:12px !important;
+  background:rgba(7,9,12,.98) !important;
+  box-shadow:0 35px 120px rgba(0,0,0,.70) !important;
+  margin:0 !important;
+  transform:none !important;
+}
+
+.rpv172-toolbar{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:space-between !important;
+  gap:12px !important;
+  min-height:58px !important;
+  padding:10px 12px 10px 18px !important;
+  border-bottom:1px solid rgba(229,195,143,.22) !important;
+  color:#fff !important;
+}
+
+.rpv172-counter{
+  font-size:12px !important;
+  font-weight:800 !important;
+  letter-spacing:1px !important;
+  color:#e5c38f !important;
+}
+
+.rpv172-tools{
+  display:flex !important;
+  align-items:center !important;
+  gap:7px !important;
+}
+
+.rpv172-tool,
+.rpv172-close{
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:40px !important;
+  height:40px !important;
+  padding:0 !important;
+  border:1px solid rgba(255,255,255,.26) !important;
+  border-radius:6px !important;
+  background:rgba(255,255,255,.06) !important;
+  color:#fff !important;
+  font-size:22px !important;
+  cursor:pointer !important;
+}
+
+.rpv172-close{
+  margin-left:5px !important;
+  font-size:28px !important;
+}
+
+.rpv172-scale{
+  min-width:52px !important;
+  text-align:center !important;
+  color:#e5c38f !important;
+  font-size:11px !important;
+  font-weight:800 !important;
+}
+
+.rpv172-canvas{
+  position:relative !important;
+  min-height:0 !important;
+  display:grid !important;
+  grid-template-columns:64px minmax(0,1fr) 64px !important;
+  align-items:stretch !important;
+  overflow:hidden !important;
+  background:
+    radial-gradient(circle at center,rgba(255,255,255,.055),rgba(255,255,255,0) 62%),
+    #050607 !important;
+}
+
+.rpv172-image-area{
+  position:relative !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  overflow:hidden !important;
+  cursor:zoom-in !important;
+  touch-action:none !important;
+  user-select:none !important;
+}
+
+.rpv172-image-area.is-dragging{
+  cursor:grabbing !important;
+}
+
+.rpv172-image{
+  display:block !important;
+  width:auto !important;
+  height:auto !important;
+  max-width:94% !important;
+  max-height:94% !important;
+  object-fit:contain !important;
+  transform-origin:center center !important;
+  transition:transform .12s ease-out !important;
+  will-change:transform !important;
+  user-select:none !important;
+  -webkit-user-drag:none !important;
+  cursor:zoom-in !important;
+}
+
+.rpv172-image.is-zoomed{
+  max-width:94% !important;
+  max-height:94% !important;
+  cursor:grab !important;
+}
+
+.rpv172-nav{
+  align-self:center !important;
+  justify-self:center !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  width:46px !important;
+  height:64px !important;
+  padding:0 !important;
+  border:1px solid rgba(255,255,255,.22) !important;
+  border-radius:8px !important;
+  background:rgba(255,255,255,.06) !important;
+  color:#fff !important;
+  font-size:40px !important;
+  cursor:pointer !important;
+  z-index:3 !important;
+}
+
+.rpv172-help{
+  min-height:44px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:8px 16px !important;
+  border-top:1px solid rgba(229,195,143,.18) !important;
+  color:#b8b8b8 !important;
+  text-align:center !important;
+  font-size:11px !important;
+  line-height:1.35 !important;
+}
+
+@media(max-width:720px){
+  .rockstar-product-viewer-v172{
+    align-items:stretch !important;
+  }
+
+  .rpv172-dialog{
+    width:100vw !important;
+    height:100dvh !important;
+    max-width:none !important;
+    max-height:none !important;
+    border:0 !important;
+    border-radius:0 !important;
+  }
+
+  .rpv172-toolbar{
+    min-height:54px !important;
+    padding:7px 8px 7px 12px !important;
+  }
+
+  .rpv172-tool,
+  .rpv172-close{
+    width:36px !important;
+    height:36px !important;
+  }
+
+  .rpv172-canvas{
+    grid-template-columns:44px minmax(0,1fr) 44px !important;
+  }
+
+  .rpv172-nav{
+    width:38px !important;
+    height:56px !important;
+    font-size:34px !important;
+  }
+
+  .rpv172-image{
+    max-width:98% !important;
+    max-height:96% !important;
+  }
+
+  .rpv172-help{
+    min-height:38px !important;
+    padding:6px 10px !important;
+    font-size:10px !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V17.3 — EL VISOR ANTIGUO QUEDA DESACTIVADO
+   El visor V17.2 (fixed + zoom con mouse) permanece intacto.
+   ========================================================== */
+#lightbox.lightbox,
+#lightbox.lightbox.open{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  position:fixed !important;
+  inset:0 !important;
+}
+
+/* El botón completo VER PRODUCTO comunica que abre visor */
+.store-product-image{
+  cursor:zoom-in !important;
+}
+.store-product-media-label{
+  pointer-events:none !important;
+}
+
+
+/* ==========================================================
+   ROCKSTAR V17.4
+   SOLO: VISOR FIJO REAL + TARJETAS MÁS TRANSPARENTES
+   ========================================================== */
+
+/* El visor está ahora como hijo directo de <html>, no de body.
+   Por eso ninguna regla antigua de body > * puede empujarlo hacia abajo. */
+html > #rockstarProductViewerV172.rockstar-product-viewer-v172{
+  position:fixed !important;
+  inset:0 !important;
+  top:0 !important;
+  right:0 !important;
+  bottom:0 !important;
+  left:0 !important;
+  width:100vw !important;
+  height:100dvh !important;
+  min-width:100vw !important;
+  min-height:100dvh !important;
+  max-width:none !important;
+  max-height:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  z-index:2147483000 !important;
+  transform:none !important;
+  translate:none !important;
+  overflow:hidden !important;
+  pointer-events:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+}
+
+html > #rockstarProductViewerV172.rockstar-product-viewer-v172.is-open{
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  visibility:visible !important;
+  opacity:1 !important;
+  pointer-events:auto !important;
+}
+
+/* El cuadro del visor siempre queda dentro de la pantalla visible */
+html > #rockstarProductViewerV172 .rpv172-dialog{
+  position:relative !important;
+  top:auto !important;
+  left:auto !important;
+  right:auto !important;
+  bottom:auto !important;
+  width:min(1120px,94vw) !important;
+  height:min(820px,90dvh) !important;
+  max-width:94vw !important;
+  max-height:90dvh !important;
+  margin:0 !important;
+  transform:none !important;
+}
+
+/* TARJETAS:
+   mantener exactamente su estructura/tamaño, solo bajar opacidad del fondo */
+body.rockstar-v16 .store-product-card,
+body.rockstar-v15 .store-product-card,
+.store-product-card{
+  background:rgba(7,9,12,.24) !important;
+  border-color:rgba(217,173,90,.34) !important;
+  backdrop-filter:blur(3px) saturate(105%) !important;
+  -webkit-backdrop-filter:blur(3px) saturate(105%) !important;
+}
+
+body.rockstar-v16 .store-product-media,
+body.rockstar-v16 .store-product-main-media,
+body.rockstar-v15 .store-product-media,
+body.rockstar-v15 .store-product-main-media,
+.store-product-media,
+.store-product-main-media{
+  background:rgba(255,255,255,.055) !important;
+}
+
+body.rockstar-v16 .store-product-info,
+body.rockstar-v15 .store-product-info,
+.store-product-info{
+  background:rgba(3,5,8,.18) !important;
+}
+
+/* Evitar que cualquier lightbox viejo vuelva a aparecer abajo */
+#lightbox,
+#rockstarPhotoLightbox{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+@media(max-width:720px){
+  html > #rockstarProductViewerV172.rockstar-product-viewer-v172{
+    width:100vw !important;
+    height:100dvh !important;
+  }
+
+  html > #rockstarProductViewerV172 .rpv172-dialog{
+    width:100vw !important;
+    height:100dvh !important;
+    max-width:none !important;
+    max-height:none !important;
+    border-radius:0 !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V17.5 — TRANSPARENCIA APROBADA
+   ÚNICO CAMBIO: hacer visibles el video/fondo detrás de tarjetas
+   ========================================================== */
+
+/* Tarjeta completa: mucho más transparente, sin cambiar tamaño ni estructura */
+body.rockstar-v16 .store-product-card,
+body.rockstar-v15 .store-product-card,
+.store-product-card{
+  background:rgba(7,9,12,.10) !important;
+  border-color:rgba(255,255,255,.28) !important;
+  box-shadow:0 14px 38px rgba(0,0,0,.14) !important;
+  backdrop-filter:blur(1.5px) saturate(103%) !important;
+  -webkit-backdrop-filter:blur(1.5px) saturate(103%) !important;
+}
+
+/* Área de la fotografía: casi transparente para ver claramente el fondo/video */
+body.rockstar-v16 .store-product-media,
+body.rockstar-v16 .store-product-main-media,
+body.rockstar-v15 .store-product-media,
+body.rockstar-v15 .store-product-main-media,
+.store-product-media,
+.store-product-main-media{
+  background:rgba(255,255,255,.025) !important;
+  border-color:rgba(255,255,255,.14) !important;
+  box-shadow:none !important;
+}
+
+/* Información inferior: transparente pero aún legible */
+body.rockstar-v16 .store-product-info,
+body.rockstar-v15 .store-product-info,
+.store-product-info{
+  background:rgba(3,5,8,.08) !important;
+}
+
+/* Mantener texto y botones perfectamente legibles */
+.store-product-info h3,
+.store-product-price,
+.store-product-info p,
+.store-product-meta,
+.store-product-meta strong{
+  text-shadow:0 2px 8px rgba(0,0,0,.72) !important;
+}
+
+.store-product-info .btn,
+.store-product-info .btn-primary,
+.product-whatsapp{
+  backdrop-filter:blur(2px) !important;
+  -webkit-backdrop-filter:blur(2px) !important;
+}
+
+/* Las imágenes permanecen con su opacidad normal */
+.store-product-card img,
+.store-product-main-media img,
+.store-product-media img{
+  opacity:1 !important;
+}
+
+
+/* ==========================================================
+   ROCKSTAR V17.6 — TRANSPARENCIA REAL
+   Corrige fondos blancos heredados dentro de la tarjeta.
+   NO cambia ninguna función.
+   ========================================================== */
+
+/* 1) Tarjeta exterior */
+.store-product-card{
+  background:rgba(5,7,10,.10) !important;
+  border:1px solid rgba(255,255,255,.30) !important;
+  box-shadow:0 14px 38px rgba(0,0,0,.12) !important;
+  backdrop-filter:blur(1px) saturate(102%) !important;
+  -webkit-backdrop-filter:blur(1px) saturate(102%) !important;
+}
+
+/* 2) Columna que contiene foto + miniaturas:
+      esta regla antigua era uno de los fondos blancos principales */
+.store-product-media-column{
+  background:rgba(255,255,255,.025) !important;
+}
+
+/* 3) Botón/área principal de fotografía:
+      elimina el #f5f5f5 antiguo */
+.store-product-image{
+  background:rgba(255,255,255,.018) !important;
+  border:0 !important;
+}
+
+/* 4) Selector de miniaturas:
+      elimina el beige #f5f1e8 antiguo */
+.store-product-media-column .store-product-media-selector,
+.store-product-media-selector{
+  background:rgba(4,6,8,.10) !important;
+  border-top:1px solid rgba(255,255,255,.12) !important;
+}
+
+/* Miniaturas también tipo cristal */
+.store-product-media-column .store-media-thumb,
+.store-media-thumb{
+  background:rgba(255,255,255,.10) !important;
+  border-color:rgba(255,255,255,.12) !important;
+}
+.store-media-thumb.active{
+  border-color:rgba(229,195,143,.85) !important;
+}
+
+/* 5) Las fotos cargadas tienen fondo blanco dentro del JPG/PNG.
+      Multiply hace que ese blanco deje ver el video/fondo,
+      conservando visible el producto. SOLO aplica dentro de tarjetas. */
+.store-product-card .store-product-card-main-image{
+  background:transparent !important;
+  mix-blend-mode:multiply !important;
+  opacity:1 !important;
+}
+
+/* Las miniaturas conservan lectura clara */
+.store-product-card .store-media-thumb img{
+  mix-blend-mode:multiply !important;
+  background:transparent !important;
+}
+
+/* Información inferior en cristal oscuro */
+.store-product-info{
+  background:rgba(3,5,8,.09) !important;
+}
+
+/* La imagen en el visor grande NO usa blend:
+   allí debe verse con máxima fidelidad para hacer zoom. */
+#rockstarProductViewerV172 .rpv172-image{
+  mix-blend-mode:normal !important;
+  opacity:1 !important;
+}
+
+/* Si el producto es video, tampoco usar mezclas */
+.store-product-card-main-video{
+  background:rgba(0,0,0,.18) !important;
+  mix-blend-mode:normal !important;
+}
+
+/* V17.8 promociones */
+.store-promo-badge{display:inline-flex;align-items:center;min-height:25px;padding:0 9px;margin:0 0 8px;border-radius:3px;background:#e7c27b;color:#15110b;text-shadow:none!important;font-size:9px;font-weight:950;letter-spacing:1px}
+.store-product-price-promo{display:flex!important;align-items:baseline;gap:9px;flex-wrap:wrap}.store-old-price{font-size:.72em;opacity:.72;text-decoration:line-through}.store-new-price{font-weight:950}

@@ -1210,3 +1210,264 @@
 .product-admin-toolbar input,.product-admin-toolbar select{margin:0}
 @media(max-width:850px){.category-kpi-grid{grid-template-columns:repeat(2,1fr)}.category-editor-grid,.product-admin-toolbar{grid-template-columns:1fr}.category-card{align-items:flex-start;flex-direction:column}}
 @media(max-width:560px){.category-kpi-grid{grid-template-columns:1fr}}
+
+
+/* ==========================================================
+   ROCKSTAR V16.2 — FONDO Y MÚSICA DESDE ADMIN
+   ========================================================== */
+.rockstar-media-setting{
+  border-top:1px solid #e1e5ec;
+  padding-top:16px;
+}
+.rockstar-media-upload{
+  align-items:stretch;
+}
+.rockstar-media-empty{
+  display:none;
+  padding:14px;
+  text-align:center;
+  border:1px dashed #c7cfda;
+  background:#f7f9fc;
+  color:#6b7585;
+  font-size:11px;
+  border-radius:5px;
+}
+.rockstar-background-preview{
+  display:none;
+  width:100%;
+  max-width:620px;
+  max-height:260px;
+  margin:0 auto;
+  object-fit:cover;
+  border:1px solid #d9dee7;
+  border-radius:5px;
+  background:#080a0d;
+}
+.rockstar-background-video-preview{
+  aspect-ratio:16/9;
+}
+.rockstar-audio-preview{
+  display:none;
+  width:min(620px,100%);
+  margin:0 auto;
+}
+.rockstar-media-actions{
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+}
+.rockstar-media-actions .small-btn{
+  min-width:130px;
+}
+
+
+/* ROCKSTAR V16.3 — selector de fuente de audio */
+.rockstar-audio-mode-box{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+.rockstar-audio-mode-option{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  padding:14px;
+  border:1px solid #d9dee7;
+  border-radius:6px;
+  background:#f8fafc;
+  cursor:pointer;
+}
+.rockstar-audio-mode-option input{
+  margin-top:3px;
+}
+.rockstar-audio-mode-option span{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.rockstar-audio-mode-option strong{
+  font-size:12px;
+}
+.rockstar-audio-mode-option small{
+  color:#6c7583;
+  line-height:1.35;
+}
+@media(max-width:760px){
+  .rockstar-audio-mode-box{
+    grid-template-columns:1fr;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V16.4 — MI CUENTA / RECUPERACIÓN
+   ========================================================== */
+.rockstar-account-panel{margin-top:18px}
+.rockstar-account-grid{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:14px;
+}
+.rockstar-account-actions{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
+.rockstar-account-note{
+  margin-top:14px;
+  padding:12px 14px;
+  border:1px solid #dce2ea;
+  border-radius:6px;
+  background:#f7f9fc;
+  color:#4e5968;
+  font-size:12px;
+  line-height:1.5;
+}
+.login-forgot{
+  display:block;
+  width:100%;
+  margin:10px 0 0;
+  padding:8px;
+  border:0;
+  background:transparent;
+  color:#687386;
+  text-decoration:underline;
+  cursor:pointer;
+}
+.login-forgot-message{
+  max-width:420px;
+  font-size:12px;
+  line-height:1.45;
+}
+.rockstar-reset-page{
+  min-height:100vh;
+  display:grid;
+  place-items:center;
+  padding:20px;
+  background:#0b0d11;
+}
+.rockstar-reset-card{
+  width:min(460px,100%);
+  padding:28px;
+  border-radius:10px;
+  background:#fff;
+  box-shadow:0 30px 90px rgba(0,0,0,.45);
+}
+.rockstar-reset-card label{
+  display:grid;
+  gap:6px;
+  margin:14px 0;
+  font-size:11px;
+  font-weight:700;
+}
+.rockstar-reset-card input{
+  min-height:44px;
+  padding:0 12px;
+}
+@media(max-width:760px){
+  .rockstar-account-grid{grid-template-columns:1fr}
+}
+
+
+/* ROCKSTAR V17 — alertas de stock y respaldo */
+.low-stock-admin-alert{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:14px;
+  margin:0 0 14px;
+  padding:13px 14px;
+  border:1px solid #f0c36a;
+  border-radius:7px;
+  background:#fff7e5;
+  color:#704d09;
+}
+.low-stock-admin-alert[hidden]{display:none !important}
+.low-stock-admin-alert > div{
+  display:flex;
+  flex-direction:column;
+  gap:3px;
+}
+.low-stock-admin-alert strong{font-size:13px}
+.low-stock-admin-alert span{font-size:11px}
+.admin-product-card.stock-low{
+  border-color:#e4b34f !important;
+  background:#fffaf0 !important;
+}
+.admin-product-card.stock-out{
+  border-color:#d55b5b !important;
+  background:#fff3f3 !important;
+}
+.admin-stock-warning{
+  display:inline-flex;
+  align-items:center;
+  min-height:22px;
+  padding:0 7px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:800;
+  letter-spacing:.4px;
+}
+.admin-stock-warning.low{background:#fff0c7;color:#7b5700}
+.admin-stock-warning.out{background:#ffdede;color:#8d1f1f}
+.rockstar-backup-actions{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+}
+@media(max-width:700px){
+  .low-stock-admin-alert{align-items:flex-start;flex-direction:column}
+}
+
+/* ROCKSTAR V17.7 — editor de políticas */
+.rockstar-policy-admin{border-top:1px solid rgba(255,255,255,.12);padding-top:20px}
+.rockstar-policy-tabs{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+.rockstar-policy-tabs .is-active{outline:2px solid rgba(229,195,143,.65)}
+.rockstar-policy-editor{display:none}
+.rockstar-policy-editor.is-active{display:block}
+.rockstar-policy-editor label{display:grid;gap:8px}
+.rockstar-policy-editor textarea{width:100%;min-height:240px;resize:vertical;line-height:1.55}
+
+/* V17.8 promociones */
+.promo-admin-box{grid-column:1/-1;border:1px solid #d9dee7;border-radius:8px;padding:14px;background:#fafbfc}
+.promo-admin-heading{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;margin-bottom:12px}.promo-admin-heading small{display:block;color:#6c7685;margin-top:3px}
+.promo-switch-label{display:flex!important;align-items:center;gap:7px}.promo-admin-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.promo-admin-preview{margin-top:10px;padding:9px;background:#eef2f6;border-radius:5px;font-size:11px}.admin-promo-warning{padding:3px 7px;border-radius:999px;background:#e7c27b;color:#17120a;font-size:9px;font-weight:900}
+@media(max-width:800px){.promo-admin-grid{grid-template-columns:1fr}}
+
+
+/* ==========================================================
+   ROCKSTAR V17.8.2 — ACCESOS DIRECTOS EN MENÚ ADMIN
+   ========================================================== */
+.rockstar-direct-nav{
+  scroll-behavior:smooth;
+}
+#respaldoPanel,
+#miCuenta{
+  scroll-margin-top:20px;
+}
+
+/* ROCKSTAR V17.9 — notificaciones */
+.notification-nav-link{position:relative}
+.admin-notification-badge{
+  margin-left:auto;min-width:20px;height:20px;padding:0 6px;border-radius:999px;
+  display:inline-flex;align-items:center;justify-content:center;background:#b72e2e;color:white;
+  font-size:10px;font-weight:900
+}
+.admin-notification-badge[hidden]{display:none!important}
+.notification-settings-grid{display:grid;grid-template-columns:1fr;gap:10px;margin-top:10px}
+.notification-toggle{display:flex!important;align-items:center;gap:9px}
+.notification-toggle input{width:auto!important}
+.admin-notifications-list{display:grid;gap:8px}
+.admin-notification-item{
+  display:flex;gap:11px;align-items:center;padding:12px 14px;border:1px solid #dde2e9;
+  border-radius:7px;background:#f8fafc
+}
+.admin-notification-item.is-unread{border-color:#d1a855;background:#fff9e9}
+.admin-notification-icon{font-size:22px}
+.admin-notification-body{flex:1;display:grid;gap:3px}
+.admin-notification-title{display:flex;align-items:center;gap:8px}
+.admin-notification-new{font-size:8px;font-weight:900;letter-spacing:.8px;padding:3px 6px;border-radius:999px;background:#d8ad57;color:#15110a}

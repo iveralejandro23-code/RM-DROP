@@ -4,7 +4,7 @@
   <style>html{visibility:hidden}</style>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RIVER Admin | Julián Reynoso Store</title>
+  <title>ROCKSTAR Admin</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
@@ -31,7 +31,22 @@
       <a href="#reportsPanel" data-admin-nav="reportsPanel">▤ <span>Reportes</span></a>
       <a href="#editorPanel" data-admin-nav="editorPanel">＋ <span>Agregar producto</span></a>
       <a href="#storeSettingsPanel" data-admin-nav="storeSettingsPanel" class="river-nav-settings">⚙ <span>Datos de la tienda</span></a>
-    </nav>
+    
+        <a class="admin-nav-link rockstar-direct-nav notification-nav-link" href="#notificationsPanel">
+          <span class="admin-nav-icon">🔔</span>
+          <span>Notificaciones</span>
+          <span id="adminNotificationBadge" class="admin-notification-badge" hidden>0</span>
+        </a>
+        <a class="admin-nav-link rockstar-direct-nav" href="#respaldoPanel">
+          <span class="admin-nav-icon">💾</span>
+          <span>Respaldo completo</span>
+        </a>
+        <a class="admin-nav-link rockstar-direct-nav" href="#miCuenta">
+          <span class="admin-nav-icon">👤</span>
+          <span>Mi cuenta</span>
+        </a>
+
+      </nav>
 
     <div class="river-sidebar-bottom">
       <a href="index.html" target="_blank" rel="noopener">👁 <span>Ver tienda</span></a>
@@ -46,7 +61,7 @@
   <header class="river-admin-topbar">
     <div>
       <small>RIVER ADMIN</small>
-      <h1>Julian Reynoso Store</h1>
+      <h1>ROCKSTAR</h1>
     </div>
     <div class="admin-top-actions"><a href="index.html">← Ver tienda</a><button id="logoutBtn" class="logout-btn" type="button">Cerrar sesión</button></div>
   </header>
@@ -155,6 +170,14 @@
           <h2>Productos</h2>
         </div>
         <div class="heading-actions"><button id="loadDemoBtn" class="secondary" type="button">Cargar 3 pruebas</button><button id="newProductBtn" class="primary">+ Agregar producto</button></div>
+      </div>
+
+      <div id="lowStockAdminAlert" class="low-stock-admin-alert" hidden>
+        <div>
+          <strong id="lowStockAdminTitle">Inventario por revisar</strong>
+          <span id="lowStockAdminText"></span>
+        </div>
+        <button id="showLowStockOnlyBtn" class="secondary" type="button">Ver stock bajo</button>
       </div>
 
       <div class="product-admin-toolbar">
@@ -438,6 +461,33 @@
           <label>Precio MXN
             <input id="price" type="number" min="0" required>
           </label>
+          <div class="promo-admin-box wide">
+            <div class="promo-admin-heading">
+              <div><strong>🏷️ Promoción</strong><small>Opcional. Se aplica automáticamente mientras esté vigente.</small></div>
+              <label class="promo-switch-label"><input id="promoActive" type="checkbox"><span>Activar</span></label>
+            </div>
+            <div class="promo-admin-grid">
+              <label>Tipo
+                <select id="promoType"><option value="percent">Porcentaje (%)</option><option value="price">Precio de oferta</option></select>
+              </label>
+              <label id="promoPercentWrap">Descuento %
+                <input id="promoPercent" type="number" min="1" max="99" step="1" placeholder="20">
+              </label>
+              <label id="promoPriceWrap" hidden>Precio de oferta
+                <input id="promoPrice" type="number" min="0" step="0.01" placeholder="599">
+              </label>
+              <label>Etiqueta
+                <input id="promoLabel" maxlength="30" placeholder="OFERTA">
+              </label>
+              <label>Inicia
+                <input id="promoStart" type="datetime-local">
+              </label>
+              <label>Termina
+                <input id="promoEnd" type="datetime-local">
+              </label>
+            </div>
+            <div id="promoPreview" class="promo-admin-preview">Promoción desactivada</div>
+          </div>
 
           <label>Existencias
             <input id="stock" type="number" min="0" required>
@@ -607,14 +657,75 @@
       </div>
     </div>
 
-    <div class="settings-field">
-      <span class="settings-label">🌄 PORTADA DE LA TIENDA</span>
-      <span class="settings-help">Sube una imagen de portada para tu tienda.</span>
-      <div class="branding-upload-box">
-        <img id="settingCoverPreview" class="branding-preview branding-cover-preview" alt="Vista previa de portada">
-        <input id="settingCoverFile" type="file" accept="image/jpeg,image/png,image/webp">
-        <small>JPG, PNG o WEBP · Recomendado 1920×600 · Máx. 5 MB</small>
+    <div class="settings-field wide rockstar-media-setting">
+      <span class="settings-label">🎬 FONDO DE LA TIENDA</span>
+      <span class="settings-help">Puedes usar una imagen o un video como fondo de toda la tienda. El diseño y los productos reales permanecen encima.</span>
+      <div class="branding-upload-box rockstar-media-upload">
+        <div id="settingBackgroundEmpty" class="rockstar-media-empty">Sin fondo personalizado. Se usa el fondo incluido en la tienda.</div>
+        <img id="settingBackgroundImagePreview" class="branding-preview rockstar-background-preview" alt="Vista previa del fondo">
+        <video id="settingBackgroundVideoPreview" class="rockstar-background-preview rockstar-background-video-preview" muted loop playsinline controls></video>
+        <input id="settingBackgroundFile" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm">
+        <small>Imagen: JPG/PNG/WEBP · Video: MP4/WEBM · Máx. 40 MB</small>
+        <div class="rockstar-media-actions">
+          <button id="settingBackgroundRemove" class="secondary small-btn" type="button">Quitar fondo</button>
+        </div>
       </div>
+    </div>
+
+    <div class="settings-field wide rockstar-media-setting">
+      <span class="settings-label">🔊 FUENTE DE SONIDO</span>
+      <span class="settings-help">Elige qué debe sonar cuando el cliente active el botón MÚSICA/SONIDO de la tienda.</span>
+      <div class="rockstar-audio-mode-box">
+        <label class="rockstar-audio-mode-option">
+          <input type="radio" name="rockstarAudioMode" id="settingAudioModeMusic" value="music" checked>
+          <span>
+            <strong>Usar música de fondo</strong>
+            <small>Reproduce el archivo de música configurado en Admin.</small>
+          </span>
+        </label>
+
+        <label class="rockstar-audio-mode-option">
+          <input type="radio" name="rockstarAudioMode" id="settingAudioModeVideo" value="video">
+          <span>
+            <strong>Usar audio del video de fondo</strong>
+            <small>Solo funciona si el fondo actual es video y ese video contiene audio.</small>
+          </span>
+        </label>
+      </div>
+    </div>
+
+    <div class="settings-field wide rockstar-media-setting">
+      <span class="settings-label">🎵 MÚSICA DE FONDO</span>
+      <span class="settings-help">Sube la música que sonará en la tienda. El cliente seguirá usando el botón MÚSICA para activar o pausar.</span>
+      <div class="branding-upload-box rockstar-media-upload">
+        <div id="settingMusicEmpty" class="rockstar-media-empty">Sin música personalizada. Se usa la pista incluida en la tienda.</div>
+        <audio id="settingMusicPreview" class="rockstar-audio-preview" controls preload="metadata"></audio>
+        <input id="settingMusicFile" type="file" accept="audio/mpeg,audio/mp3,audio/wav,audio/x-wav,audio/mp4">
+        <small>MP3 recomendado · Máx. 15 MB</small>
+        <div class="rockstar-media-actions">
+          <button id="settingMusicRemove" class="secondary small-btn" type="button">Quitar música</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-field wide rockstar-notification-settings">
+      <span class="settings-label">📧 NOTIFICACIONES DE PEDIDOS</span>
+      <span class="settings-help">Configura a qué correo debe llegar cada pedido nuevo y si el cliente recibe confirmación automática.</span>
+      <div class="notification-settings-grid">
+        <label>
+          Correo que recibe pedidos
+          <input id="settingNotificationEmail" type="email" placeholder="pedidos@tutienda.com">
+        </label>
+        <label class="notification-toggle">
+          <input id="settingAdminEmailNotifications" type="checkbox" checked>
+          <span>Enviar correo al administrador cuando llegue un pedido</span>
+        </label>
+        <label class="notification-toggle">
+          <input id="settingCustomerEmailNotifications" type="checkbox" checked>
+          <span>Enviar confirmación al cliente cuando proporcione correo</span>
+        </label>
+      </div>
+      <small>La clave del servicio de correo NO se guarda aquí ni en el navegador; se configura como secreto de la Edge Function.</small>
     </div>
 
     <label class="settings-field wide">
@@ -623,11 +734,123 @@
       <input id="settingFooter" placeholder="Ej. © Tienda oficial">
     </label>
 
+    <div class="settings-field wide rockstar-policy-admin">
+      <span class="settings-label">📋 POLÍTICAS DE LA TIENDA</span>
+      <span class="settings-help">Edita aquí la información legal y operativa que aparece en los enlaces del pie de página. Los cambios se publican al guardar la configuración.</span>
+
+      <div class="rockstar-policy-tabs" role="tablist" aria-label="Políticas">
+        <button type="button" class="secondary small-btn is-active" data-policy-tab="shipping">Envíos</button>
+        <button type="button" class="secondary small-btn" data-policy-tab="returns">Cambios y devoluciones</button>
+        <button type="button" class="secondary small-btn" data-policy-tab="privacy">Privacidad</button>
+        <button type="button" class="secondary small-btn" data-policy-tab="terms">Términos</button>
+      </div>
+
+      <div class="rockstar-policy-editor is-active" data-policy-panel="shipping">
+        <label><strong>Política de envíos</strong>
+          <textarea id="settingShippingPolicy" rows="12" placeholder="Escribe la política de envíos..."></textarea>
+        </label>
+        <small>Puedes usar párrafos y saltos de línea. La página pública conservará el diseño ROCKSTAR.</small>
+      </div>
+      <div class="rockstar-policy-editor" data-policy-panel="returns">
+        <label><strong>Cambios y devoluciones</strong>
+          <textarea id="settingReturnsPolicy" rows="12" placeholder="Escribe la política de cambios y devoluciones..."></textarea>
+        </label>
+      </div>
+      <div class="rockstar-policy-editor" data-policy-panel="privacy">
+        <label><strong>Aviso de privacidad</strong>
+          <textarea id="settingPrivacyPolicy" rows="12" placeholder="Escribe el aviso de privacidad..."></textarea>
+        </label>
+      </div>
+      <div class="rockstar-policy-editor" data-policy-panel="terms">
+        <label><strong>Términos y condiciones</strong>
+          <textarea id="settingTermsPolicy" rows="12" placeholder="Escribe los términos y condiciones..."></textarea>
+        </label>
+      </div>
+    </div>
+
     <div class="wide settings-actions settings-actions-pro">
       <button class="primary" type="submit">💾 GUARDAR CONFIGURACIÓN</button>
       <span id="settingsSavedMessage"></span>
     </div>
   </form>
+</section>
+
+
+
+
+<section class="panel rockstar-notifications-panel" id="notificationsPanel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">PEDIDOS EN TIEMPO REAL</p>
+      <h2>🔔 Notificaciones</h2>
+      <p class="muted">Aquí aparecen los pedidos nuevos. El indicador del menú se actualiza mientras Admin esté abierto.</p>
+    </div>
+    <button id="markNotificationsReadBtn" class="secondary" type="button">Marcar como vistas</button>
+  </div>
+  <div id="adminNotificationsList" class="admin-notifications-list">
+    <div class="empty-list">Cargando pedidos recientes…</div>
+  </div>
+</section>
+
+<section class="panel rockstar-backup-panel" id="respaldoPanel">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">SEGURIDAD DE DATOS</p>
+      <h2>Respaldo completo</h2>
+      <p class="muted">Descarga una copia de productos, pedidos, inventario, clientes, categorías y configuración.</p>
+    </div>
+  </div>
+  <div class="rockstar-backup-actions">
+    <button id="downloadFullBackupBtn" class="primary" type="button">⬇ Descargar respaldo completo</button>
+    <span id="backupStatus" class="muted"></span>
+  </div>
+  <div class="rockstar-account-note">
+    Guarda este archivo en un lugar seguro. No contiene contraseñas de usuarios ni claves privadas de Supabase.
+  </div>
+</section>
+
+<section class="panel rockstar-account-panel" id="miCuenta">
+  <div class="panel-head">
+    <div>
+      <p class="eyebrow">SEGURIDAD</p>
+      <h2>Mi cuenta</h2>
+      <p class="muted">Administra el correo y la contraseña usados para entrar a ROCKSTAR Admin.</p>
+    </div>
+  </div>
+
+  <div class="rockstar-account-grid">
+    <div class="settings-field">
+      <label class="settings-label" for="accountCurrentEmail">CORREO ACTUAL</label>
+      <input id="accountCurrentEmail" type="email" readonly>
+      <span class="settings-help">Este es el correo con el que tienes iniciada la sesión.</span>
+    </div>
+
+    <div class="settings-field">
+      <label class="settings-label" for="accountNewEmail">NUEVO CORREO</label>
+      <input id="accountNewEmail" type="email" autocomplete="email" placeholder="nuevo@correo.com">
+      <span class="settings-help">Supabase puede pedir confirmación por correo antes de aplicar el cambio.</span>
+    </div>
+
+    <div class="settings-field">
+      <label class="settings-label" for="accountNewPassword">NUEVA CONTRASEÑA</label>
+      <input id="accountNewPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Mínimo 8 caracteres">
+    </div>
+
+    <div class="settings-field">
+      <label class="settings-label" for="accountConfirmPassword">CONFIRMAR CONTRASEÑA</label>
+      <input id="accountConfirmPassword" type="password" autocomplete="new-password" minlength="8" placeholder="Repite la contraseña">
+    </div>
+  </div>
+
+  <div class="rockstar-account-actions">
+    <button id="accountChangeEmail" class="secondary" type="button">Cambiar correo</button>
+    <button id="accountChangePassword" class="primary" type="button">Cambiar contraseña</button>
+    <span id="accountMessage" class="muted"></span>
+  </div>
+
+  <div class="rockstar-account-note">
+    <strong>Importante:</strong> nunca compartas la contraseña de otra persona. Para entregar la tienda, cambia primero el correo al del nuevo dueño y después establece su contraseña.
+  </div>
 </section>
 
 </main>
@@ -642,5 +865,9 @@
   <script src="store-settings-admin.js"></script>
   </div>
   <script src="admin-navigation.js"></script>
+  <script src="account-admin.js"></script>
+  <script src="backup-admin.js"></script>
+  <script src="admin-direct-nav.js"></script>
+  <script src="order-notifications-admin.js"></script>
 </body>
 </html>

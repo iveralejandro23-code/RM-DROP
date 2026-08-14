@@ -35,7 +35,14 @@
       image_url: p.image || images[0] || "assets/gorra_collage.jpg",
       images,
       video_url: p.video || null,
-      category_id: p.categoryId ? Number(p.categoryId) : null
+      category_id: p.categoryId ? Number(p.categoryId) : null,
+      promo_active: !!p.promoActive,
+      promo_type: p.promoType || "percent",
+      promo_percent: p.promoPercent ?? null,
+      promo_price: p.promoPrice ?? null,
+      promo_label: p.promoLabel || null,
+      promo_start: p.promoStart || null,
+      promo_end: p.promoEnd || null
     };
   }
 
@@ -62,7 +69,14 @@
       image: row.image_url || images[0] || "assets/gorra_collage.jpg",
       images,
       video: row.video_url || "",
-      categoryId: row.category_id ?? cachedCategoryId ?? null
+      categoryId: row.category_id ?? cachedCategoryId ?? null,
+      promoActive: !!row.promo_active,
+      promoType: row.promo_type || "percent",
+      promoPercent: row.promo_percent == null ? null : Number(row.promo_percent),
+      promoPrice: row.promo_price == null ? null : Number(row.promo_price),
+      promoLabel: row.promo_label || "",
+      promoStart: row.promo_start || null,
+      promoEnd: row.promo_end || null
     };
   }
 
@@ -77,7 +91,7 @@
     setOnlineStatus("Conectando productos con Supabase…");
     const { data, error } = await db
       .from("products")
-      .select("id,name,price,stock,color,active,description,image_url,images,video_url,category_id,created_at,updated_at")
+      .select("id,name,price,stock,color,active,description,image_url,images,video_url,category_id,promo_active,promo_type,promo_percent,promo_price,promo_label,promo_start,promo_end,created_at,updated_at")
       .order("id", { ascending: true });
 
     if (error) {
@@ -142,7 +156,8 @@
   const localSaveProducts = saveProducts;
   saveProducts = function(products) {
     localSaveProducts(products);
-    syncProductsToSupabase(products);
+    window.ROCKSTAR_LAST_PRODUCT_SYNC = syncProductsToSupabase(products);
+    return window.ROCKSTAR_LAST_PRODUCT_SYNC;
   };
 
   // Eliminación real de Supabase.

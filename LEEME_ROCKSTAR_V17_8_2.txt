@@ -1,0 +1,23 @@
+ROCKSTAR STORE V17.8.2 — MENÚ ADMIN
+
+ÚNICO CAMBIO:
+Se agregaron al menú lateral de Admin:
+- 💾 Respaldo completo
+- 👤 Mi cuenta
+
+Al hacer clic, la pantalla se desplaza directamente a esa sección.
+
+NO SE MODIFICÓ:
+- promociones
+- políticas
+- productos
+- inventario
+- pedidos
+- carrito
+- checkout
+- música/fondo
+- visor/zoom
+- transparencia
+- Supabase/RLS
+
+NO REQUIERE SQL NUEVO.

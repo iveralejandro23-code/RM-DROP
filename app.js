@@ -221,13 +221,68 @@ function openCardSelectedMedia(productId){
   const card = document.querySelector(`.store-product-card[data-product-id="${productId}"]`);
   const active = card?.querySelector(".store-media-thumb.active");
   const selectedIndex = Number(active?.dataset.mediaIndex ?? 0);
+  const media = getProductMedia(product);
 
-  openProductViewer(productId);
-
-  if(Number.isFinite(selectedIndex) && selectedIndex >= 0 && selectedIndex < viewerMedia.length){
-    viewerIndex = selectedIndex;
-    renderProductViewer();
+  // ROCKSTAR V17.3:
+  // VER PRODUCTO usa exclusivamente el visor fijo nuevo de V17.2.
+  if(typeof window.ROCKSTAR_OPEN_MEDIA_VIEWER === "function"){
+    window.ROCKSTAR_OPEN_MEDIA_VIEWER(media, selectedIndex);
+    return;
   }
+
+  // Fallback únicamente si el script nuevo no cargara.
+  openProductViewer(productId);
+}
+
+
+/* ==========================================================
+   ROCKSTAR V17.8.1 — MOTOR DE PROMOCIONES
+   ========================================================== */
+function promoIsLiveStore(product, now = new Date()){
+  if(!product || product.promoActive !== true) return false;
+
+  const start = product.promoStart ? new Date(product.promoStart) : null;
+  const end = product.promoEnd ? new Date(product.promoEnd) : null;
+
+  if(start && !Number.isNaN(start.getTime()) && now < start) return false;
+  if(end && !Number.isNaN(end.getTime()) && now > end) return false;
+
+  return true;
+}
+
+function effectivePriceStore(product){
+  const base = Math.max(0, Number(product?.price) || 0);
+
+  if(!promoIsLiveStore(product)) return base;
+
+  if(product.promoType === "price"){
+    const offer = Number(product.promoPrice);
+    if(Number.isFinite(offer) && offer >= 0 && offer < base){
+      return offer;
+    }
+    return base;
+  }
+
+  const percent = Number(product.promoPercent) || 0;
+  if(percent > 0 && percent < 100){
+    return Math.max(0, base * (1 - percent / 100));
+  }
+
+  return base;
+}
+
+function promoLabelStore(product){
+  if(!promoIsLiveStore(product)) return "";
+  if(effectivePriceStore(product) >= Number(product.price)) return "";
+
+  const custom = String(product.promoLabel || "").trim();
+  if(custom) return custom;
+
+  if(product.promoType === "percent" && Number(product.promoPercent) > 0){
+    return `${Number(product.promoPercent)}% OFF`;
+  }
+
+  return "OFERTA";
 }
 
 function renderStoreProducts() {
@@ -291,12 +346,19 @@ function renderStoreProducts() {
         <div class="store-product-info">
           <small>COLECCIÓN OFICIAL</small>
           <h3>${product.name}</h3>
-          <div class="store-product-price">${money(product.price)} MXN</div>
+          ${promoIsLiveStore(product)&&effectivePriceStore(product)<Number(product.price)
+ ? `<div class="store-promo-badge">${promoLabelStore(product)}</div><div class="store-product-price store-product-price-promo"><span class="store-old-price">${money(product.price)}</span><span class="store-new-price">${money(effectivePriceStore(product))} MXN</span></div>`
+ : `<div class="store-product-price">${money(product.price)} MXN</div>`}
           <p>${product.description || ""}</p>
           <div class="store-product-meta">
             <span>Color <strong>${product.color || "Sin especificar"}</strong></span>
             <span>Disponibilidad <strong>${product.stock > 0 ? `${product.stock} disponibles` : "Agotado"}</strong></span>
           </div>
+          ${Number(product.stock)<=0
+            ? `<div class="store-stock-badge stock-out-badge">AGOTADO</div>`
+            : Number(product.stock)<=3
+              ? `<div class="store-stock-badge stock-low-badge">ÚLTIMAS ${Number(product.stock)} PIEZAS</div>`
+              : ""}
           <button class="btn btn-primary full" ${product.stock <= 0 ? "disabled" : ""} onclick="addToCart(${product.id})">
             ${product.stock > 0 ? "Agregar al carrito" : "Agotado"}
           </button>
@@ -318,8 +380,12 @@ function addToCart(id) {
   if (maxStock <= 0) return alert("Este producto está agotado.");
   if (currentQty >= maxStock) return alert(`Solo hay ${maxStock} disponibles de este producto.`);
 
-  if (existing) existing.qty += 1;
-  else cart.push({...product, qty:1});
+  if (existing) {
+    existing.qty += 1;
+    existing.price = effectivePriceStore(product);
+  } else {
+    cart.push({...product, price:effectivePriceStore(product), qty:1});
+  }
 
   saveCart();
   openCart();
@@ -688,31 +754,15 @@ function openProductViewer(id){
   const product=PRODUCTS.find(p=>Number(p.id)===Number(id));
   if(!product)return;
 
-  const viewer=document.getElementById("lightbox");
+  const media=getProductMedia(product);
 
-  const images=Array.isArray(product.images)&&product.images.length
-    ? [...product.images]
-    : [product.image||"assets/gorra_collage.jpg"];
-
-  const uniqueImages=[...new Set(images.filter(Boolean))];
-
-  viewerMedia=uniqueImages.map(src=>({type:"image",src}));
-
-  if(product.video){
-    viewerMedia.push({type:"video",src:product.video});
+  // Compatibilidad: cualquier llamada antigua se redirige al visor fijo V17.2/V17.3.
+  if(typeof window.ROCKSTAR_OPEN_MEDIA_VIEWER==="function"){
+    window.ROCKSTAR_OPEN_MEDIA_VIEWER(media,0);
+    return;
   }
-
-  // Compatibilidad con variables antiguas.
-  viewerImages=uniqueImages;
-
-  const principalIndex=uniqueImages.indexOf(product.image);
-  viewerIndex=principalIndex>=0?principalIndex:0;
-
-  renderProductViewer();
-
-  viewer.classList.add("open");
-  viewer.setAttribute("aria-hidden","false");
 }
+
 
 function nextViewerImage(step){
   if(viewerMedia.length<=1)return;
@@ -860,3 +910,33 @@ window.addEventListener("river:store-settings-loaded", () => {
     console.warn("No se pudo refrescar el catálogo después de cargar configuración:", error);
   }
 });
+
+
+/* ROCKSTAR V15: navegación fija / menú móvil */
+document.querySelectorAll("#mainNav a").forEach(link=>{
+  link.addEventListener("click",()=>{
+    document.getElementById("mainNav")?.classList.remove("open");
+  });
+});
+
+
+/* ROCKSTAR V16.1 — mantener carrito y checkout en el viewport actual */
+(function(){
+  const originalOpenCart = window.openCart;
+  if(typeof originalOpenCart === "function"){
+    window.openCart = function(){
+      const y = window.scrollY;
+      originalOpenCart();
+      window.scrollTo({top:y,left:0,behavior:"auto"});
+    };
+  }
+
+  const originalOpenCheckout = window.openCheckout;
+  if(typeof originalOpenCheckout === "function"){
+    window.openCheckout = function(){
+      const y = window.scrollY;
+      originalOpenCheckout();
+      window.scrollTo({top:y,left:0,behavior:"auto"});
+    };
+  }
+})();

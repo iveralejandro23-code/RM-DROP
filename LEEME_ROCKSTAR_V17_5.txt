@@ -1,0 +1,24 @@
+ROCKSTAR STORE V17.5 — TRANSPARENCIA APROBADA
+
+ÚNICO CAMBIO:
+- Tarjetas de productos más transparentes.
+- Área donde aparece la fotografía casi transparente.
+- El video/fondo se aprecia claramente detrás.
+- Se mantiene legibilidad de nombres, precios, disponibilidad y botones.
+
+NO SE MODIFICÓ:
+- visor de producto
+- zoom con mouse
+- VER PRODUCTO
+- miniaturas
+- carrito
+- checkout
+- música / sonido
+- fondo configurable
+- Admin
+- pedidos
+- inventario
+- categorías
+- seguridad RLS
+
+NO REQUIERE SQL NUEVO.

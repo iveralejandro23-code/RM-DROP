@@ -1,0 +1,28 @@
+ROCKSTAR STORE V17.3 — VER PRODUCTO CORREGIDO
+
+SE CONSERVA TAL CUAL:
+- Zoom con rueda del mouse.
+- Botones + / -.
+- Zoom hasta 400%.
+- Arrastrar la imagen ampliada para revisar detalles.
+- Restablecer zoom.
+- Flechas entre fotografías.
+- Visor centrado sobre la pantalla visible.
+
+CORREGIDO:
+1. VER PRODUCTO
+   Ya no utiliza el visor antiguo.
+   Abre el mismo visor fijo de V17.2.
+
+2. MINIATURAS
+   Seleccionas una miniatura.
+   La fotografía cambia en la tarjeta.
+   Al pulsar VER PRODUCTO, abre EN GRANDE exactamente la foto seleccionada.
+
+3. VISOR ANTIGUO
+   Quedó desactivado completamente.
+   Ya no puede aparecer hasta abajo de la página.
+
+NO REQUIERE SQL NUEVO.
+NO SE MODIFICÓ carrito, checkout, música, fondo, Admin,
+pedidos, inventario ni seguridad RLS.

@@ -1,0 +1,25 @@
+ROCKSTAR STORE V17.2 — VISOR / ZOOM CORREGIDO
+
+CORREGIDO:
+- La foto se abre SIEMPRE sobre la pantalla visible, no al final de la página.
+- El visor usa position: fixed y ocupa el viewport.
+- La imagen abre centrada y completa.
+- Botones + y - permiten zoom de 100% hasta 400%.
+- La rueda del mouse también hace zoom.
+- Doble clic alterna entre 100% y 200%.
+- Cuando la imagen está ampliada puedes ARRASTRARLA para inspeccionar detalles.
+- Botón ↺ regresa al 100%.
+- Flechas cambian entre fotos cuando hay más de una.
+- ESC cierra el visor.
+- En celular el visor ocupa toda la pantalla y permite mover la imagen con el dedo.
+
+NO REQUIERE SQL.
+NO SE MODIFICÓ:
+- carrito
+- checkout
+- música
+- fondo
+- Admin
+- pedidos
+- inventario
+- políticas/RLS

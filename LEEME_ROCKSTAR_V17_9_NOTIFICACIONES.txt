@@ -1,0 +1,101 @@
+ROCKSTAR STORE V17.9 — NOTIFICACIONES + CORREO
+
+QUÉ AGREGA
+==========
+1. Admin > 🔔 Notificaciones
+   - badge con pedidos nuevos
+   - lista de pedidos recientes
+   - actualización en tiempo real
+   - opción "Marcar como vistas"
+   - si el navegador lo permite, puede mostrar notificación del sistema
+
+2. Admin > Datos de la tienda > NOTIFICACIONES DE PEDIDOS
+   - correo que recibe pedidos
+   - activar/desactivar correo al administrador
+   - activar/desactivar confirmación al cliente
+
+3. Correo automático al ADMINISTRADOR cuando se crea un pedido.
+4. Correo automático al CLIENTE si escribió su correo.
+
+IMPORTANTE: ESTA VERSIÓN REQUIERE CONFIGURACIÓN EXTERNA
+========================================================
+
+PASO 1 — SUPABASE SQL
+Ejecuta UNA sola vez:
+supabase/V17_9_NOTIFICACIONES_EMAIL.sql
+
+PASO 2 — RESEND
+Crea una cuenta en Resend.
+Para producción debes verificar un dominio/remitente.
+Obtén una API Key.
+
+PASO 3 — EDGE FUNCTION SECRETS
+En Supabase > Edge Functions > Secrets agrega:
+
+RESEND_API_KEY = tu API key de Resend
+EMAIL_FROM = ROCKSTAR <pedidos@tudominio.com>
+
+NO pongas esas claves en config.js.
+
+PASO 4 — DESPLEGAR LA EDGE FUNCTION
+La función está en:
+supabase/functions/order-email/index.ts
+
+Con Supabase CLI:
+supabase functions deploy order-email --no-verify-jwt
+
+Si utilizas el Dashboard para crear/deployar funciones, copia el contenido
+de index.ts en una función llamada:
+order-email
+
+PASO 5 — DATABASE WEBHOOK
+Supabase > Database > Webhooks > Create Webhook
+
+Nombre:
+rockstar-order-email
+
+Tabla:
+public.orders
+
+Evento:
+INSERT
+
+Destino:
+Supabase Edge Function
+
+Función:
+order-email
+
+Método:
+POST
+
+Agrega autenticación con la secret/service key según la opción que muestre
+tu Dashboard para webhooks hacia Edge Functions.
+
+PASO 6 — ADMIN
+Abre ROCKSTAR Admin > Datos de la tienda.
+En "NOTIFICACIONES DE PEDIDOS":
+- escribe el correo del dueño
+- activa "Enviar correo al administrador"
+- activa "Enviar confirmación al cliente"
+- Guardar
+
+PRUEBA FINAL
+============
+1. Entra a la tienda.
+2. Haz un pedido usando un correo al que tengas acceso.
+3. Comprueba:
+   - pedido aparece en Admin
+   - badge 🔔 aparece
+   - dueño recibe email
+   - cliente recibe confirmación
+
+SEGURIDAD
+=========
+RESEND_API_KEY y las claves secret/service role son secretos de servidor.
+Nunca deben ponerse en GitHub, config.js ni archivos públicos.
+
+NO SE MODIFICÓ
+==============
+Diseño, transparencia, promociones, visor/zoom, carrito visual, checkout,
+fondo, música, políticas, productos, inventario ni pedidos existentes.

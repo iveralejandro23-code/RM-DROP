@@ -29,6 +29,9 @@
     <button id="loginBtn" type="submit">Entrar</button>
     <div class="message" id="message"></div>
   </form>
+      <button id="forgotPasswordButton" class="login-forgot" type="button">¿Olvidaste tu contraseña?</button>
+      <p id="forgotPasswordMessage" class="login-forgot-message"></p>
+
 
   <script src="config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -77,5 +80,6 @@
       location.replace("admin.html");
     });
   </script>
+  <script src="password-recovery.js"></script>
 </body>
 </html>

@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Tienda oficial de Julian Reynoso. Música, colección oficial y mercancía." />
-  <title>Julián Reynoso | Tienda Oficial</title>
+  <meta name="description" content="ROCKSTAR — tienda de gorras y streetwear. Colecciones exclusivas y compra directa." />
+  <title>ROCKSTAR | Tienda</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
@@ -12,12 +12,32 @@
   <!-- RIVER_PRODUCTION_URL: agrega aquí el dominio final cuando se publique -->
   <link rel="manifest" href="manifest.webmanifest">
 </head>
-<body>
+<body class="rockstar-v16">
+
+  
+  <audio id="rockstarAudio" src="assets/media/rockstar-music.mp3" loop preload="auto"></audio>
+
+  <div class="rockstar-global-bg" aria-hidden="true">
+    <video
+      id="rockstarGlobalVideo"
+      class="rockstar-global-video"
+      autoplay
+      muted
+      loop
+      playsinline
+      preload="metadata"
+      poster="assets/media/rockstar-poster.jpg">
+      <source src="assets/media/rockstar-bg.mp4" type="video/mp4">
+    </video>
+    <div class="rockstar-global-fallback"></div>
+    <div class="rockstar-global-overlay"></div>
+  </div>
+
   <header class="site-header">
     <div class="container nav-wrap">
       <a class="brand" href="#inicio">
         <img class="store-brand-logo" data-store-logo alt="Logo de la tienda" style="display:none">
-        <span data-store-name>JULIAN REYNOSO</span>
+        <span data-store-name>ROCKSTAR</span>
       </a>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
@@ -25,60 +45,44 @@
       <nav class="main-nav" id="mainNav">
         <a href="#inicio">Inicio</a>
         <a href="#coleccion">Tienda</a>
-        <a href="#musica">Música</a>
-        <a href="#videos">Videos</a>
         <a href="#contacto">Contacto</a>
       </nav>
 
       <button class="cart-button" id="cartButton" aria-label="Abrir carrito">
         🛒 <span id="cartCount">0</span>
       </button>
+
+      <button class="rockstar-sound" id="rockstarSound" type="button" aria-label="Activar música">
+        ♪ <span>MÚSICA</span>
+      </button>
+
     </div>
   </header>
 
-  <main>
-    <section class="hero hero-v4" id="inicio">
-      <div class="hero-photo" data-store-cover aria-hidden="true"></div>
-      <div class="hero-vignette"></div>
-      <div class="hero-overlay"></div>
-
-      <div class="container hero-content hero-content-v4">
-        <div class="hero-copy-block">
-          <p class="eyebrow" data-store-location>TIJUANA · MÚSICA · MERCH</p>
-          <h1 data-store-owner>JULIAN REYNOSO</h1>
-          <p class="hero-copy" data-store-tagline>Sitio oficial de música y colección.</p>
-          <div class="hero-actions">
-            <a href="#coleccion" class="btn btn-primary">Comprar colección</a>
-            <a href="https://www.youtube.com/channel/UCJyLkIltjB4pschTIptDSMA" target="_blank" rel="noopener" class="btn btn-secondary">Escuchar música</a>
-          </div>
-
-          <div class="hero-socials">
-            <a data-social="youtube" href="#" target="_blank" rel="noopener">YouTube</a>
-            <span>•</span>
-            <a data-social="instagram" href="#" target="_blank" rel="noopener">Instagram</a>
-            <span>•</span>
-            <a data-social="tiktok" href="#" target="_blank" rel="noopener">TikTok</a>
-            <span>•</span>
-            <a data-social="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
-          </div>
-        </div>
-
-        <div class="hero-release-card">
-          <span class="mini-label">LANZAMIENTO DESTACADO</span>
-          <strong>EMPÍRICO</strong>
-          <a href="https://www.youtube.com/watch?v=bYZOr-E7hVg" target="_blank" rel="noopener">Ver ahora →</a>
+  <main class="rockstar-page-shell">
+    
+  <section class="rockstar-real-hero" id="inicio">
+    <div class="container rockstar-real-hero-inner">
+      <div class="rockstar-real-hero-copy">
+        <span class="rockstar-real-kicker">ROCKSTAR COLLECTION</span>
+        <h1>GORRAS</h1>
+        <div class="rockstar-gold-divider"><span>★</span></div>
+        <p>Elige tu estilo. Explora modelos, detalles y disponibilidad en tiempo real.</p>
+        <div class="rockstar-real-actions">
+          <a class="btn btn-primary" href="#coleccion">EXPLORAR COLECCIÓN</a>
         </div>
       </div>
-    </section>
+    </div>
+  </section>
 
-    <section class="section collection" id="coleccion">
+<section class="section collection" id="coleccion">
       <div class="container">
         <div class="section-heading">
           <div>
-            <span class="section-kicker">COLECCIÓN OFICIAL</span>
+            <span class="section-kicker">ROCKSTAR COLLECTION</span>
             <h2>Gorras</h2>
           </div>
-          <p>Explora la colección disponible. Los productos, precios y existencias pueden administrarse desde RIVER Admin.</p>
+          <p>Elige tu estilo. Explora modelos, detalles y disponibilidad en tiempo real.</p>
         </div>
 
                 <div class="store-category-filter-wrap" id="storeCategoryFilterWrap" hidden>
@@ -89,102 +93,11 @@
       </div>
     </section>
 
-    <section class="section music-section" id="musica">
-      <div class="container music-grid">
-        <a class="music-cover real-release" href="https://www.youtube.com/watch?v=bYZOr-E7hVg" target="_blank" rel="noopener">
-          <img src="https://img.youtube.com/vi/bYZOr-E7hVg/maxresdefault.jpg" alt="Julian Reynoso - Empírico">
-          <div class="release-play">▶</div>
-        </a>
-        <div class="music-copy">
-          <span class="section-kicker">ÚLTIMO LANZAMIENTO DESTACADO</span>
-          <h2>EMPÍRICO</h2>
-          <p>VideoLyric oficial de Julian Reynoso. Esta sección conecta cada lanzamiento musical con la colección y mercancía oficial.</p>
-          <div class="music-actions">
-            <a class="btn btn-primary" href="https://www.youtube.com/watch?v=bYZOr-E7hVg" target="_blank" rel="noopener">Ver en YouTube</a>
-            <a class="btn btn-secondary" href="https://www.youtube.com/channel/UCJyLkIltjB4pschTIptDSMA" target="_blank" rel="noopener">Canal oficial</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section video-section" id="videos">
+    <section class="rockstar-statement">
       <div class="container">
-        <div class="section-heading compact">
-          <div>
-            <span class="section-kicker">VIDEOS</span>
-            <h2>Últimos lanzamientos</h2>
-          </div>
-          <a class="view-channel-link" href="https://www.youtube.com/channel/UCJyLkIltjB4pschTIptDSMA" target="_blank" rel="noopener">Ver canal completo →</a>
-        </div>
-
-        <div class="video-grid video-grid-v3">
-          <a class="video-card" href="https://www.youtube.com/watch?v=bYZOr-E7hVg" target="_blank" rel="noopener">
-            <div class="video-thumb real-thumb">
-              <img src="https://img.youtube.com/vi/bYZOr-E7hVg/hqdefault.jpg" alt="Empírico">
-              <span>▶</span>
-            </div>
-            <div class="video-info">
-              <strong>Empírico</strong>
-              <small>VideoLyric Oficial</small>
-            </div>
-          </a>
-
-          <a class="video-card" href="https://www.youtube.com/watch?v=tYfbY9LU1uQ" target="_blank" rel="noopener">
-            <div class="video-thumb real-thumb">
-              <img src="https://img.youtube.com/vi/tYfbY9LU1uQ/hqdefault.jpg" alt="Morrillo Soñador">
-              <span>▶</span>
-            </div>
-            <div class="video-info">
-              <strong>Morrillo Soñador</strong>
-              <small>Video Oficial</small>
-            </div>
-          </a>
-
-          <a class="video-card" href="https://www.youtube.com/watch?v=yeeWGVFcL_M" target="_blank" rel="noopener">
-            <div class="video-thumb real-thumb">
-              <img src="https://img.youtube.com/vi/yeeWGVFcL_M/hqdefault.jpg" alt="664">
-              <span>▶</span>
-            </div>
-            <div class="video-info">
-              <strong>664</strong>
-              <small>Julian Reynoso</small>
-            </div>
-          </a>
-
-          <a class="video-card" href="https://www.youtube.com/watch?v=bdNZg4_D3g4" target="_blank" rel="noopener">
-            <div class="video-thumb real-thumb">
-              <img src="https://img.youtube.com/vi/bdNZg4_D3g4/hqdefault.jpg" alt="La Que Llamaba">
-              <span>▶</span>
-            </div>
-            <div class="video-info">
-              <strong>La Que Llamaba</strong>
-              <small>feat. Uriel Cuellar</small>
-            </div>
-          </a>
-        </div>
-      </div>
-    </section>
-
-    <section class="artist-social-section">
-      <div class="container artist-social-inner">
-        <div>
-          <span class="section-kicker">SIGUE A <span data-store-owner>JULIAN</span></span>
-          <h2>Más música. Más lanzamientos.</h2>
-        </div>
-        <div class="artist-social-buttons">
-          <a class="social-button" data-social="youtube" href="#" target="_blank" rel="noopener">
-            <span>YouTube</span><strong data-social-label="youtube">Canal oficial ↗</strong>
-          </a>
-          <a class="social-button" data-social="instagram" href="#" target="_blank" rel="noopener">
-            <span>Instagram</span><strong data-social-label="instagram">Instagram ↗</strong>
-          </a>
-          <a class="social-button" data-social="tiktok" href="#" target="_blank" rel="noopener">
-            <span>TikTok</span><strong data-social-label="tiktok">TikTok ↗</strong>
-          </a>
-          <a class="social-button" data-social="facebook" href="#" target="_blank" rel="noopener">
-            <span>Facebook</span><strong data-social-label="facebook">Facebook ↗</strong>
-          </a>
-        </div>
+        <span>ROCKSTAR</span>
+        <h2>NO ES SOLO UNA GORRA.<br>ES PARTE DEL LOOK.</h2>
+        <a href="#coleccion">EXPLORAR TODO →</a>
       </div>
     </section>
 
@@ -195,27 +108,30 @@
         <div class="trust-item"><strong>Diseño móvil</strong><span>Preparada para clientes de redes sociales.</span></div>
       </div>
     </section>
-  <div id="storeCategoryFilters" class="store-category-filters"></div>
 </main>
 
   <footer id="contacto">
     <div class="container footer-grid">
       <div>
-        <div class="footer-brand" data-store-name>JULIAN REYNOSO</div>
-        <p data-store-footer>Tienda oficial · Música · Merch</p>
+        <div class="footer-brand" data-store-name>ROCKSTAR</div>
+        <p data-store-footer>ROCKSTAR · Headwear · Streetwear</p>
       </div>
       <div class="footer-contact">
         <a data-contact-whatsapp href="#" target="_blank" rel="noopener">WhatsApp</a>
         <a data-contact-email href="#">Correo</a>
         <span data-store-location></span>
         <div class="footer-links">
+          <a href="envios.html">Envíos</a>
+          <a href="cambios-devoluciones.html">Cambios y devoluciones</a>
+          <a href="privacidad.html">Privacidad</a>
+          <a href="terminos.html">Términos</a>
           <a data-social="instagram" href="#" target="_blank" rel="noopener">Instagram</a>
           <a data-social="facebook" href="#" target="_blank" rel="noopener">Facebook</a>
           <a data-social="tiktok" href="#" target="_blank" rel="noopener">TikTok</a>
           <a data-social="youtube" href="#" target="_blank" rel="noopener">YouTube</a>
         </div>
       </div>
-      <div class="river-credit">Desarrollado por <strong>RIVER</strong><br><a href="admin.html" style="color:#777;text-decoration:none;font-size:11px">Administración</a></div>
+      <div class="river-credit">Desarrollado por <strong>RODRIGO RIVERA</strong><br><a href="admin.html" style="color:#777;text-decoration:none;font-size:11px">Administración</a></div>
     </div>
   </footer>
 
@@ -392,7 +308,18 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="store-settings-store.js"></script>
   <script src="app.js"></script>
+  <script src="rockstar-experience.js"></script>
   <script src="supabase-products-store.js"></script>
   <script src="supabase-categories-store.js"></script>
+
+  <div id="rockstarVersionBadge" style="
+    position:fixed;right:10px;bottom:10px;z-index:99999;
+    background:rgba(0,0,0,.72);color:#fff;border:1px solid rgba(255,255,255,.25);
+    padding:6px 9px;font:700 10px/1 Arial,sans-serif;letter-spacing:.5px;
+    border-radius:3px;pointer-events:none;">
+    ROCKSTAR V17.4 · VISOR FIJO · TARJETAS TRANSPARENTES</div>
+
+  <script src="product-zoom.js"></script>
+  <!-- ROCKSTAR V17.4 · VISOR FIJO · TARJETAS TRANSPARENTES -->
 </body>
 </html>

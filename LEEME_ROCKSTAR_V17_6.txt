@@ -1,0 +1,32 @@
+ROCKSTAR STORE V17.6 — TRANSPARENCIA REAL
+
+SE CORRIGIÓ LA CAUSA DE LOS RECTÁNGULOS BLANCOS:
+
+- store-product-card
+- store-product-media-column
+- store-product-image
+- store-product-media-selector
+- miniaturas
+
+También se agregó mezcla visual SOLO a las fotografías de las tarjetas
+para que el fondo blanco que viene dentro de los archivos de imagen deje
+ver el video/fondo de ROCKSTAR.
+
+IMPORTANTE:
+El visor grande conserva la imagen NORMAL, sin mezcla, para que el zoom
+muestre el producto con máxima fidelidad.
+
+NO SE MODIFICÓ:
+- visor
+- zoom
+- VER PRODUCTO
+- carrito
+- checkout
+- sonido/música
+- fondo/video
+- Admin
+- pedidos
+- inventario
+- Supabase/RLS
+
+NO REQUIERE SQL.

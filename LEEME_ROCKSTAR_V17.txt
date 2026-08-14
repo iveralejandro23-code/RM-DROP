@@ -1,0 +1,45 @@
+ROCKSTAR STORE V17 — CIERRE PROFESIONAL
+
+NUEVO:
+1. STOCK BAJO / AGOTADOS
+- Admin avisa productos con 3 piezas o menos.
+- Agotados se marcan en rojo.
+- En la tienda aparece "ÚLTIMAS X PIEZAS" o "AGOTADO".
+- El botón comprar continúa bloqueado cuando stock = 0.
+
+2. RESPALDO COMPLETO
+ROCKSTAR Admin > Respaldo completo
+Descarga JSON con:
+- productos
+- pedidos
+- movimientos de inventario
+- notas
+- categorías
+- configuración
+- clientes derivados del historial
+
+No incluye contraseñas ni claves privadas.
+
+3. POLÍTICAS
+Footer:
+- Envíos
+- Cambios y devoluciones
+- Privacidad
+- Términos
+
+Son plantillas operativas. El propietario debe personalizar plazos, costos,
+domicilios, devoluciones y condiciones reales antes de publicar definitivamente.
+
+4. SEGURIDAD / RLS
+Ejecuta:
+supabase/V17_SEGURIDAD_RLS.sql
+No borra políticas. Activa RLS si faltaba y muestra las políticas actuales.
+
+NO SE MODIFICÓ:
+- diseño aprobado
+- música / audio del video
+- fondo configurable
+- carrito
+- checkout
+- cuenta del administrador
+- lógica de pedidos e inventario

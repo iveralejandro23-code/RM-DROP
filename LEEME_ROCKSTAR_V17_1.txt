@@ -1,0 +1,19 @@
+ROCKSTAR STORE V17.1 — CORRECCIÓN ZOOM DE FOTOS
+
+CORREGIDO:
+- Clic/toque en fotografía del producto abre visor grande.
+- Clic sobre la foto ampliada activa/desactiva zoom.
+- Si existen varias imágenes visibles del producto, permite avanzar y retroceder.
+- En celular permite deslizar izquierda/derecha.
+- ESC cierra el visor en computadora.
+
+NO REQUIERE SQL NUEVO.
+NO SE MODIFICÓ:
+- diseño aprobado
+- carrito / checkout
+- música
+- fondo
+- Admin
+- pedidos
+- inventario
+- seguridad RLS
