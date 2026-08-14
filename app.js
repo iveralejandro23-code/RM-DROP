@@ -160,13 +160,15 @@ function getProductMedia(product){
     ? [...new Set(product.images.filter(Boolean))]
     : [product.image || "assets/gorra_collage.jpg"];
 
-  const media = images.map(src => ({type:"image", src}));
+  const imageMedia = images.map(src => ({type:"image", src}));
 
+  // V18.1: mantener la foto principal primero, pero poner el video enseguida
+  // para que siempre quede visible en la fila horizontal de miniaturas.
   if(product.video){
-    media.push({type:"video", src:product.video});
+    return [imageMedia[0], {type:"video", src:product.video}, ...imageMedia.slice(1)].filter(Boolean);
   }
 
-  return media;
+  return imageMedia;
 }
 
 function escapeAttr(value){
@@ -197,18 +199,29 @@ function selectCardMedia(productId, mediaIndex){
   const mediaLabel = card.querySelector(".store-product-media-label");
 
   if(item.type === "video"){
-    image.style.display = "none";
-    video.style.display = "block";
+    // Hay reglas antiguas con !important que forzaban la imagen a seguir visible.
+    // Usamos prioridad important para que el video realmente sustituya a la foto.
+    image.style.setProperty("display", "none", "important");
+    video.style.setProperty("display", "block", "important");
+    video.style.setProperty("visibility", "visible", "important");
+    video.style.setProperty("opacity", "1", "important");
     video.src = item.src;
     video.load();
     mediaLabel.textContent = "VIDEO";
+
+    const playPromise = video.play();
+    if(playPromise && typeof playPromise.catch === "function"){
+      playPromise.catch(()=>{});
+    }
   }else{
     try{ video.pause(); }catch(_){}
-    video.style.display = "none";
+    video.style.setProperty("display", "none", "important");
     video.removeAttribute("src");
     video.load();
 
-    image.style.display = "block";
+    image.style.setProperty("display", "block", "important");
+    image.style.setProperty("visibility", "visible", "important");
+    image.style.setProperty("opacity", "1", "important");
     image.src = item.src;
     mediaLabel.textContent = "VER PRODUCTO";
   }

@@ -3929,3 +3929,108 @@ footer{padding:24px 0 90px !important;background:rgba(2,3,5,.78) !important}
     gap:8px !important;
   }
 }
+
+
+/* ==========================================================
+   ROCKSTAR V18.2 — VIDEO DE PRODUCTO VISIBLE
+   Corrige conflicto de reglas antiguas con display !important.
+   No modifica el diseño compacto ni el catálogo horizontal.
+   ========================================================== */
+.store-product-image{position:relative !important;}
+.store-product-card-main-video{
+  width:100% !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  background:#000 !important;
+  visibility:visible;
+  opacity:1;
+}
+
+/* ==========================================================
+   ROCKSTAR V18.4 — AJUSTE FINAL DE ESPACIO EN CELULAR
+   Base exacta: V18.2 VIDEO VISIBLE.
+   ÚNICO objetivo: eliminar el hueco vertical entre la foto
+   principal y las miniaturas en móvil. No toca funciones.
+   ========================================================== */
+@media (max-width:800px){
+  .store-product-card{
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+  }
+
+  .store-product-media-column{
+    display:flex !important;
+    flex-direction:column !important;
+    justify-content:flex-start !important;
+    align-items:stretch !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+    max-height:none !important;
+    flex:0 0 auto !important;
+    padding:0 !important;
+    margin:0 !important;
+  }
+
+  .store-product-media-column .store-product-image,
+  .store-product-image{
+    display:block !important;
+    flex:0 0 108px !important;
+    width:100% !important;
+    height:108px !important;
+    min-height:108px !important;
+    max-height:108px !important;
+    aspect-ratio:auto !important;
+    padding:0 !important;
+    margin:0 !important;
+    line-height:0 !important;
+  }
+
+  .store-product-media-column .store-product-image img,
+  .store-product-image img,
+  .store-product-card .store-product-card-main-image,
+  .store-product-media-column .store-product-card-main-video{
+    display:block !important;
+    width:100% !important;
+    height:108px !important;
+    min-height:108px !important;
+    max-height:108px !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    margin:0 !important;
+    padding:3px !important;
+    box-sizing:border-box !important;
+  }
+
+  .store-product-media-column .store-product-media-selector,
+  .store-product-media-selector{
+    position:static !important;
+    inset:auto !important;
+    transform:none !important;
+    display:flex !important;
+    align-items:center !important;
+    flex:0 0 auto !important;
+    width:100% !important;
+    height:34px !important;
+    min-height:34px !important;
+    max-height:34px !important;
+    padding:2px 4px !important;
+    margin:0 !important;
+    gap:3px !important;
+    box-sizing:border-box !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+  }
+
+  .store-product-media-column .store-media-thumb,
+  .store-media-thumb{
+    flex:0 0 28px !important;
+    width:28px !important;
+    min-width:28px !important;
+    height:28px !important;
+    min-height:28px !important;
+    max-height:28px !important;
+    margin:0 !important;
+  }
+}
