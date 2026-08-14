@@ -3842,3 +3842,90 @@ footer{padding:24px 0 90px !important;background:rgba(2,3,5,.78) !important}
 .store-product-info h3,.store-product-price,.store-new-price,.store-old-price{color:#fff !important}
 .store-product-info .btn-primary{background:rgba(229,195,143,.94) !important;color:#111 !important;border-color:rgba(229,195,143,.94) !important;text-shadow:none !important}
 .store-product-info .btn-primary:hover{background:#fff !important;border-color:#fff !important}
+
+/* ==========================================================
+   ROCKSTAR V18 — AJUSTE SOLICITADO: SOLO CATÁLOGO EN CELULAR
+   Base: V18 COMPACTA aprobada.
+   Objetivo: tarjetas/fotos más pequeñas, imagen completa y
+   conservar desplazamiento horizontal. No altera funciones.
+   ========================================================== */
+@media (max-width:800px){
+  /* Dos productos visibles prácticamente completos en pantalla */
+  .store-product-card{
+    flex:0 0 46vw !important;
+    width:46vw !important;
+    min-width:155px !important;
+    max-width:185px !important;
+    min-height:0 !important;
+  }
+
+  /* El bloque de foto ya no deja espacio vertical sobrante */
+  .store-product-media-column{
+    display:block !important;
+    width:100% !important;
+    height:auto !important;
+    min-height:0 !important;
+  }
+
+  .store-product-image,
+  .store-product-media-column .store-product-image{
+    width:100% !important;
+    height:118px !important;
+    min-height:118px !important;
+    max-height:118px !important;
+    aspect-ratio:auto !important;
+    overflow:hidden !important;
+  }
+
+  /* Foto completa: jamás recortada ni escondida */
+  .store-product-image img,
+  .store-product-media-column .store-product-image img,
+  .store-product-card .store-product-card-main-image{
+    display:block !important;
+    width:100% !important;
+    height:118px !important;
+    min-height:118px !important;
+    max-height:118px !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    padding:4px !important;
+    box-sizing:border-box !important;
+  }
+
+  .store-product-media-column .store-product-card-main-video{
+    width:100% !important;
+    height:118px !important;
+    min-height:118px !important;
+    max-height:118px !important;
+    object-fit:contain !important;
+  }
+
+  /* Miniaturas compactas inmediatamente debajo de la foto */
+  .store-product-media-column .store-product-media-selector,
+  .store-product-media-selector{
+    min-height:0 !important;
+    height:auto !important;
+    padding:5px !important;
+    gap:4px !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+  }
+
+  .store-product-media-column .store-media-thumb,
+  .store-media-thumb{
+    flex:0 0 30px !important;
+    width:30px !important;
+    min-width:30px !important;
+    height:30px !important;
+    min-height:30px !important;
+  }
+
+  /* Mantiene la fila horizontal ya aprobada */
+  .store-product-grid{
+    display:flex !important;
+    flex-wrap:nowrap !important;
+    overflow-x:auto !important;
+    overflow-y:hidden !important;
+    gap:8px !important;
+  }
+}

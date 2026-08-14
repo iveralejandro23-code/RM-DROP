@@ -1,0 +1,14 @@
+ROCKSTAR STORE — V18 COMPACTA / AJUSTE DE FOTOS
+
+Base utilizada: ROCKSTAR_Store_V18_COMPACTA.
+Único ajuste visual realizado en celular:
+- Tarjetas de producto más angostas.
+- Foto principal reducida a 118px de alto.
+- object-fit: contain para mostrar la foto completa sin recortes.
+- Eliminado espacio vertical sobrante del bloque multimedia.
+- Miniaturas reducidas a 30x30px.
+- Se conserva catálogo horizontal.
+
+No se modificaron:
+Supabase, carrito, pedidos, promociones, zoom, correo, Admin,
+configuración, fondo, video, música ni demás funciones.
