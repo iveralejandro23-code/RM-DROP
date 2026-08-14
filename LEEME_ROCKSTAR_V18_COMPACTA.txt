@@ -1,0 +1,22 @@
+ROCKSTAR STORE V18.0 — DISEÑO COMPACTO HORIZONTAL
+
+Cambios visuales de esta versión:
+- Conserva logo, nombre, video/fondo y datos configurados desde Admin.
+- Hero más corto para mostrar productos antes.
+- Productos en una sola fila horizontal con desplazamiento lateral.
+- Fotografías principales más pequeñas.
+- Miniaturas de cada producto en fila horizontal.
+- Tarjetas simplificadas: nombre, precio/oferta, disponibilidad y agregar al carrito.
+- Se ocultaron textos largos de la portada para reducir desplazamiento vertical.
+- Navegación rápida inferior en móvil.
+- Footer más compacto.
+
+No se modificaron las funciones de:
+- Supabase
+- Pedidos
+- Carrito
+- Promociones
+- Inventario
+- Zoom/visor
+- Correos
+- Administración

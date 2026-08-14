@@ -63,13 +63,10 @@
     
   <section class="rockstar-real-hero" id="inicio">
     <div class="container rockstar-real-hero-inner">
-      <div class="rockstar-real-hero-copy">
-        <span class="rockstar-real-kicker">ROCKSTAR COLLECTION</span>
-        <h1>GORRAS</h1>
-        <div class="rockstar-gold-divider"><span>★</span></div>
-        <p>Elige tu estilo. Explora modelos, detalles y disponibilidad en tiempo real.</p>
+      <div class="rockstar-real-hero-copy rockstar-compact-hero-copy">
+        <h1 data-store-name>ROCKSTAR</h1>
         <div class="rockstar-real-actions">
-          <a class="btn btn-primary" href="#coleccion">EXPLORAR COLECCIÓN</a>
+          <a class="btn btn-primary" href="#coleccion">VER PRODUCTOS</a>
         </div>
       </div>
     </div>
@@ -77,12 +74,8 @@
 
 <section class="section collection" id="coleccion">
       <div class="container">
-        <div class="section-heading">
-          <div>
-            <span class="section-kicker">ROCKSTAR COLLECTION</span>
-            <h2>Gorras</h2>
-          </div>
-          <p>Elige tu estilo. Explora modelos, detalles y disponibilidad en tiempo real.</p>
+        <div class="section-heading rockstar-compact-heading">
+          <div><h2>PRODUCTOS</h2></div>
         </div>
 
                 <div class="store-category-filter-wrap" id="storeCategoryFilterWrap" hidden>
@@ -312,14 +305,15 @@
   <script src="supabase-products-store.js"></script>
   <script src="supabase-categories-store.js"></script>
 
-  <div id="rockstarVersionBadge" style="
-    position:fixed;right:10px;bottom:10px;z-index:99999;
-    background:rgba(0,0,0,.72);color:#fff;border:1px solid rgba(255,255,255,.25);
-    padding:6px 9px;font:700 10px/1 Arial,sans-serif;letter-spacing:.5px;
-    border-radius:3px;pointer-events:none;">
-    ROCKSTAR V17.4 · VISOR FIJO · TARJETAS TRANSPARENTES</div>
-
   <script src="product-zoom.js"></script>
-  <!-- ROCKSTAR V17.4 · VISOR FIJO · TARJETAS TRANSPARENTES -->
+  <!-- ROCKSTAR V18.0 · DISEÑO COMPACTO HORIZONTAL -->
+
+  <nav class="rockstar-mobile-dock" aria-label="Navegación rápida">
+    <a href="#inicio"><span>⌂</span><small>Inicio</small></a>
+    <a href="#coleccion"><span>▣</span><small>Tienda</small></a>
+    <button type="button" onclick="document.getElementById('cartButton')?.click()"><span>🛒</span><small>Carrito</small></button>
+    <a href="#contacto"><span>◉</span><small>Contacto</small></a>
+  </nav>
+
 </body>
 </html>

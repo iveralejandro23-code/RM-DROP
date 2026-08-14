@@ -3578,3 +3578,267 @@ body.rockstar-v15 .store-product-info,
 /* V17.8 promociones */
 .store-promo-badge{display:inline-flex;align-items:center;min-height:25px;padding:0 9px;margin:0 0 8px;border-radius:3px;background:#e7c27b;color:#15110b;text-shadow:none!important;font-size:9px;font-weight:950;letter-spacing:1px}
 .store-product-price-promo{display:flex!important;align-items:baseline;gap:9px;flex-wrap:wrap}.store-old-price{font-size:.72em;opacity:.72;text-decoration:line-through}.store-new-price{font-weight:950}
+
+/* ==========================================================
+   ROCKSTAR V18.0 — DISEÑO COMPACTO / CATÁLOGO HORIZONTAL
+   Solo presentación. Mantiene carrito, zoom, promociones,
+   Supabase, pedidos y administración existentes.
+   ========================================================== */
+
+/* Header más limpio */
+.site-header{
+  background:rgba(3,5,8,.82) !important;
+  backdrop-filter:blur(12px) !important;
+  -webkit-backdrop-filter:blur(12px) !important;
+}
+.nav-wrap{min-height:68px !important}
+.brand{gap:9px !important}
+.store-brand-logo{max-height:42px !important;max-width:74px !important;object-fit:contain !important}
+
+/* Hero corto: conserva exactamente el fondo/video configurado */
+.rockstar-real-hero{
+  min-height:44vh !important;
+  height:44vh !important;
+  max-height:520px !important;
+  display:flex !important;
+  align-items:flex-end !important;
+  padding:0 !important;
+}
+.rockstar-real-hero-inner{
+  width:100% !important;
+  min-height:100% !important;
+  display:flex !important;
+  align-items:flex-end !important;
+  padding-bottom:34px !important;
+}
+.rockstar-compact-hero-copy{
+  max-width:520px !important;
+  padding:18px 22px !important;
+  background:linear-gradient(90deg,rgba(0,0,0,.58),rgba(0,0,0,.12)) !important;
+  border-left:2px solid rgba(229,195,143,.85) !important;
+}
+.rockstar-compact-hero-copy h1{
+  margin:0 0 14px !important;
+  font-size:clamp(34px,6vw,66px) !important;
+  line-height:.95 !important;
+  letter-spacing:1px !important;
+}
+.rockstar-compact-hero-copy .btn{min-width:170px !important;padding:12px 18px !important}
+
+/* Catálogo inmediatamente después del hero */
+.collection{padding:26px 0 34px !important;background:transparent !important}
+.rockstar-compact-heading{margin-bottom:16px !important;align-items:center !important}
+.rockstar-compact-heading h2{font-size:28px !important;margin:0 !important;letter-spacing:1px !important}
+.store-category-filter-wrap{margin:0 0 14px !important}
+.store-category-filter-title{display:none !important}
+.store-category-filters{display:flex !important;gap:8px !important;overflow-x:auto !important;scrollbar-width:none !important;padding-bottom:4px !important}
+.store-category-filters::-webkit-scrollbar{display:none !important}
+
+/* Productos en una sola fila horizontal */
+.store-product-grid{
+  display:flex !important;
+  grid-template-columns:none !important;
+  gap:14px !important;
+  overflow-x:auto !important;
+  overflow-y:hidden !important;
+  scroll-snap-type:x proximity !important;
+  scrollbar-width:thin !important;
+  padding:2px 2px 12px !important;
+  overscroll-behavior-x:contain !important;
+}
+.store-product-card{
+  flex:0 0 292px !important;
+  width:292px !important;
+  min-width:292px !important;
+  min-height:0 !important;
+  display:flex !important;
+  flex-direction:column !important;
+  scroll-snap-align:start !important;
+  border-radius:12px !important;
+  overflow:hidden !important;
+}
+.store-product-media-column{display:block !important;min-width:0 !important}
+.store-product-image{
+  width:100% !important;
+  height:205px !important;
+  min-height:205px !important;
+  aspect-ratio:auto !important;
+}
+.store-product-media-column .store-product-image,
+.store-product-media-column .store-product-image img,
+.store-product-media-column .store-product-card-main-video{
+  height:205px !important;
+  min-height:205px !important;
+  max-height:205px !important;
+}
+.store-product-image img{object-fit:contain !important;padding:8px !important}
+.store-product-media-label{
+  right:9px !important;bottom:9px !important;padding:7px 9px !important;font-size:8px !important
+}
+
+/* Miniaturas pequeñas y también horizontales */
+.store-product-media-column .store-product-media-selector,
+.store-product-media-selector{
+  display:flex !important;
+  grid-template-columns:none !important;
+  gap:6px !important;
+  overflow-x:auto !important;
+  padding:7px !important;
+  scrollbar-width:none !important;
+}
+.store-product-media-selector::-webkit-scrollbar{display:none !important}
+.store-product-media-column .store-media-thumb,
+.store-media-thumb{
+  flex:0 0 42px !important;
+  width:42px !important;
+  height:42px !important;
+  min-width:42px !important;
+  min-height:42px !important;
+  border-radius:6px !important;
+}
+
+/* Solo la información necesaria */
+.store-product-info{padding:14px !important;display:flex !important;gap:0 !important}
+.store-product-info>small,
+.store-product-info>p,
+.store-product-meta,
+.product-whatsapp{display:none !important}
+.store-product-info h3{
+  font-size:22px !important;
+  line-height:1.05 !important;
+  margin:0 0 9px !important;
+  min-height:46px !important;
+}
+.store-product-price{font-size:18px !important;margin:0 0 10px !important}
+.store-promo-badge{margin:0 0 7px !important}
+.store-product-info .btn-primary{
+  margin-top:4px !important;
+  min-height:42px !important;
+  padding:10px 12px !important;
+  font-size:11px !important;
+}
+.store-stock-badge{margin:0 0 8px !important;font-size:9px !important}
+
+/* Quitar bloques largos del home; siguen existiendo sin afectar funciones */
+.rockstar-statement,.trust-section{display:none !important}
+
+/* Footer corto */
+footer{padding:24px 0 90px !important;background:rgba(2,3,5,.78) !important}
+.footer-grid{gap:18px !important;align-items:start !important}
+.footer-brand{font-size:22px !important}
+.footer-grid p{margin:6px 0 !important;font-size:12px !important}
+.footer-contact{gap:7px !important}
+.footer-links{gap:10px !important}
+.footer-links a{font-size:11px !important}
+.river-credit{font-size:10px !important}
+
+/* Dock móvil simple */
+.rockstar-mobile-dock{display:none}
+
+@media(max-width:800px){
+  body{padding-bottom:66px !important}
+  .container{width:min(100% - 20px,1160px) !important}
+
+  .site-header{position:sticky !important;top:0 !important;z-index:80 !important}
+  .nav-wrap{
+    display:grid !important;
+    grid-template-columns:44px 1fr auto auto !important;
+    gap:8px !important;
+    min-height:60px !important;
+  }
+  .menu-toggle{grid-column:1 !important;grid-row:1 !important;margin:0 !important;font-size:22px !important}
+  .brand{grid-column:2 !important;grid-row:1 !important;justify-self:center !important;font-size:15px !important;min-width:0 !important}
+  .brand span{max-width:120px !important;overflow:hidden !important;text-overflow:ellipsis !important;white-space:nowrap !important}
+  .store-brand-logo{max-height:38px !important;max-width:58px !important}
+  .cart-button{grid-column:3 !important;grid-row:1 !important;padding:7px 8px !important}
+  .rockstar-sound{grid-column:4 !important;grid-row:1 !important;width:38px !important;min-width:38px !important;padding:0 !important}
+  .rockstar-sound span{display:none !important}
+  .main-nav{top:60px !important}
+
+  .rockstar-real-hero{
+    min-height:32svh !important;
+    height:32svh !important;
+    max-height:360px !important;
+  }
+  .rockstar-real-hero-inner{padding-bottom:16px !important}
+  .rockstar-compact-hero-copy{
+    max-width:78% !important;
+    padding:12px 14px !important;
+  }
+  .rockstar-compact-hero-copy h1{font-size:30px !important;margin-bottom:9px !important}
+  .rockstar-compact-hero-copy .btn{min-width:135px !important;padding:9px 12px !important;font-size:10px !important}
+
+  .collection{padding:18px 0 24px !important}
+  .rockstar-compact-heading{margin-bottom:10px !important}
+  .rockstar-compact-heading h2{font-size:22px !important}
+
+  .store-product-grid{
+    gap:10px !important;
+    margin-right:-10px !important;
+    padding-right:18px !important;
+  }
+  .store-product-card{
+    flex-basis:72vw !important;
+    width:72vw !important;
+    min-width:72vw !important;
+    max-width:280px !important;
+  }
+  .store-product-image,
+  .store-product-media-column .store-product-image,
+  .store-product-media-column .store-product-image img,
+  .store-product-media-column .store-product-card-main-video{
+    height:170px !important;
+    min-height:170px !important;
+    max-height:170px !important;
+  }
+  .store-product-info{padding:11px !important}
+  .store-product-info h3{font-size:19px !important;min-height:40px !important;margin-bottom:7px !important}
+  .store-product-price{font-size:16px !important;margin-bottom:8px !important}
+  .store-product-info .btn-primary{min-height:38px !important;padding:8px 10px !important}
+  .store-product-media-column .store-media-thumb,.store-media-thumb{
+    flex-basis:38px !important;width:38px !important;height:38px !important;min-width:38px !important;min-height:38px !important
+  }
+
+  footer{padding:18px 0 76px !important}
+  .footer-grid{grid-template-columns:1fr !important;gap:10px !important}
+  .footer-links{display:flex !important;overflow-x:auto !important;flex-wrap:nowrap !important;padding-bottom:4px !important}
+
+  .rockstar-mobile-dock{
+    position:fixed !important;
+    left:0 !important;right:0 !important;bottom:0 !important;
+    z-index:79 !important;
+    height:64px !important;
+    display:grid !important;
+    grid-template-columns:repeat(4,1fr) !important;
+    background:rgba(3,4,6,.96) !important;
+    border-top:1px solid rgba(255,255,255,.16) !important;
+    backdrop-filter:blur(12px) !important;
+    -webkit-backdrop-filter:blur(12px) !important;
+  }
+  .rockstar-mobile-dock a,.rockstar-mobile-dock button{
+    appearance:none !important;
+    border:0 !important;
+    background:transparent !important;
+    color:#fff !important;
+    text-decoration:none !important;
+    display:flex !important;
+    flex-direction:column !important;
+    align-items:center !important;
+    justify-content:center !important;
+    gap:2px !important;
+    font:inherit !important;
+    cursor:pointer !important;
+  }
+  .rockstar-mobile-dock span{font-size:18px !important;line-height:1 !important}
+  .rockstar-mobile-dock small{font-size:9px !important;text-transform:uppercase !important;letter-spacing:.6px !important}
+}
+
+@media(min-width:801px){
+  .store-product-grid{padding-bottom:18px !important}
+}
+
+/* V18.0 ajuste de contraste para tarjetas compactas */
+.store-product-card{color:#fff !important}
+.store-product-info h3,.store-product-price,.store-new-price,.store-old-price{color:#fff !important}
+.store-product-info .btn-primary{background:rgba(229,195,143,.94) !important;color:#111 !important;border-color:rgba(229,195,143,.94) !important;text-shadow:none !important}
+.store-product-info .btn-primary:hover{background:#fff !important;border-color:#fff !important}
