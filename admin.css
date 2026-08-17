@@ -1471,3 +1471,14 @@
 .admin-notification-body{flex:1;display:grid;gap:3px}
 .admin-notification-title{display:flex;align-items:center;gap:8px}
 .admin-notification-new{font-size:8px;font-weight:900;letter-spacing:.8px;padding:3px 6px;border-radius:999px;background:#d8ad57;color:#15110a}
+
+
+/* Manual de uso — agregado sin alterar módulos funcionales */
+#manualUsoPanel{scroll-margin-top:20px}
+.manual-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;margin-top:16px}
+.manual-card{border:1px solid #dde2e9;border-radius:8px;background:#f8fafc;padding:15px}
+.manual-card h3,.manual-help-box h3{margin:0 0 7px;font-size:14px}
+.manual-card p,.manual-help-box p{margin:0;line-height:1.55;color:#5f6875;font-size:12px}
+.manual-help-box{margin-top:14px;padding:16px;border:1px solid #d1a855;border-radius:8px;background:#fff9e9}
+.manual-warning{margin-top:14px}
+@media(max-width:760px){.manual-grid{grid-template-columns:1fr}}

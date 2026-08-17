@@ -1,6 +1,6 @@
 /* ROCKSTAR V17.8.2 — navegación directa */
 (() => {
-  document.querySelectorAll('a[href="#respaldoPanel"],a[href="#miCuenta"]').forEach(link=>{
+  document.querySelectorAll('a[href="#respaldoPanel"],a[href="#miCuenta"],a[href="#manualUsoPanel"]').forEach(link=>{
     link.addEventListener("click",e=>{
       const id=link.getAttribute("href");
       const target=document.querySelector(id);

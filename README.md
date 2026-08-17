@@ -1,7 +1,19 @@
-# ROCKSTAR Store — versión limpia
+# ROCKSTAR STORE — ENTREGA FINAL
 
-Versión funcional consolidada basada en V18.4.
+Paquete consolidado para operación de la tienda.
 
-Incluye la tienda, panel administrativo, carrito, promociones, multimedia (fotos/video), configuración, Supabase y función de correo de pedidos.
+## Inicio
+- Tienda pública: `index.html`
+- Administración: `login.html` / `admin.html`
+- Manual de uso: disponible dentro de Admin → **Manual de uso**
 
-Esta copia elimina archivos de notas y documentación de versiones anteriores; no elimina archivos funcionales del sistema.
+## Supabase
+La carpeta `supabase/` conserva únicamente:
+- `PRODUCCION_ACTUAL.sql`: referencia consolidada de la lógica SQL actual.
+- `config.toml`: configuración del proyecto local.
+- `functions/order-email/index.ts`: código actual de la función de correo.
+
+No ejecutar `PRODUCCION_ACTUAL.sql` sobre una base en producción salvo que se esté restaurando o configurando una instalación y se conozca el procedimiento.
+
+## Importante
+No publicar claves privadas, secretos de Resend ni credenciales administrativas dentro de estos archivos. Las credenciales privadas deben permanecer en Supabase/Resend.
