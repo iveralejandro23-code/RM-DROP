@@ -1439,7 +1439,18 @@ function renderOrders(){
 function renderPhotoPreview(){
   if(!workingImages.length){photoPreview.innerHTML='<div class="no-photo">Sin fotografías seleccionadas</div>';return;}
   photoPreview.innerHTML=workingImages.map((src,i)=>`<button type="button" class="photo-thumb ${i===mainImageIndex?'main-photo':''}" data-index="${i}" title="Usar como principal"><img src="${src}" alt="Foto ${i+1}"><span>${i===mainImageIndex?'PRINCIPAL':'Elegir'}</span></button>`).join('');
-  photoPreview.querySelectorAll('.photo-thumb').forEach(btn=>btn.addEventListener('click',()=>{mainImageIndex=Number(btn.dataset.index);renderPhotoPreview();}));
+  photoPreview.querySelectorAll('.photo-thumb').forEach(btn=>btn.addEventListener('click',()=>{
+    const selectedIndex=Number(btn.dataset.index);
+    if(!Number.isInteger(selectedIndex) || selectedIndex<0 || selectedIndex>=workingImages.length)return;
+    // La foto elegida como principal pasa físicamente a la posición 0.
+    // Así Admin, Supabase y la tienda pública usan exactamente la misma principal.
+    if(selectedIndex!==0){
+      const [selectedImage]=workingImages.splice(selectedIndex,1);
+      workingImages.unshift(selectedImage);
+    }
+    mainImageIndex=0;
+    renderPhotoPreview();
+  }));
 }
 
 function readFiles(files){
@@ -1958,6 +1969,17 @@ form.addEventListener("submit", async (event) => {
     }
   }
 
+  // Antes de guardar, consolidamos la foto principal en images[0].
+  // Esto evita que image_url y el arreglo images queden apuntando a fotos distintas.
+  if(workingImages.length){
+    const safeMainIndex=Math.min(Math.max(Number(mainImageIndex)||0,0),workingImages.length-1);
+    if(safeMainIndex!==0){
+      const [selectedImage]=workingImages.splice(safeMainIndex,1);
+      workingImages.unshift(selectedImage);
+    }
+    mainImageIndex=0;
+  }
+
   const product = {
     id: resolvedId,
     name: fieldName.value.trim(),
@@ -2007,7 +2029,14 @@ form.addEventListener("submit", async (event) => {
     }
   }
 
-  saveProducts(products);
+  const syncResult=saveProducts(products);
+  if(syncResult && typeof syncResult.then==="function") {
+    const synced=await syncResult;
+    if(synced===false){
+      alert("El producto se guardó localmente, pero no se pudo actualizar en Supabase. Revisa la conexión antes de cerrar Admin.");
+      return;
+    }
+  }
   renderProducts();
   renderInventoryMovements();
   resetForm();

@@ -1,0 +1,3 @@
+ROCKSTAR STORE — ENTREGA FINAL SOLO FOTO ENTRADA
+Base: FOTO PRINCIPAL Y ENTRADA
+Cambio: mientras la portada está visible, únicamente la foto del producto permite entrar a la tienda.
