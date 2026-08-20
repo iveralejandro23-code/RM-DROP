@@ -8,7 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="styles.css?v=21.5" />
   <!-- RIVER_PRODUCTION_URL: agrega aquí el dominio final cuando se publique -->
   <link rel="manifest" href="manifest.webmanifest">
 </head>
@@ -18,6 +18,7 @@
   <audio id="rockstarAudio" src="assets/media/rockstar-music.mp3" loop preload="auto"></audio>
 
   <div class="rockstar-global-bg" aria-hidden="true">
+    <div id="rockstar360Viewer" class="rockstar-360-viewer" hidden></div>
     <video
       id="rockstarGlobalVideo"
       class="rockstar-global-video"
@@ -35,16 +36,17 @@
   <div class="rockstar-entry" id="rockstarEntry" aria-label="Entrada a ROCKSTAR">
     <div class="rockstar-entry-inner">
       <div class="rockstar-entry-logo" id="rockstarEntryLogo" aria-hidden="true">
-        <span>ROCKSTAR</span>
+        <img id="rockstarEntryBrandImage" alt="" hidden>
+        <span id="rockstarEntryBrandText">ROCKSTAR</span>
       </div>
       <div class="rockstar-entry-feature" id="rockstarEntryFeature">
         <button class="rockstar-entry-image-wrap" id="rockstarEntryProductButton" type="button" aria-label="Entrar a la tienda viendo este producto">
           <img id="rockstarEntryProductImage" alt="Producto destacado ROCKSTAR">
         </button>
-        <strong id="rockstarEntryProductName">VER COLECCIÓN</strong>
-        <span id="rockstarEntryProductPrice">ENTRAR A LA TIENDA</span>
+        <div class="rockstar-entry-caption" id="rockstarEntryCaption" hidden>
+          <img id="rockstarEntryCaptionImage" alt="Frase gráfica de entrada" hidden>
+        </div>
       </div>
-      <small>TOCA LA FOTO PARA ENTRAR</small>
     </div>
   </div>
 
@@ -52,7 +54,8 @@
     <div class="container nav-wrap">
       <a class="brand" href="#inicio">
         <img class="store-brand-logo" data-store-logo alt="Logo de la tienda" style="display:none">
-        <span data-store-name>ROCKSTAR</span>
+        <img class="header-brand-image" data-header-brand-image alt="" hidden>
+        <span data-store-name data-header-brand-text>ROCKSTAR</span>
       </a>
 
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
@@ -79,9 +82,9 @@
   <section class="rockstar-real-hero" id="inicio">
     <div class="container rockstar-real-hero-inner">
       <div class="rockstar-real-hero-copy rockstar-compact-hero-copy">
-        <h1 data-store-name>ROCKSTAR</h1>
-        <div class="rockstar-real-actions">
-          <a class="btn btn-primary" href="#coleccion">VER PRODUCTOS</a>
+        <div class="rockstar-public-brand rockstar-public-brand-hero" data-public-brand-slot aria-label="ROCKSTAR">
+          <img data-public-brand-image alt="" hidden>
+          <span data-public-brand-text>ROCKSTAR</span>
         </div>
       </div>
     </div>
@@ -103,7 +106,10 @@
 
     <section class="rockstar-statement">
       <div class="container">
-        <span>ROCKSTAR</span>
+        <div class="rockstar-public-brand rockstar-public-brand-statement" data-public-brand-slot aria-label="ROCKSTAR">
+          <img data-public-brand-image alt="" hidden>
+          <span data-public-brand-text>ROCKSTAR</span>
+        </div>
         <h2>NO ES SOLO UNA GORRA.<br>ES PARTE DEL LOOK.</h2>
         <a href="#coleccion">EXPLORAR TODO →</a>
       </div>
@@ -121,7 +127,10 @@
   <footer id="contacto">
     <div class="container footer-grid">
       <div>
-        <div class="footer-brand" data-store-name>ROCKSTAR</div>
+        <div class="footer-brand rockstar-public-brand rockstar-public-brand-footer" data-public-brand-slot aria-label="ROCKSTAR">
+          <img data-public-brand-image alt="" hidden>
+          <span data-public-brand-text>ROCKSTAR</span>
+        </div>
         <p data-store-footer>ROCKSTAR · Headwear · Streetwear</p>
       </div>
       <div class="footer-contact">
@@ -199,18 +208,19 @@
         <div class="checkout-section">
           <h4>Entrega</h4>
           <div class="option-cards">
-            <label class="option-card selected">
+            <label class="option-card selected" data-delivery-option="pickup">
               <input type="radio" name="deliveryType" value="Entrega local" checked>
               <span class="option-title">Entrega local</span>
               <small>Coordinar ubicación y horario por WhatsApp.</small>
             </label>
 
-            <label class="option-card">
+            <label class="option-card" data-delivery-option="shipping">
               <input type="radio" name="deliveryType" value="Envío">
               <span class="option-title">Envío</span>
               <small>El costo se confirmará según destino.</small>
             </label>
           </div>
+          <p id="deliveryAvailabilityMessage" class="checkout-availability-message" hidden>No hay métodos de entrega disponibles. Contacta a la tienda.</p>
         </div>
 
         <div class="shipping-fields" id="shippingFields">
@@ -233,24 +243,25 @@
         <div class="checkout-section">
           <h4>Forma de pago</h4>
           <div class="option-cards">
-            <label class="option-card selected">
+            <label class="option-card selected" data-payment-option="transfer">
               <input type="radio" name="paymentType" value="Transferencia" checked>
               <span class="option-title">Transferencia</span>
               <small>Se enviarán los datos bancarios por WhatsApp.</small>
             </label>
 
-            <label class="option-card">
+            <label class="option-card" data-payment-option="cash">
               <input type="radio" name="paymentType" value="Efectivo">
               <span class="option-title">Efectivo</span>
               <small>Disponible al coordinar entrega local.</small>
             </label>
 
-            <label class="option-card disabled-option">
+            <label class="option-card disabled-option" data-payment-option="card">
               <input type="radio" name="paymentType" value="Tarjeta" disabled>
               <span class="option-title">Tarjeta</span>
               <small>Próximamente.</small>
             </label>
           </div>
+          <p id="paymentAvailabilityMessage" class="checkout-availability-message" hidden>No hay formas de pago disponibles. Contacta a la tienda.</p>
         </div>
 
         <div class="checkout-summary">
@@ -314,14 +325,16 @@
 
   <script src="config.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <script src="store-settings-store.js"></script>
-  <script src="app.js?v=18.5-final"></script>
+  <script src="https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.min.js"></script>
+  <script src="rockstar-360.js?v=21.5"></script>
+  <script src="store-settings-store.js?v=21.5"></script>
+  <script src="app.js?v=21.0"></script>
   <script src="rockstar-experience.js"></script>
   <script src="supabase-products-store.js?v=18.5-final"></script>
   <script src="supabase-categories-store.js"></script>
 
   <script src="product-zoom.js"></script>
-  <script src="rockstar-entry.js?v=18.6"></script>
+  <script src="rockstar-entry.js?v=21.5-portada-conservada"></script>
   <!-- ROCKSTAR V18.0 · DISEÑO COMPACTO HORIZONTAL -->
 
   <nav class="rockstar-mobile-dock" aria-label="Navegación rápida">

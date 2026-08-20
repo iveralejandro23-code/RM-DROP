@@ -1482,3 +1482,60 @@
 .manual-help-box{margin-top:14px;padding:16px;border:1px solid #d1a855;border-radius:8px;background:#fff9e9}
 .manual-warning{margin-top:14px}
 @media(max-width:760px){.manual-grid{grid-template-columns:1fr}}
+
+
+/* ROCKSTAR V19.6 — Control de color junto a la imagen de la frase */
+.rockstar-inline-color-control{
+  display:flex;align-items:center;justify-content:space-between;gap:14px;
+  margin-top:10px;padding:10px 12px;border:1px solid rgba(255,255,255,.12);
+  border-radius:10px;background:rgba(255,255,255,.035);font-weight:700;
+}
+.rockstar-inline-color-control input[type="color"]{
+  width:64px;height:38px;padding:2px;border:0;background:transparent;cursor:pointer;
+}
+
+
+/* ROCKSTAR V20.2 — Todos los selectores de resplandor usan el mismo formato. */
+.rockstar-inline-color-control{
+  width:min(520px,100%);
+  min-height:52px;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:space-between!important;
+  gap:16px!important;
+  margin:10px auto 0!important;
+  padding:9px 12px!important;
+  border:1px solid #d9dee7!important;
+  border-radius:8px!important;
+  background:#f8fafc!important;
+  color:#27344a!important;
+  font-size:11px!important;
+  font-weight:700!important;
+}
+.rockstar-inline-color-control input[type="color"]{
+  flex:0 0 72px!important;
+  width:72px!important;
+  height:38px!important;
+  min-width:72px!important;
+  padding:2px!important;
+  border:1px solid #cfd6e1!important;
+  border-radius:6px!important;
+  background:#fff!important;
+  cursor:pointer!important;
+}
+
+/* V21 · Configuración final limpia */
+.rockstar-fixed-setting{align-content:start}.rockstar-fixed-value{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 16px;border:1px solid rgba(229,189,112,.35);background:rgba(229,189,112,.08);letter-spacing:.12em;width:max-content}
+
+/* ROCKSTAR V22 — Push notifications */
+.push-device-card{
+  margin:16px 0 18px;padding:16px;border:1px solid rgba(209,168,85,.38);
+  border-radius:16px;background:rgba(20,20,20,.035);display:grid;gap:12px
+}
+.push-device-card p{margin:5px 0 0}
+.push-device-actions{display:flex;gap:10px;flex-wrap:wrap}
+.push-device-status{font-size:13px;font-weight:700}
+.push-device-status.ok{color:#18794e}.push-device-status.warn{color:#9a6700}.push-device-status.bad{color:#b42318}
+.push-public-key-box{margin-top:14px;padding-top:14px;border-top:1px solid rgba(0,0,0,.09)}
+.push-public-key-box input{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px}
+@media(max-width:640px){.push-device-actions>*{width:100%}}

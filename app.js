@@ -553,8 +553,12 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e) => 
   const name = document.getElementById("customerName").value.trim();
   const phoneCustomer = document.getElementById("customerPhone").value.trim();
   const email = document.getElementById("customerEmail").value.trim();
-  const delivery = document.querySelector('input[name="deliveryType"]:checked').value;
-  const payment = document.querySelector('input[name="paymentType"]:checked').value;
+  const deliveryInput = document.querySelector('input[name="deliveryType"]:checked:not(:disabled)');
+  const paymentInput = document.querySelector('input[name="paymentType"]:checked:not(:disabled)');
+  if (!deliveryInput) return alert("No hay un método de entrega disponible. Contacta a la tienda.");
+  if (!paymentInput) return alert("No hay una forma de pago disponible. Contacta a la tienda.");
+  const delivery = deliveryInput.value;
+  const payment = paymentInput.value;
   const address = document.getElementById("customerAddress").value.trim();
   const city = document.getElementById("customerCity").value.trim();
   const zip = document.getElementById("customerZip").value.trim();
@@ -612,7 +616,7 @@ document.getElementById("checkoutForm").addEventListener("submit", async (e) => 
 
   const message = [
     `PEDIDO ${folio}`,
-    "Tienda oficial de Julian Reynoso",
+    String(window.RIVER_STORE_SETTINGS?.store_name || "ROCKSTAR"),
     "",
     "DATOS DEL CLIENTE",
     `Nombre: ${name}`,

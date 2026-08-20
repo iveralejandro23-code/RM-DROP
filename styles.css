@@ -4281,3 +4281,698 @@ body.rockstar-entry-open .rockstar-entry-inner > small {
 body.rockstar-entry-open .rockstar-entry-image-wrap {
   pointer-events: auto !important;
 }
+
+/* ENTREGA FINAL — SOLO AJUSTE TIPOGRÁFICO DEL NOMBRE EN HEADER */
+body.rockstar-v16 > header.site-header .brand span[data-store-name]{
+  font-family:'Oswald','Arial Narrow',sans-serif !important;
+  font-size:clamp(30px,3.2vw,44px) !important;
+  font-weight:700 !important;
+  letter-spacing:.12em !important;
+  line-height:1 !important;
+  max-width:none !important;
+  overflow:visible !important;
+  text-overflow:clip !important;
+  white-space:nowrap !important;
+  text-transform:uppercase !important;
+}
+@media(max-width:800px){
+  body.rockstar-v16 > header.site-header .brand{
+    max-width:none !important;
+    width:auto !important;
+  }
+  body.rockstar-v16 > header.site-header .brand span[data-store-name]{
+    font-size:clamp(26px,8vw,36px) !important;
+    letter-spacing:.09em !important;
+    max-width:none !important;
+  }
+}
+
+/* ==========================================================
+   AJUSTE FINAL DE HEADER — CONSERVA POSICIONES EXISTENTES
+   Solo recorre ROCKSTAR un poco hacia el centro sin mover
+   carrito, música, menú ni navegación.
+   ========================================================== */
+@media (min-width:801px){
+  body.rockstar-v16 > header.site-header .nav-wrap{
+    position:relative !important;
+    display:flex !important;
+    align-items:center !important;
+  }
+  body.rockstar-v16 > header.site-header .brand{
+    position:relative !important;
+    left:auto !important;
+    top:auto !important;
+    transform:none !important;
+    margin-left:clamp(28px,6vw,92px) !important;
+    margin-right:clamp(18px,3vw,42px) !important;
+    z-index:4 !important;
+    white-space:nowrap !important;
+    animation:rockstarHeaderFloatOnly 3.8s ease-in-out infinite !important;
+    flex:0 0 auto !important;
+  }
+  body.rockstar-v16 > header.site-header .brand > *{
+    animation:rockstarLogoTurn 10s linear infinite !important;
+  }
+  body.rockstar-v16 > header.site-header .main-nav{
+    margin-left:auto !important;
+  }
+}
+@keyframes rockstarHeaderFloatOnly{
+  0%,100%{transform:translateY(-2px)}
+  50%{transform:translateY(4px)}
+}
+
+/* En celular conserva exactamente la distribución compacta existente. */
+@media (max-width:800px){
+  body.rockstar-v16 > header.site-header .brand{
+    position:static !important;
+    left:auto !important;
+    top:auto !important;
+    transform:none !important;
+    margin:0 !important;
+    grid-column:2 !important;
+    grid-row:1 !important;
+    justify-self:center !important;
+    animation:rockstarHeaderFloatOnly 3.8s ease-in-out infinite !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V19 — IDENTIDAD + PORTADA EDITABLE DESDE ADMIN
+   Mantiene catálogo, carrito, promociones, pedidos y correo.
+   ========================================================== */
+:root{--rockstar-brand-glow:#e5bd70}
+
+/* Marca superior en texto o imagen. */
+body.rockstar-v16 > header.site-header .brand{
+  filter:
+    drop-shadow(0 0 7px color-mix(in srgb,var(--rockstar-brand-glow) 72%,transparent))
+    drop-shadow(0 0 16px color-mix(in srgb,var(--rockstar-brand-glow) 42%,transparent));
+}
+body.rockstar-v16 > header.site-header .header-brand-image{
+  display:block;
+  width:auto;
+  height:52px;
+  max-width:190px;
+  object-fit:contain;
+  transform-origin:center center;
+}
+body.rockstar-v16 > header.site-header .brand:has(.header-brand-image:not([hidden])) .store-brand-logo{
+  display:none !important;
+}
+
+/* Portada: fondo editable, producto solo y sin tarjeta/cuadro. */
+.rockstar-entry{
+  background-position:center !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+}
+.rockstar-entry-inner{
+  width:min(640px,94vw) !important;
+  gap:14px !important;
+}
+.rockstar-entry-logo{
+  padding:4px 12px !important;
+  filter:
+    drop-shadow(0 0 8px color-mix(in srgb,var(--rockstar-brand-glow) 85%,transparent))
+    drop-shadow(0 0 24px color-mix(in srgb,var(--rockstar-brand-glow) 58%,transparent))
+    drop-shadow(0 0 42px color-mix(in srgb,var(--rockstar-brand-glow) 34%,transparent)) !important;
+}
+.rockstar-entry-logo img{
+  display:block;
+  width:min(420px,72vw);
+  max-height:145px;
+  object-fit:contain;
+  transform-style:preserve-3d;
+  animation:rockstarEntryFloat 3.8s ease-in-out infinite,rockstarEntryTurn 10s linear infinite;
+}
+.rockstar-entry-logo span{
+  text-shadow:
+    0 0 8px color-mix(in srgb,var(--rockstar-brand-glow) 90%,transparent),
+    0 0 24px color-mix(in srgb,var(--rockstar-brand-glow) 60%,transparent),
+    0 0 44px color-mix(in srgb,var(--rockstar-brand-glow) 34%,transparent) !important;
+}
+.rockstar-entry-feature{
+  width:min(390px,80vw) !important;
+  border:0 !important;
+  border-radius:0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+.rockstar-entry-image-wrap{
+  width:min(330px,68vw) !important;
+  aspect-ratio:1/1 !important;
+  margin:0 auto !important;
+  border-radius:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+  overflow:visible !important;
+}
+.rockstar-entry-image-wrap:hover,
+.rockstar-entry-image-wrap:focus-visible{
+  box-shadow:none !important;
+}
+.rockstar-entry-image-wrap img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  background:transparent !important;
+  mix-blend-mode:multiply;
+  filter:drop-shadow(0 18px 24px rgba(0,0,0,.42));
+}
+.rockstar-entry-caption{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  gap:5px;
+  margin-top:0;
+}
+.rockstar-entry-caption img{
+  width:min(520px,88vw);
+  max-height:92px;
+  object-fit:contain;
+  mix-blend-mode:screen;
+}
+.rockstar-entry-caption strong{
+  margin:0 !important;
+  font-family:'Oswald',sans-serif !important;
+  font-size:clamp(20px,5vw,34px) !important;
+  line-height:1.05;
+  color:#ff2028;
+  text-shadow:0 0 12px rgba(255,0,0,.30);
+  letter-spacing:.04em;
+}
+@media(max-width:520px){
+  .rockstar-entry-inner{gap:9px !important}
+  .rockstar-entry-logo img{width:min(310px,72vw);max-height:98px}
+  .rockstar-entry-logo span{font-size:clamp(39px,12vw,64px) !important}
+  .rockstar-entry-feature{width:min(330px,88vw) !important}
+  .rockstar-entry-image-wrap{width:min(245px,62vw) !important}
+  .rockstar-entry-caption img{width:min(350px,92vw);max-height:62px}
+  body.rockstar-v16 > header.site-header .header-brand-image{height:38px;max-width:128px}
+}
+
+
+
+/* ==========================================================
+   ROCKSTAR V19.1 — PORTADA LIMPIA + RESPLANDORES EDITABLES
+   Solo afecta la pantalla de entrada. Al entrar a la tienda,
+   el header y todas sus funciones vuelven a mostrarse normal.
+   ========================================================== */
+:root{
+  --rockstar-product-glow:#e5bd70;
+  --rockstar-caption-bg:#000000;
+  --rockstar-caption-bg-display:#000000;
+}
+
+/* Mientras la portada está abierta, la barra superior desaparece por completo. */
+body.rockstar-entry-open > header.site-header,
+body.rockstar-entry-open .site-header{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+}
+
+/* La imagen de marca de la portada elimina visualmente fondos negros y
+   conserva solo el arte/letras, además de flotar y girar. */
+.rockstar-entry-logo img{
+  background:transparent !important;
+  mix-blend-mode:screen !important;
+  filter:
+    drop-shadow(0 0 8px color-mix(in srgb,var(--rockstar-brand-glow) 88%,transparent))
+    drop-shadow(0 0 24px color-mix(in srgb,var(--rockstar-brand-glow) 62%,transparent))
+    drop-shadow(0 0 44px color-mix(in srgb,var(--rockstar-brand-glow) 36%,transparent)) !important;
+}
+
+/* Producto flotante con halo editable. El halo es radial para que funcione
+   incluso si la foto original no tiene transparencia perfecta. */
+.rockstar-entry-image-wrap{
+  position:relative !important;
+  isolation:isolate;
+  animation:rockstarProductFloat 4.2s ease-in-out infinite !important;
+}
+.rockstar-entry-image-wrap::before{
+  content:'';
+  position:absolute;
+  inset:8% 6%;
+  z-index:-1;
+  pointer-events:none;
+  border-radius:50%;
+  background:radial-gradient(circle,
+    color-mix(in srgb,var(--rockstar-product-glow) 58%,transparent) 0%,
+    color-mix(in srgb,var(--rockstar-product-glow) 28%,transparent) 38%,
+    transparent 72%);
+  filter:blur(17px);
+  transform:scale(1.06);
+}
+.rockstar-entry-image-wrap img{
+  position:relative;
+  z-index:1;
+  filter:
+    drop-shadow(0 10px 18px rgba(0,0,0,.38))
+    drop-shadow(0 0 8px color-mix(in srgb,var(--rockstar-product-glow) 42%,transparent)) !important;
+}
+@keyframes rockstarProductFloat{
+  0%,100%{transform:translateY(-4px)}
+  50%{transform:translateY(9px)}
+}
+
+/* Leyenda: fondo sólido editable únicamente detrás del texto/arte. */
+.rockstar-entry-caption strong{
+  display:inline-block !important;
+  width:auto !important;
+  max-width:min(560px,92vw);
+  padding:.34em .70em !important;
+  border-radius:10px;
+  background:var(--rockstar-caption-bg-display) !important;
+  box-decoration-break:clone;
+  -webkit-box-decoration-break:clone;
+}
+.rockstar-entry-caption img{
+  background:var(--rockstar-caption-bg-display) !important;
+  padding:4px 8px;
+  border-radius:8px;
+}
+
+@media(prefers-reduced-motion:reduce){
+  .rockstar-entry-image-wrap{animation:none !important}
+}
+
+
+/* ==========================================================
+   ROCKSTAR V19.2 — PORTADA FINAL LIMPIA
+   - Fondo cubre todo el viewport.
+   - Marca subida sin cuadro negro (modo screen).
+   - Imagen central sin cuadro claro (modo multiply) y halo editable.
+   - Única leyenda escrita con fondo editable.
+   ========================================================== */
+body.rockstar-entry-open{
+  margin:0 !important;
+  padding:0 !important;
+  background:#000 !important;
+}
+.rockstar-entry{
+  position:fixed !important;
+  inset:0 !important;
+  width:100vw !important;
+  height:100dvh !important;
+  min-height:100dvh !important;
+  padding:clamp(14px,2.2vh,28px) 18px !important;
+  background-position:center center !important;
+  background-size:cover !important;
+  background-repeat:no-repeat !important;
+}
+.rockstar-entry-inner{
+  width:min(700px,96vw) !important;
+  gap:clamp(8px,1.7vh,16px) !important;
+}
+.rockstar-entry-logo{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+.rockstar-entry-logo img{
+  background:transparent !important;
+  mix-blend-mode:screen !important;
+  border:0 !important;
+  box-shadow:none !important;
+}
+.rockstar-entry-feature{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  padding:0 !important;
+}
+.rockstar-entry-image-wrap{
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  overflow:visible !important;
+  width:min(390px,70vw) !important;
+  aspect-ratio:1.25/1 !important;
+}
+.rockstar-entry-image-wrap img{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  background:transparent !important;
+  border:0 !important;
+  box-shadow:none !important;
+  mix-blend-mode:multiply !important;
+  filter:
+    drop-shadow(0 10px 18px rgba(0,0,0,.38))
+    drop-shadow(0 0 8px color-mix(in srgb,var(--rockstar-product-glow) 72%,transparent))
+    drop-shadow(0 0 26px color-mix(in srgb,var(--rockstar-product-glow) 46%,transparent)) !important;
+}
+.rockstar-entry-caption{
+  margin-top:2px !important;
+  display:block !important;
+}
+.rockstar-entry-caption img{display:none !important}
+.rockstar-entry-caption strong{
+  display:inline-block !important;
+  width:auto !important;
+  max-width:min(620px,92vw) !important;
+  padding:.42em .78em !important;
+  margin:0 !important;
+  background:var(--rockstar-caption-bg-display) !important;
+  border-radius:10px !important;
+  color:#ff3038 !important;
+  line-height:1.1 !important;
+  box-shadow:0 0 18px color-mix(in srgb,var(--rockstar-caption-bg) 45%,transparent) !important;
+}
+@media(max-width:520px){
+  .rockstar-entry{padding:12px 10px !important}
+  .rockstar-entry-logo img{width:min(330px,82vw) !important;max-height:110px !important}
+  .rockstar-entry-image-wrap{width:min(295px,72vw) !important}
+  .rockstar-entry-caption strong{font-size:clamp(18px,5.6vw,26px) !important}
+}
+
+
+/* ==========================================================
+   ROCKSTAR V19.3 — MARCA GRÁFICA SIN FONDO
+   La portada usa la imagen subida desde Admin como marca.
+   Los píxeles negros se vuelven transparentes por JS; screen
+   queda como respaldo visual. No afecta la tienda después de entrar.
+   ========================================================== */
+body.rockstar-entry-open .rockstar-entry-logo{
+  isolation:auto !important;
+  background:transparent !important;
+  overflow:visible !important;
+}
+body.rockstar-entry-open .rockstar-entry-logo img{
+  display:block;
+  background:transparent !important;
+  border:0 !important;
+  outline:0 !important;
+  box-shadow:none !important;
+  mix-blend-mode:screen !important;
+  object-fit:contain !important;
+  -webkit-backface-visibility:visible;
+  backface-visibility:visible;
+}
+body.rockstar-entry-open .rockstar-entry-logo img[data-transparent-brand="1"]{
+  /* Ya tiene transparencia real: se renderiza normal para conservar colores. */
+  mix-blend-mode:normal !important;
+}
+
+/* V19.4 — La imagen flotante de entrada deja ver el fondo de la portada.
+   JS elimina únicamente fondos claros conectados a los bordes; así se conserva
+   el producto y desaparece el cuadro blanco típico de fotos JPG. */
+#rockstarEntryProductImage{background:transparent!important;}
+#rockstarEntryProductImage[data-transparent-product="fallback"]{mix-blend-mode:multiply;}
+
+
+/* V19.5 — Frase gráfica editable: igual que la imagen flotante del producto.
+   JS vuelve transparentes fondos blancos/negros conectados a los bordes. */
+:root{--rockstar-caption-glow:#ff2028;}
+#rockstarEntryCaptionImage{
+  display:block;
+  width:min(620px,88vw);
+  max-height:118px;
+  object-fit:contain;
+  background:transparent!important;
+  mix-blend-mode:normal!important;
+  filter:
+    drop-shadow(0 0 8px var(--rockstar-caption-glow))
+    drop-shadow(0 0 18px var(--rockstar-caption-glow));
+}
+#rockstarEntryCaptionImage[data-transparent-caption="fallback"]{mix-blend-mode:screen!important;}
+#rockstarEntryCaptionText{
+  background:var(--rockstar-caption-bg-display,transparent)!important;
+  box-shadow:0 0 12px color-mix(in srgb,var(--rockstar-caption-glow) 55%,transparent),
+             0 0 22px color-mix(in srgb,var(--rockstar-caption-glow) 35%,transparent);
+}
+@media(max-width:520px){
+  #rockstarEntryCaptionImage{width:min(390px,90vw);max-height:92px;}
+}
+
+/* V19.7 — Corrección definitiva de imagen gráfica de la frase.
+   Una regla heredada ocultaba cualquier IMG dentro de .rockstar-entry-caption
+   con display:none!important. Esta regla más específica permite mostrar la
+   imagen guardada cuando JS la activa y conserva oculta cuando no hay imagen. */
+#rockstarEntryCaptionImage:not([hidden]){
+  display:block !important;
+}
+#rockstarEntryCaptionImage[hidden]{
+  display:none !important;
+}
+
+
+/* V19.8 — Portada: una sola frase gráfica, centrada y con resplandor.
+   Se elimina definitivamente la frase escrita duplicada. */
+#rockstarEntryCaption{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:6px auto 0 !important;
+  padding:0 !important;
+  background:transparent !important;
+  box-shadow:none !important;
+}
+#rockstarEntryCaption[hidden]{display:none !important;}
+#rockstarEntryCaptionImage:not([hidden]){
+  display:block !important;
+  margin:0 auto !important;
+  width:min(640px,82vw) !important;
+  max-height:112px !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  background:transparent !important;
+  filter:
+    drop-shadow(0 0 8px var(--rockstar-caption-glow))
+    drop-shadow(0 0 20px var(--rockstar-caption-glow))
+    drop-shadow(0 0 32px color-mix(in srgb,var(--rockstar-caption-glow) 42%,transparent)) !important;
+}
+#rockstarEntryCaptionText{display:none !important;}
+@media(max-width:520px){
+  #rockstarEntryCaptionImage:not([hidden]){width:min(430px,88vw) !important;max-height:88px !important;}
+}
+/* Asegura que el cargador de logo de tienda no quede bloqueado por estilos heredados. */
+#settingLogoFile{pointer-events:auto !important;opacity:1 !important;cursor:pointer !important;}
+
+
+/* ==========================================================
+   ROCKSTAR V20 — CENTRADO REAL + LOGO REDONDO VISIBLE
+   Corrige la regla V19.9 que había quedado escrita con \n literales.
+   No requiere cambios SQL.
+   ========================================================== */
+#rockstarEntryFeature{
+  width:min(700px,96vw) !important;
+  display:flex !important;
+  flex-direction:column !important;
+  align-items:center !important;
+  justify-content:center !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+}
+#rockstarEntryCaption{
+  width:min(680px,94vw) !important;
+  min-height:0 !important;
+  display:flex !important;
+  justify-content:center !important;
+  align-items:center !important;
+  align-self:center !important;
+  margin:4px auto 0 !important;
+  padding:0 !important;
+  transform:none !important;
+}
+#rockstarEntryCaptionImage:not([hidden]){
+  display:block !important;
+  width:auto !important;
+  max-width:min(620px,88vw) !important;
+  height:auto !important;
+  max-height:105px !important;
+  margin-left:auto !important;
+  margin-right:auto !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  transform:none !important;
+}
+/* El logo pequeño configurado en Admin debe seguir visible aunque exista
+   una imagen gráfica ROCKSTAR en el mismo header. */
+body.rockstar-v16 > header.site-header .brand:has(.header-brand-image:not([hidden])) .store-brand-logo{
+  display:block !important;
+}
+body.rockstar-v16 > header.site-header .store-brand-logo{
+  width:46px !important;
+  height:46px !important;
+  min-width:46px !important;
+  max-width:46px !important;
+  max-height:46px !important;
+  border-radius:50% !important;
+  object-fit:cover !important;
+  background:transparent !important;
+  box-shadow:0 0 0 1px rgba(229,189,112,.45),0 0 14px rgba(229,189,112,.18) !important;
+}
+@media(max-width:520px){
+  #rockstarEntryCaption{width:min(440px,92vw) !important;}
+  #rockstarEntryCaptionImage:not([hidden]){max-width:min(420px,88vw) !important;max-height:82px !important;}
+  body.rockstar-v16 > header.site-header .store-brand-logo{
+    width:40px !important;height:40px !important;min-width:40px !important;max-width:40px !important;max-height:40px !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V20.2 — IDENTIDAD GRÁFICA CONSISTENTE
+   - Elimina el botón VER PRODUCTOS del hero.
+   - Las apariciones públicas de ROCKSTAR usan la imagen de marca subida.
+   - Logos de header sin cuadros negros cuando la transparencia fue procesada.
+   ========================================================== */
+.rockstar-compact-hero-copy .rockstar-real-actions{display:none!important;}
+.rockstar-public-brand{
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  width:max-content;
+  max-width:100%;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  filter:
+    drop-shadow(0 0 7px color-mix(in srgb,var(--rockstar-brand-glow) 72%,transparent))
+    drop-shadow(0 0 18px color-mix(in srgb,var(--rockstar-brand-glow) 45%,transparent));
+}
+.rockstar-public-brand img{
+  display:block;
+  width:auto;
+  max-width:min(430px,72vw);
+  max-height:120px;
+  object-fit:contain;
+  background:transparent!important;
+  border:0!important;
+  box-shadow:none!important;
+  transform-origin:center center;
+  animation:rockstarEntryFloat 3.8s ease-in-out infinite,rockstarEntryTurn 10s linear infinite;
+}
+.rockstar-public-brand img[data-transparent-public-brand="1"]{mix-blend-mode:normal!important;}
+.rockstar-public-brand img[data-transparent-public-brand="fallback"]{mix-blend-mode:screen!important;}
+.rockstar-public-brand span{
+  font-family:'Oswald',sans-serif;
+  font-weight:800;
+  letter-spacing:.05em;
+}
+.rockstar-public-brand-hero{margin:0 0 6px 0;}
+.rockstar-public-brand-hero img{max-width:min(520px,78vw);max-height:145px;}
+.rockstar-public-brand-statement img{max-width:min(270px,60vw);max-height:82px;}
+.rockstar-public-brand-footer img{max-width:180px;max-height:58px;}
+body.rockstar-v16 > header.site-header .header-brand-image,
+body.rockstar-v16 > header.site-header .store-brand-logo{
+  background:transparent!important;
+}
+body.rockstar-v16 > header.site-header .header-brand-image[data-transparent-header-brand="1"],
+body.rockstar-v16 > header.site-header .store-brand-logo[data-transparent-store-logo="1"]{
+  mix-blend-mode:normal!important;
+}
+body.rockstar-v16 > header.site-header .header-brand-image[data-transparent-header-brand="fallback"],
+body.rockstar-v16 > header.site-header .store-brand-logo[data-transparent-store-logo="fallback"]{
+  mix-blend-mode:screen!important;
+}
+/* La foto/logo pequeño conserva su tamaño, pero sin círculo negro artificial. */
+body.rockstar-v16 > header.site-header .store-brand-logo{
+  object-fit:contain!important;
+  box-shadow:none!important;
+  border:0!important;
+  padding:0!important;
+}
+@media(max-width:520px){
+  .rockstar-public-brand-hero img{max-width:min(330px,78vw);max-height:100px;}
+  .rockstar-public-brand-statement img{max-width:min(220px,62vw);max-height:68px;}
+}
+
+/* V21 · Disponibilidad real del checkout */
+.checkout-availability-message{margin:12px 0 0;padding:12px 14px;border:1px solid rgba(229,189,112,.35);background:rgba(8,10,13,.78);font-size:.82rem;line-height:1.5}
+
+/* ==========================================================
+   ROCKSTAR V21.1 — INICIO LIMPIO ANTES DEL CATÁLOGO
+   Al entrar desde la portada se muestra primero una pantalla
+   completa con el fondo configurado. El catálogo comienza
+   después del primer viewport o al pulsar “Tienda”.
+   ========================================================== */
+body.rockstar-v16 .rockstar-real-hero{
+  min-height:calc(100svh - 68px) !important;
+  height:calc(100svh - 68px) !important;
+  max-height:none !important;
+  padding:0 !important;
+  display:block !important;
+  background:transparent !important;
+}
+body.rockstar-v16 .rockstar-real-hero-inner{
+  min-height:100% !important;
+  height:100% !important;
+  padding:0 !important;
+}
+/* La primera pantalla de la tienda queda visualmente libre. */
+body.rockstar-v16 .rockstar-real-hero-copy,
+body.rockstar-v16 .rockstar-public-brand-hero{
+  display:none !important;
+}
+/* El catálogo inicia justo después del viewport inicial. */
+body.rockstar-v16 #coleccion{
+  scroll-margin-top:72px !important;
+}
+body.rockstar-v16 #inicio{
+  scroll-margin-top:0 !important;
+}
+@media(max-width:800px){
+  body.rockstar-v16 .rockstar-real-hero{
+    min-height:calc(100svh - 60px) !important;
+    height:calc(100svh - 60px) !important;
+    max-height:none !important;
+  }
+  body.rockstar-v16 #coleccion{
+    scroll-margin-top:64px !important;
+  }
+}
+
+
+/* ==========================================================
+   ROCKSTAR V21.2 — FONDO 360 COMPLETO SIN RECORTE
+   Foto o video subido desde Admin se muestra completo en
+   computadora, tablet y celular. Puede dejar franjas libres
+   si la proporción del archivo no coincide con la pantalla.
+   ========================================================== */
+body.rockstar-v16 > .rockstar-global-bg,
+.rockstar-global-bg{
+  background-color:#05070a !important;
+  background-position:center center !important;
+  background-size:contain !important;
+  background-repeat:no-repeat !important;
+}
+body.rockstar-v16 > .rockstar-global-bg .rockstar-global-fallback,
+.rockstar-global-fallback{
+  background-color:#05070a !important;
+  background-position:center center !important;
+  background-size:contain !important;
+  background-repeat:no-repeat !important;
+}
+body.rockstar-v16 > .rockstar-global-bg .rockstar-global-video,
+.rockstar-global-video{
+  width:100% !important;
+  height:100% !important;
+  object-fit:contain !important;
+  object-position:center center !important;
+  background:#05070a !important;
+}
+
+
+/* ROCKSTAR V21.5 — fondo 360° interactivo. No modifica la portada de entrada. */
+.rockstar-360-viewer{
+  position:absolute;inset:0;width:100%;height:100%;overflow:hidden;background:#05070a;
+  pointer-events:auto;touch-action:pan-y;
+}
+.rockstar-360-viewer[hidden]{display:none!important;}
+.rockstar-360-canvas{display:block;width:100%!important;height:100%!important;cursor:grab;touch-action:pan-y;}
+.rockstar-360-canvas.is-dragging{cursor:grabbing;}
+.rockstar-global-bg.is-360{pointer-events:none!important;}
+.rockstar-global-bg.is-360 .rockstar-360-viewer{pointer-events:auto!important;}
+.rockstar-global-bg.is-360 .rockstar-global-fallback,
+.rockstar-global-bg.is-360 .rockstar-global-video{display:none!important;}
+.rockstar-global-bg.is-360 .rockstar-global-overlay{pointer-events:none!important;background:linear-gradient(180deg,rgba(0,0,0,.08),rgba(0,0,0,.20))!important;}
+.rockstar-background-mode-control{display:grid;gap:7px;margin-top:12px;text-align:left;}
+.rockstar-background-mode-control>span{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;}
+.rockstar-background-mode-control select{width:100%;min-height:42px;border-radius:8px;padding:0 12px;background:#0b0d10;color:#f5f5f5;border:1px solid rgba(229,189,112,.35);}

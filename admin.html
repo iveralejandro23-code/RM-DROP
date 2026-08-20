@@ -9,6 +9,8 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="admin.css">
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#111111">
 </head>
 <body>
 
@@ -564,17 +566,7 @@
       <input id="settingStoreName" required placeholder="Ej. Julián Reynoso Store">
     </label>
 
-    <label class="settings-field">
-      <span class="settings-label">👤 PROPIETARIO / ARTISTA</span>
-      <span class="settings-help">Tu nombre o el de tu marca artística.</span>
-      <input id="settingOwnerName" placeholder="Ej. Julián Reynoso">
-    </label>
 
-    <label class="settings-field wide">
-      <span class="settings-label">🎤 FRASE O PRESENTACIÓN</span>
-      <span class="settings-help">Una breve descripción que represente tu tienda o marca.</span>
-      <textarea id="settingTagline" rows="2" placeholder="Ej. Colección oficial"></textarea>
-    </label>
 
     <label class="settings-field">
       <span class="settings-label">🟢 WHATSAPP</span>
@@ -600,14 +592,12 @@
       <input id="settingCity" placeholder="Ej. Tijuana, Baja California">
     </label>
 
-    <label class="settings-field">
+    <div class="settings-field rockstar-fixed-setting">
       <span class="settings-label">💲 MONEDA</span>
-      <span class="settings-help">Moneda en la que vendes.</span>
-      <select id="settingCurrency">
-        <option value="MXN">MXN — Peso mexicano</option>
-        <option value="USD">USD — Dólar estadounidense</option>
-      </select>
-    </label>
+      <span class="settings-help">MXN — Peso mexicano. La tienda, pedidos y correos trabajan en MXN.</span>
+      <strong class="rockstar-fixed-value">MXN</strong>
+    </div>
+
 
     <div class="settings-field">
       <span class="settings-label">🔗 REDES SOCIALES</span>
@@ -622,7 +612,7 @@
 
     <div class="settings-field wide">
       <span class="settings-label">🛒 OPCIONES DE VENTA Y PAGO</span>
-      <span class="settings-help">Selecciona las opciones disponibles en tu tienda.</span>
+      <span class="settings-help">Estas opciones controlan directamente lo que el cliente puede elegir al finalizar su pedido.</span>
       <div class="settings-option-cards">
         <label class="settings-option-card">
           <input id="settingPickup" type="checkbox">
@@ -652,12 +642,72 @@
     </div>
 
     <div class="settings-field">
-      <span class="settings-label">🖼 LOGO DE LA TIENDA</span>
-      <span class="settings-help">Sube el logo que aparecerá en tu tienda.</span>
+      <span class="settings-label">🖼 LOGO DE LA TIENDA · ACTIVO</span>
+      <span class="settings-help">Sube o reemplaza el logo que aparecerá en tu tienda. Esta opción está habilitada.</span>
       <div class="branding-upload-box">
         <img id="settingLogoPreview" class="branding-preview" alt="Vista previa del logo">
         <input id="settingLogoFile" type="file" accept="image/jpeg,image/png,image/webp">
         <small>JPG, PNG o WEBP · Máx. 5 MB</small>
+      </div>
+    </div>
+
+    <div class="settings-field wide">
+      <span class="settings-label">✨ MARCA ROCKSTAR</span>
+      <span class="settings-help">Sube la imagen gráfica de la marca que se usa en la portada y en las apariciones de ROCKSTAR dentro de la tienda. Si no hay imagen, se usa el nombre de la tienda como respaldo.</span>
+      <div class="branding-upload-box" style="margin-top:12px">
+        <img id="settingBrandImagePreview" class="branding-preview" alt="Vista previa de la imagen de marca">
+        <input id="settingBrandImageFile" type="file" accept="image/jpeg,image/png,image/webp">
+        <label class="rockstar-inline-color-control" for="settingBrandGlowColor">
+          <span>Color de luz alrededor de la marca</span>
+          <input id="settingBrandGlowColor" type="color" value="#e5bd70">
+        </label>
+        <small>Imagen opcional para reemplazar o acompañar el texto · JPG, PNG o WEBP · Máx. 8 MB</small>
+        <div class="rockstar-media-actions">
+          <button id="settingBrandImageRemove" class="secondary small-btn" type="button">Quitar imagen de marca</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="settings-field wide">
+      <span class="settings-label">🚪 PANTALLA DE ENTRADA</span>
+      <span class="settings-help">Personaliza la portada que aparece antes de entrar a la tienda. La marca, la imagen central y la leyenda quedan flotando sobre el fondo.</span>
+
+      <div class="branding-upload-box" style="margin-top:12px">
+        <strong>Imagen de la frase de entrada</strong>
+        <img id="settingEntryCaptionImagePreview" class="branding-preview" alt="Vista previa de la frase">
+        <input id="settingEntryCaptionImageFile" type="file" accept="image/jpeg,image/png,image/webp">
+        <label class="rockstar-inline-color-control" for="settingEntryCaptionGlowColor">
+          <span>Color de luz alrededor de la imagen de la frase</span>
+          <input id="settingEntryCaptionGlowColor" type="color" value="#ff2028">
+        </label>
+        <small>Esta es la única frase que se mostrará en la portada. Los fondos blancos o negros conectados a los bordes se vuelven transparentes para dejar ver el fondo de la portada · Máx. 8 MB</small>
+        <div class="rockstar-media-actions">
+          <button id="settingEntryCaptionImageRemove" class="secondary small-btn" type="button">Quitar imagen de frase</button>
+        </div>
+      </div>
+
+      <div class="branding-upload-box" style="margin-top:12px">
+        <strong>Fondo de la pantalla de entrada</strong>
+        <img id="settingEntryBackgroundPreview" class="branding-preview" alt="Vista previa del fondo de entrada">
+        <input id="settingEntryBackgroundFile" type="file" accept="image/jpeg,image/png,image/webp">
+        <small>Esta imagen cubre toda la pantalla · JPG, PNG o WEBP · Máx. 12 MB</small>
+        <div class="rockstar-media-actions">
+          <button id="settingEntryBackgroundRemove" class="secondary small-btn" type="button">Usar fondo incluido</button>
+        </div>
+      </div>
+
+      <div class="branding-upload-box" style="margin-top:12px">
+        <strong>Imagen flotante de entrada (gorra / imagen principal)</strong>
+        <img id="settingEntryProductImagePreview" class="branding-preview" alt="Vista previa de la imagen flotante">
+        <input id="settingEntryProductImageFile" type="file" accept="image/jpeg,image/png,image/webp">
+        <label class="rockstar-inline-color-control" for="settingEntryProductGlowColor">
+          <span>Color de luz alrededor de esta imagen</span>
+          <input id="settingEntryProductGlowColor" type="color" value="#e5bd70">
+        </label>
+        <small>Puedes subir cualquier imagen. Los fondos claros se integran visualmente con el fondo de la portada · Máx. 8 MB</small>
+        <div class="rockstar-media-actions">
+          <button id="settingEntryProductImageRemove" class="secondary small-btn" type="button">Usar imagen del producto</button>
+        </div>
       </div>
     </div>
 
@@ -669,7 +719,14 @@
         <img id="settingBackgroundImagePreview" class="branding-preview rockstar-background-preview" alt="Vista previa del fondo">
         <video id="settingBackgroundVideoPreview" class="rockstar-background-preview rockstar-background-video-preview" muted loop playsinline controls></video>
         <input id="settingBackgroundFile" type="file" accept="image/jpeg,image/png,image/webp,video/mp4,video/webm">
-        <small>Imagen: JPG/PNG/WEBP · Video: MP4/WEBM · Máx. 40 MB</small>
+        <label class="rockstar-background-mode-control" for="settingBackgroundViewMode">
+          <span>Modo de visualización</span>
+          <select id="settingBackgroundViewMode">
+            <option value="normal">Fondo normal</option>
+            <option value="360">360° interactivo</option>
+          </select>
+        </label>
+        <small>Para 360° usa una foto o video equirectangular 2:1. En computadora arrastra con el mouse; en celular, con el dedo.</small>
         <div class="rockstar-media-actions">
           <button id="settingBackgroundRemove" class="secondary small-btn" type="button">Quitar fondo</button>
         </div>
@@ -730,6 +787,13 @@
         </label>
       </div>
       <small>La clave del servicio de correo NO se guarda aquí ni en el navegador; se configura como secreto de la Edge Function.</small>
+      <div class="push-public-key-box">
+        <label>
+          Clave pública Push (VAPID)
+          <input id="settingPushVapidPublicKey" type="text" autocomplete="off" placeholder="Pega aquí la clave pública VAPID">
+        </label>
+        <small>Se configura una sola vez. La clave privada nunca debe ponerse aquí.</small>
+      </div>
     </div>
 
     <label class="settings-field wide">
@@ -790,6 +854,17 @@
       <p class="muted">Aquí aparecen los pedidos nuevos. El indicador del menú se actualiza mientras Admin esté abierto.</p>
     </div>
     <button id="markNotificationsReadBtn" class="secondary" type="button">Marcar como vistas</button>
+  </div>
+  <div class="push-device-card" id="pushDeviceCard">
+    <div>
+      <strong>📱 Notificaciones en este celular</strong>
+      <p class="muted">Actívalas para recibir avisos de pedidos aunque ROCKSTAR Admin no esté abierto. En iPhone primero agrega Admin a la pantalla de inicio.</p>
+    </div>
+    <div class="push-device-actions">
+      <button id="enablePushBtn" class="primary" type="button">Activar notificaciones</button>
+      <button id="disablePushBtn" class="secondary" type="button">Desactivar en este dispositivo</button>
+    </div>
+    <div id="pushDeviceStatus" class="push-device-status">Comprobando este dispositivo…</div>
   </div>
   <div id="adminNotificationsList" class="admin-notifications-list">
     <div class="empty-list">Cargando pedidos recientes…</div>
@@ -899,12 +974,12 @@
 
     <article class="manual-card">
       <h3>7. Notificaciones</h3>
-      <p>La sección <strong>Notificaciones</strong> muestra pedidos recientes. En <strong>Datos de la tienda</strong> puedes configurar el correo de notificaciones y activar o desactivar los avisos por correo disponibles.</p>
+      <p>La sección <strong>Notificaciones</strong> muestra pedidos recientes. También puedes registrar este celular para recibir avisos Push de nuevos pedidos aunque Admin esté cerrado. En iPhone primero agrega ROCKSTAR Admin a la pantalla de inicio.</p>
     </article>
 
     <article class="manual-card">
       <h3>8. Datos de la tienda</h3>
-      <p>Desde <strong>Datos de la tienda</strong> administra nombre, presentación, WhatsApp, redes, logo, portada/fondo, música y la información disponible para el cliente. Guarda la configuración después de cada cambio.</p>
+      <p>Desde <strong>Datos de la tienda</strong> administra nombre, presentación, WhatsApp, redes, logo, marca flotante superior, color del resplandor, pantalla de entrada, producto de portada, leyenda gráfica o escrita, fondo, música y la información disponible para el cliente. Guarda la configuración después de cada cambio.</p>
     </article>
 
     <article class="manual-card">
@@ -937,12 +1012,13 @@
   <script src="supabase-products-admin.js"></script>
   <script src="supabase-categories-admin.js"></script>
   <script src="supabase-orders-admin.js"></script>
-  <script src="store-settings-admin.js"></script>
+  <script src="store-settings-admin.js?v=21.5"></script>
   </div>
   <script src="admin-navigation.js"></script>
   <script src="account-admin.js"></script>
   <script src="backup-admin.js"></script>
   <script src="admin-direct-nav.js"></script>
   <script src="order-notifications-admin.js"></script>
+  <script src="push-admin.js?v=22"></script>
 </body>
 </html>

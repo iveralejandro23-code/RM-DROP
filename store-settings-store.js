@@ -58,24 +58,84 @@
   }
 
 
+  // V20.2 — Convierte fondos negros/casi negros de logos en transparencia real.
+  // Se usa tanto para la marca ROCKSTAR como para el logo pequeño del header.
+  const transparentBrandCache = new Map();
+  async function transparentizeDarkBackground(url){
+    const source=String(url||"").trim();
+    if(!source) return "";
+    if(transparentBrandCache.has(source)) return transparentBrandCache.get(source);
+    const promise=(async()=>{
+      try{
+        const response=await fetch(source,{mode:"cors",cache:"force-cache"});
+        if(!response.ok) throw new Error("No se pudo leer la imagen");
+        const blob=await response.blob();
+        const bitmap=await createImageBitmap(blob);
+        const canvas=document.createElement("canvas");
+        canvas.width=bitmap.width; canvas.height=bitmap.height;
+        const ctx=canvas.getContext("2d",{willReadFrequently:true});
+        ctx.drawImage(bitmap,0,0);
+        const frame=ctx.getImageData(0,0,canvas.width,canvas.height);
+        const d=frame.data;
+        for(let i=0;i<d.length;i+=4){
+          const r=d[i],g=d[i+1],b=d[i+2];
+          const mx=Math.max(r,g,b),mn=Math.min(r,g,b),lum=(r+g+b)/3;
+          const neutral=(mx-mn)<34;
+          if(neutral && lum<=46){ d[i+3]=0; }
+          else if(neutral && lum<96){ d[i+3]=Math.round(d[i+3]*((lum-46)/50)); }
+        }
+        ctx.putImageData(frame,0,0);
+        bitmap.close?.();
+        return canvas.toDataURL("image/png");
+      }catch(_){ return ""; }
+    })();
+    transparentBrandCache.set(source,promise);
+    return promise;
+  }
+
+  function applyTransparentImage(img,originalUrl,kind){
+    if(!img || !originalUrl) return;
+    img.src=originalUrl;
+    delete img.dataset.transparentHeaderBrand;
+    delete img.dataset.transparentStoreLogo;
+    delete img.dataset.transparentPublicBrand;
+    transparentizeDarkBackground(originalUrl).then(result=>{
+      if(!img.isConnected || img.dataset.originalBrandSource!==originalUrl) return;
+      if(result){
+        img.src=result;
+        if(kind==="header") img.dataset.transparentHeaderBrand="1";
+        if(kind==="logo") img.dataset.transparentStoreLogo="1";
+        if(kind==="public") img.dataset.transparentPublicBrand="1";
+      }else{
+        if(kind==="header") img.dataset.transparentHeaderBrand="fallback";
+        if(kind==="logo") img.dataset.transparentStoreLogo="fallback";
+        if(kind==="public") img.dataset.transparentPublicBrand="fallback";
+      }
+    });
+  }
+
+
+  function baseBackgroundType(type){
+    return String(type||"").toLowerCase().startsWith("video") ? "video" : "image";
+  }
+
+  function is360BackgroundType(type){
+    return /360$/i.test(String(type||""));
+  }
+
   function applySettings(data){
     if(!data) return;
     window.RIVER_STORE_SETTINGS = data;
 
-    // ROCKSTAR V13.1:
-    // La identidad pública ya no se toma del branding antiguo guardado en Supabase.
-    // Así evitamos que "Julián Reynoso Store" vuelva a aparecer después de cargar.
-    const storeName = "ROCKSTAR";
-    const ownerName = "ROCKSTAR";
-    const tagline = "HEADWEAR · STREETWEAR · ATTITUDE";
+    // Identidad pública editable desde Admin.
+    const storeName = String(data.store_name || data.header_brand_text || "ROCKSTAR").trim() || "ROCKSTAR";
     const city = (data.city || "").trim();
     const address = (data.address || "").trim();
 
     document.title = "ROCKSTAR | Tienda";
 
     setText("[data-store-name]", storeName);
-    setText("[data-store-owner]", ownerName);
-    setText("[data-store-tagline]", tagline);
+    setText("[data-store-owner]", storeName);
     setText("[data-store-footer]", data.footer_text || "ROCKSTAR · Headwear · Streetwear");
 
     const locationBits = [city, address].filter(Boolean);
@@ -85,26 +145,148 @@
 
     document.querySelectorAll("[data-store-logo]").forEach(img=>{
       if(data.logo_url){
-        img.src = data.logo_url;
+        const logoUrl=String(data.logo_url).trim();
+        img.dataset.originalBrandSource=logoUrl;
+        applyTransparentImage(img,logoUrl,"logo");
         img.style.display = "block";
         img.alt = `Logo de ${storeName}`;
       }else{
         img.removeAttribute("src");
         img.style.display = "none";
+        delete img.dataset.originalBrandSource;
       }
     });
 
-    // ROCKSTAR V16.2 — Fondo configurable desde Admin.
+    // Marca gráfica: la imagen de Admin tiene prioridad; el nombre de tienda es respaldo.
+    const brandMode = data.header_brand_image_url ? "image" : "text";
+    const brandText = storeName || "ROCKSTAR";
+    const brandImageUrl = String(data.header_brand_image_url || "").trim();
+    const glowColor = String(data.brand_glow_color || "#e5bd70").trim() || "#e5bd70";
+    document.documentElement.style.setProperty("--rockstar-brand-glow", glowColor);
+
+    const hasGraphicBrand=Boolean(brandImageUrl);
+    document.querySelectorAll("[data-header-brand-text]").forEach(el=>{
+      el.textContent = brandText;
+      // Si existe imagen de marca, la tienda pública usa siempre esa tipografía/arte.
+      el.style.display = hasGraphicBrand ? "none" : "";
+    });
+    document.querySelectorAll("[data-header-brand-image]").forEach(img=>{
+      if(hasGraphicBrand){
+        img.dataset.originalBrandSource=brandImageUrl;
+        applyTransparentImage(img,brandImageUrl,"header");
+        img.hidden = false;
+        img.style.display = "block";
+        img.alt = brandText;
+      }else{
+        img.removeAttribute("src");
+        img.hidden = true;
+        img.style.display = "none";
+        delete img.dataset.originalBrandSource;
+      }
+    });
+
+    // Todas las apariciones visuales de la marca en la tienda usan la misma
+    // imagen subida desde Admin. Si no hay imagen, conservan texto como respaldo.
+    document.querySelectorAll("[data-public-brand-slot]").forEach(slot=>{
+      const img=slot.querySelector("[data-public-brand-image]");
+      const text=slot.querySelector("[data-public-brand-text]");
+      if(hasGraphicBrand && img){
+        img.dataset.originalBrandSource=brandImageUrl;
+        applyTransparentImage(img,brandImageUrl,"public");
+        img.hidden=false;
+        img.style.display="block";
+        img.alt=brandText;
+        if(text){ text.hidden=true; text.style.display="none"; }
+      }else{
+        if(img){ img.hidden=true; img.style.display="none"; img.removeAttribute("src"); }
+        if(text){ text.textContent=brandText; text.hidden=false; text.style.display="inline-block"; }
+      }
+    });
+
+    window.ROCKSTAR_ENTRY_CONFIG = {
+      brandMode,
+      brandText,
+      brandImageUrl,
+      glowColor,
+      productGlowColor: String(data.entry_product_glow_color || "#e5bd70").trim() || "#e5bd70",
+      captionGlowColor: String(data.entry_caption_glow_color || "#ff2028").trim() || "#ff2028",
+      entryCaptionImageUrl: String(data.entry_caption_image_url || "").trim(),
+      entryBackgroundUrl: String(data.entry_background_url || "").trim(),
+      entryProductImageUrl: String(data.entry_product_image_url || "").trim()
+    };
+
+    // V21 — Las opciones de entrega y pago de Admin controlan el checkout real.
+    const checkoutAvailability={
+      pickup: data.pickup_enabled !== false,
+      shipping: data.shipping_enabled !== false,
+      transfer: data.payment_transfer !== false,
+      cash: data.payment_cash !== false
+    };
+    window.ROCKSTAR_CHECKOUT_AVAILABILITY=checkoutAvailability;
+
+    function syncOption(selector,enabled){
+      const card=document.querySelector(selector);
+      if(!card)return null;
+      card.hidden=!enabled;
+      card.style.display=enabled?"":"none";
+      const input=card.querySelector('input[type="radio"]');
+      if(input){ input.disabled=!enabled; if(!enabled)input.checked=false; }
+      return input;
+    }
+    const pickupInput=syncOption('[data-delivery-option="pickup"]',checkoutAvailability.pickup);
+    const shippingInput=syncOption('[data-delivery-option="shipping"]',checkoutAvailability.shipping);
+    const transferInput=syncOption('[data-payment-option="transfer"]',checkoutAvailability.transfer);
+    const cashInput=syncOption('[data-payment-option="cash"]',checkoutAvailability.cash);
+
+    const firstDelivery=[pickupInput,shippingInput].find(i=>i && !i.disabled);
+    if(firstDelivery && !document.querySelector('input[name="deliveryType"]:checked')) firstDelivery.checked=true;
+    const firstPayment=[transferInput,cashInput].find(i=>i && !i.disabled);
+    if(firstPayment && !document.querySelector('input[name="paymentType"]:checked')) firstPayment.checked=true;
+
+    document.querySelectorAll('[data-delivery-option]').forEach(card=>{
+      const input=card.querySelector('input[name="deliveryType"]');
+      card.classList.toggle('selected',Boolean(input?.checked && !input.disabled));
+    });
+    document.querySelectorAll('[data-payment-option]').forEach(card=>{
+      const input=card.querySelector('input[name="paymentType"]');
+      card.classList.toggle('selected',Boolean(input?.checked && !input.disabled));
+    });
+
+    const deliveryMessage=document.getElementById('deliveryAvailabilityMessage');
+    if(deliveryMessage) deliveryMessage.hidden=Boolean(firstDelivery);
+    const paymentMessage=document.getElementById('paymentAvailabilityMessage');
+    if(paymentMessage) paymentMessage.hidden=Boolean(firstPayment);
+    const shippingFields=document.getElementById('shippingFields');
+    if(shippingFields){
+      const selectedDelivery=document.querySelector('input[name="deliveryType"]:checked');
+      shippingFields.classList.toggle('show',selectedDelivery?.value==='Envío');
+    }
+    window.dispatchEvent(new CustomEvent('rockstar:checkout-settings-applied',{detail:checkoutAvailability}));
+
+    // ROCKSTAR V21.3 — Fondo normal o 360° interactivo desde Admin.
     const backgroundWrap=document.querySelector(".rockstar-global-bg");
     const backgroundFallback=document.querySelector(".rockstar-global-fallback");
     const backgroundVideo=document.getElementById("rockstarGlobalVideo");
-
-    const bundledPoster="assets/media/rockstar-poster.jpg";
+    const viewer360=document.getElementById("rockstar360Viewer");
     const backgroundEnabled=data.background_enabled!==false;
     const backgroundUrl=String(data.background_url||"").trim();
     const backgroundType=String(data.background_type||"").trim().toLowerCase();
+    const bundledPoster="assets/media/rockstar-poster.jpg";
+    const backgroundBaseType=baseBackgroundType(backgroundType);
+    const backgroundIs360=is360BackgroundType(backgroundType);
+
+    window.ROCKSTAR_BACKGROUND_TYPE=backgroundType;
+    window.ROCKSTAR_BACKGROUND_URL=backgroundUrl;
+
+    if(window.ROCKSTAR_360_VIEWER){
+      window.ROCKSTAR_360_VIEWER.destroy();
+      window.ROCKSTAR_360_VIEWER=null;
+    }
+    if(viewer360){ viewer360.hidden=true; viewer360.innerHTML=""; }
 
     if(backgroundWrap && backgroundFallback){
+      backgroundWrap.classList.toggle("is-360",Boolean(backgroundEnabled && backgroundUrl && backgroundIs360));
+
       if(!backgroundEnabled){
         backgroundWrap.style.setProperty("background","#05070a","important");
         backgroundFallback.style.setProperty("background","#05070a","important");
@@ -115,9 +297,23 @@
           if(source) source.removeAttribute("src");
           backgroundVideo.style.setProperty("display","none","important");
         }
-      }else if(backgroundUrl && backgroundType==="video"){
-        backgroundWrap.style.setProperty("background",`linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.27)),url("${bundledPoster}") center/cover no-repeat`,"important");
-        backgroundFallback.style.setProperty("background",`url("${bundledPoster}") center/cover no-repeat`,"important");
+      }else if(backgroundUrl && backgroundIs360 && window.Rockstar360Viewer && viewer360){
+        backgroundFallback.style.setProperty("background","#05070a","important");
+        if(backgroundVideo){
+          backgroundVideo.pause();
+          backgroundVideo.removeAttribute("src");
+          backgroundVideo.style.setProperty("display","none","important");
+        }
+        viewer360.hidden=false;
+        window.ROCKSTAR_360_VIEWER=new window.Rockstar360Viewer(viewer360,{
+          url:backgroundUrl,
+          type:backgroundBaseType,
+          muted:true,
+          loop:true
+        });
+      }else if(backgroundUrl && backgroundBaseType==="video"){
+        backgroundWrap.style.setProperty("background",`linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.27)),url("${bundledPoster}") center/contain no-repeat,#05070a`,"important");
+        backgroundFallback.style.setProperty("background",`url("${bundledPoster}") center/contain no-repeat,#05070a`,"important");
         if(backgroundVideo){
           const source=backgroundVideo.querySelector("source");
           if(source){
@@ -136,8 +332,8 @@
         }
       }else{
         const imageUrl=backgroundUrl||bundledPoster;
-        backgroundWrap.style.setProperty("background",`linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.27)),url("${imageUrl}") center/cover no-repeat`,"important");
-        backgroundFallback.style.setProperty("background",`url("${imageUrl}") center/cover no-repeat`,"important");
+        backgroundWrap.style.setProperty("background",`linear-gradient(180deg,rgba(0,0,0,.10),rgba(0,0,0,.27)),url("${imageUrl}") center/contain no-repeat,#05070a`,"important");
+        backgroundFallback.style.setProperty("background",`url("${imageUrl}") center/contain no-repeat,#05070a`,"important");
         if(backgroundVideo){
           backgroundVideo.pause();
           backgroundVideo.style.setProperty("display","none","important");
@@ -163,10 +359,12 @@
         audio.pause();
         soundButton.style.display="";
 
-        if(backgroundVideo && backgroundEnabled && backgroundType==="video" && backgroundUrl){
-          backgroundVideo.muted=true;
-          backgroundVideo.volume=0.55;
+        const activeVideo=(backgroundIs360 && window.ROCKSTAR_360_VIEWER?.video) ? window.ROCKSTAR_360_VIEWER.video : backgroundVideo;
+        if(activeVideo && backgroundEnabled && backgroundBaseType==="video" && backgroundUrl){
+          activeVideo.muted=true;
+          activeVideo.volume=0.55;
           soundButton.dataset.audioSource="video";
+          soundButton._rockstarVideoSource=activeVideo;
           soundButton.setAttribute("aria-label","Activar sonido del video");
           const label=soundButton.querySelector("span");
           if(label) label.textContent="SONIDO";
@@ -174,9 +372,9 @@
           soundButton.style.display="none";
         }
       }else{
-        if(backgroundVideo){
-          backgroundVideo.muted=true;
-        }
+        if(backgroundVideo) backgroundVideo.muted=true;
+        if(window.ROCKSTAR_360_VIEWER?.video) window.ROCKSTAR_360_VIEWER.video.muted=true;
+        soundButton._rockstarVideoSource=null;
         soundButton.dataset.audioSource="music";
 
         if(!musicEnabled){

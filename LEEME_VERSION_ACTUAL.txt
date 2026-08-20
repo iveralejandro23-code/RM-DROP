@@ -1,3 +1,4 @@
-ROCKSTAR STORE — ENTREGA FINAL SOLO FOTO ENTRADA
-Base: FOTO PRINCIPAL Y ENTRADA
-Cambio: mientras la portada está visible, únicamente la foto del producto permite entrar a la tienda.
+ROCKSTAR STORE V22 — NOTIFICACIONES PUSH
+Base: V21.5 360 interactivo + portada conservada.
+Agrega PWA y Web Push para nuevos pedidos al administrador.
+No modifica portada, catálogo, carrito, pedidos, promociones, correo ni 360.

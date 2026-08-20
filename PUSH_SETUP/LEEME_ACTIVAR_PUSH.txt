@@ -1,0 +1,41 @@
+ROCKSTAR V22 — ACTIVAR NOTIFICACIONES PUSH
+
+1) Supabase > SQL Editor:
+   Ejecuta PUSH_SETUP/01_PUSH_DATABASE.sql.
+   Debe salir Success. No rows returned.
+
+2) Abre en tu computadora PUSH_SETUP/GENERAR_CLAVES_VAPID.html.
+   Presiona "Generar claves".
+   Copia VAPID_PUBLIC_KEY y VAPID_PRIVATE_KEY.
+
+3) Supabase > Edge Functions > Secrets:
+   Agrega:
+   VAPID_PUBLIC_KEY = la clave pública
+   VAPID_PRIVATE_KEY = la clave privada
+   VAPID_SUBJECT = mailto:TU_CORREO
+   ROCKSTAR_ORDER_WEBHOOK_SECRET ya debe existir por el sistema de correo.
+
+4) Supabase > Edge Functions:
+   Crea/despliega la función "order-push" usando:
+   supabase/functions/order-push/index.ts
+   Deja Verify JWT DESACTIVADO porque la función valida x-rockstar-secret.
+
+5) Admin > Datos de la tienda > Notificaciones de pedidos:
+   Pega VAPID_PUBLIC_KEY en "Clave pública Push (VAPID)" y guarda.
+
+6) Sube la V22 completa a GitHub Pages.
+
+7) En Android:
+   Abre Admin desde GitHub Pages > Notificaciones > Activar notificaciones.
+
+   En iPhone/iPad:
+   Safari > Compartir > Agregar a pantalla de inicio.
+   Abre ROCKSTAR Admin desde el icono instalado.
+   Entra a Notificaciones > Activar notificaciones.
+
+8) Haz un pedido real.
+   Debe aparecer una notificación "Nuevo pedido" aunque Admin no esté abierto.
+
+SEGURIDAD:
+- NUNCA pongas VAPID_PRIVATE_KEY en Admin, config.js, GitHub o archivos públicos.
+- El archivo GENERAR_CLAVES_VAPID.html no contiene claves hasta que tú las generas.

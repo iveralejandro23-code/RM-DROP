@@ -1,0 +1,22 @@
+ROCKSTAR STORE V19.9 — FRASE CENTRADA + LOGO REDONDO ACTUALIZABLE
+
+ROCKSTAR STORE V19.3 — MARCA GRÁFICA SIN FONDO
+ROCKSTAR STORE V19.2 — PORTADA FINAL EDITABLE
+
+1. Ejecuta supabase/PORTADA_EDITABLE.sql una sola vez en Supabase > SQL Editor.
+2. En Admin > Datos de la tienda puedes editar:
+   - imagen/letras de la marca flotante y color de su resplandor;
+   - fondo completo de la pantalla de entrada;
+   - imagen flotante central (cualquier JPG, PNG o WEBP);
+   - color del resplandor de la imagen central;
+   - leyenda escrita debajo de la imagen;
+   - color de fondo detrás de esa leyenda.
+3. La leyenda gráfica antigua fue eliminada de la portada y de Admin.
+4. Las imágenes con fondo negro de la marca se integran visualmente al fondo mediante modo de mezcla.
+5. Las imágenes centrales con fondo claro se integran visualmente al fondo de la portada y mantienen el efecto flotante.
+
+La tienda, catálogo, carrito, videos, pedidos, inventario, correos y manual permanecen sin cambios.
+
+V19.4: La imagen/gorra de entrada ahora elimina automáticamente fondos blancos o muy claros conectados a los bordes, igual que el tratamiento transparente aplicado al logo ROCKSTAR. El fondo general de la portada queda visible alrededor del producto.
+
+V19.5: La frase de entrada puede cargarse como imagen desde Admin. Los fondos negros o blancos conectados a los bordes se vuelven transparentes y la imagen conserva un resplandor cuyo color es editable. Si no hay imagen, se usa la frase escrita como respaldo.

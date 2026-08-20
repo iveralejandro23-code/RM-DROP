@@ -33,6 +33,22 @@
   let pendingLogoFile=null;
   let logoObjectUrl="";
 
+  let currentBrandImageUrl="";
+  let pendingBrandImageFile=null;
+  let brandImageObjectUrl="";
+
+  let currentEntryBackgroundUrl="";
+  let pendingEntryBackgroundFile=null;
+  let entryBackgroundObjectUrl="";
+
+  let currentEntryProductImageUrl="";
+  let pendingEntryProductImageFile=null;
+  let entryProductImageObjectUrl="";
+
+  let currentEntryCaptionImageUrl="";
+  let pendingEntryCaptionImageFile=null;
+  let entryCaptionImageObjectUrl="";
+
   let currentBackgroundUrl="";
   let currentBackgroundType="";
   let backgroundEnabled=true;
@@ -46,6 +62,10 @@
 
   function revoke(which){
     if(which==="logo" && logoObjectUrl){URL.revokeObjectURL(logoObjectUrl);logoObjectUrl="";}
+    if(which==="brand" && brandImageObjectUrl){URL.revokeObjectURL(brandImageObjectUrl);brandImageObjectUrl="";}
+    if(which==="entryBackground" && entryBackgroundObjectUrl){URL.revokeObjectURL(entryBackgroundObjectUrl);entryBackgroundObjectUrl="";}
+    if(which==="entryProduct" && entryProductImageObjectUrl){URL.revokeObjectURL(entryProductImageObjectUrl);entryProductImageObjectUrl="";}
+    if(which==="entryCaption" && entryCaptionImageObjectUrl){URL.revokeObjectURL(entryCaptionImageObjectUrl);entryCaptionImageObjectUrl="";}
     if(which==="background" && backgroundObjectUrl){URL.revokeObjectURL(backgroundObjectUrl);backgroundObjectUrl="";}
     if(which==="music" && musicObjectUrl){URL.revokeObjectURL(musicObjectUrl);musicObjectUrl="";}
   }
@@ -58,6 +78,38 @@
     if(file.size>5*1024*1024){alert("Logo: máximo 5 MB.");return false;}
     return true;
   }
+
+  function validateVisual(file,label="Imagen",maxMb=8){
+    if(!file)return false;
+    if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
+      alert(`${label}: usa JPG, PNG o WEBP.`); return false;
+    }
+    if(file.size>maxMb*1024*1024){alert(`${label}: máximo ${maxMb} MB.`);return false;}
+    return true;
+  }
+
+  function renderSimpleImage(previewId, currentUrl, pendingFile, which){
+    const el=$(previewId);
+    if(!el)return;
+    revoke(which);
+    let src="";
+    if(pendingFile){
+      const u=URL.createObjectURL(pendingFile);
+      if(which==="brand") brandImageObjectUrl=u;
+      if(which==="entryBackground") entryBackgroundObjectUrl=u;
+      if(which==="entryProduct") entryProductImageObjectUrl=u;
+      if(which==="entryCaption") entryCaptionImageObjectUrl=u;
+      src=u;
+    }else{
+      src=currentUrl;
+    }
+    if(src){
+      el.src=src; el.style.display="block";
+    }else{
+      el.removeAttribute("src"); el.style.display="none";
+    }
+  }
+
 
   function validateBackground(file){
     if(!file)return false;
@@ -86,6 +138,20 @@
     if(mime.startsWith("image/")) return "image";
     const s=String(fileOrUrl||"").toLowerCase().split("?")[0];
     return /\.(mp4|webm)$/.test(s) ? "video" : "image";
+  }
+
+
+  function baseBackgroundType(type){
+    return String(type||"").toLowerCase().startsWith("video") ? "video" : "image";
+  }
+
+  function is360BackgroundType(type){
+    return /360$/i.test(String(type||""));
+  }
+
+  function composeBackgroundType(base, viewMode){
+    const cleanBase=String(base||"image").toLowerCase().startsWith("video") ? "video" : "image";
+    return viewMode==="360" ? `${cleanBase}360` : cleanBase;
   }
 
   function renderLogo(){
@@ -133,7 +199,7 @@
     }
 
     empty.style.display="none";
-    if(type==="video"){
+    if(baseBackgroundType(type)==="video"){
       video.src=src; video.style.display="block";
       video.load();
     }else{
@@ -188,6 +254,12 @@
     return data.publicUrl;
   }
 
+  if($("settingLogoFile")){
+    $("settingLogoFile").disabled=false;
+    $("settingLogoFile").removeAttribute("disabled");
+    $("settingLogoFile").setAttribute("aria-disabled","false");
+  }
+
   $("settingLogoFile")?.addEventListener("change",()=>{
     const file=$("settingLogoFile").files?.[0];
     if(file && validateLogo(file)) pendingLogoFile=file;
@@ -195,11 +267,60 @@
     renderLogo();
   });
 
+  $("settingBrandImageFile")?.addEventListener("change",()=>{
+    const file=$("settingBrandImageFile").files?.[0];
+    if(file && validateVisual(file,"Imagen de marca",8)) pendingBrandImageFile=file;
+    $("settingBrandImageFile").value="";
+    renderSimpleImage("settingBrandImagePreview",currentBrandImageUrl,pendingBrandImageFile,"brand");
+  });
+  $("settingBrandImageRemove")?.addEventListener("click",()=>{
+    pendingBrandImageFile=null; currentBrandImageUrl="";
+    renderSimpleImage("settingBrandImagePreview","","","brand");
+  });
+
+  $("settingEntryBackgroundFile")?.addEventListener("change",()=>{
+    const file=$("settingEntryBackgroundFile").files?.[0];
+    if(file && validateVisual(file,"Fondo de entrada",12)) pendingEntryBackgroundFile=file;
+    $("settingEntryBackgroundFile").value="";
+    renderSimpleImage("settingEntryBackgroundPreview",currentEntryBackgroundUrl,pendingEntryBackgroundFile,"entryBackground");
+  });
+  $("settingEntryBackgroundRemove")?.addEventListener("click",()=>{
+    pendingEntryBackgroundFile=null; currentEntryBackgroundUrl="";
+    renderSimpleImage("settingEntryBackgroundPreview","","","entryBackground");
+  });
+
+  $("settingEntryProductImageFile")?.addEventListener("change",()=>{
+    const file=$("settingEntryProductImageFile").files?.[0];
+    if(file && validateVisual(file,"Imagen flotante de entrada",8)) pendingEntryProductImageFile=file;
+    $("settingEntryProductImageFile").value="";
+    renderSimpleImage("settingEntryProductImagePreview",currentEntryProductImageUrl,pendingEntryProductImageFile,"entryProduct");
+    renderSimpleImage("settingEntryCaptionImagePreview",currentEntryCaptionImageUrl,pendingEntryCaptionImageFile,"entryCaption");
+  });
+  $("settingEntryProductImageRemove")?.addEventListener("click",()=>{
+    pendingEntryProductImageFile=null; currentEntryProductImageUrl="";
+    renderSimpleImage("settingEntryProductImagePreview","","","entryProduct");
+  });
+
+
+  $("settingEntryCaptionImageFile")?.addEventListener("change",()=>{
+    const file=$("settingEntryCaptionImageFile").files?.[0];
+    if(file && validateVisual(file,"Imagen de la frase",8)) pendingEntryCaptionImageFile=file;
+    $("settingEntryCaptionImageFile").value="";
+    renderSimpleImage("settingEntryCaptionImagePreview",currentEntryCaptionImageUrl,pendingEntryCaptionImageFile,"entryCaption");
+  });
+  $("settingEntryCaptionImageRemove")?.addEventListener("click",()=>{
+    pendingEntryCaptionImageFile=null; currentEntryCaptionImageUrl="";
+    renderSimpleImage("settingEntryCaptionImagePreview","","","entryCaption");
+  });
+
   $("settingBackgroundFile")?.addEventListener("change",()=>{
     const file=$("settingBackgroundFile").files?.[0];
     if(file && validateBackground(file)){
       pendingBackgroundFile=file;
-      currentBackgroundType=inferBackgroundType(file.name,file.type);
+      currentBackgroundType=composeBackgroundType(
+        inferBackgroundType(file.name,file.type),
+        $("settingBackgroundViewMode")?.value||"normal"
+      );
       backgroundEnabled=true;
     }
     $("settingBackgroundFile").value="";
@@ -211,6 +332,14 @@
     currentBackgroundUrl="";
     currentBackgroundType="";
     backgroundEnabled=false;
+    renderBackground();
+  });
+
+  $("settingBackgroundViewMode")?.addEventListener("change",()=>{
+    const base=pendingBackgroundFile
+      ? inferBackgroundType(pendingBackgroundFile.name,pendingBackgroundFile.type)
+      : baseBackgroundType(currentBackgroundType||inferBackgroundType(currentBackgroundUrl));
+    currentBackgroundType=composeBackgroundType(base,$("settingBackgroundViewMode")?.value||"normal");
     renderBackground();
   });
 
@@ -241,13 +370,10 @@
     if(!data)return;
 
     $("settingStoreName").value=data.store_name||"";
-    $("settingOwnerName").value=data.owner_name||"";
-    $("settingTagline").value=data.tagline||"";
     $("settingWhatsapp").value=data.whatsapp||"";
     $("settingEmail").value=data.email||"";
     $("settingAddress").value=data.address||"";
     $("settingCity").value=data.city||"";
-    $("settingCurrency").value=data.currency||"MXN";
     $("settingInstagram").value=data.instagram||"";
     $("settingFacebook").value=data.facebook||"";
     $("settingTiktok").value=data.tiktok||"";
@@ -260,14 +386,29 @@
     if($("settingNotificationEmail")) $("settingNotificationEmail").value=data.notification_email||"";
     if($("settingAdminEmailNotifications")) $("settingAdminEmailNotifications").checked=data.admin_email_notifications!==false;
     if($("settingCustomerEmailNotifications")) $("settingCustomerEmailNotifications").checked=data.customer_email_notifications!==false;
+    if($("settingPushVapidPublicKey")) $("settingPushVapidPublicKey").value=data.push_vapid_public_key||"";
     $("settingShippingPolicy").value=data.shipping_policy||"";
     $("settingReturnsPolicy").value=data.returns_policy||"";
     $("settingPrivacyPolicy").value=data.privacy_policy||"";
     $("settingTermsPolicy").value=data.terms_policy||"";
 
+    if($("settingBrandGlowColor")) $("settingBrandGlowColor").value=data.brand_glow_color||"#e5bd70";
+    if($("settingEntryProductGlowColor")) $("settingEntryProductGlowColor").value=data.entry_product_glow_color||"#e5bd70";
+    if($("settingEntryCaptionGlowColor")) $("settingEntryCaptionGlowColor").value=data.entry_caption_glow_color||"#ff2028";
+
+    currentBrandImageUrl=data.header_brand_image_url||"";
+    currentEntryBackgroundUrl=data.entry_background_url||"";
+    currentEntryProductImageUrl=data.entry_product_image_url||"";
+    currentEntryCaptionImageUrl=data.entry_caption_image_url||"";
+    renderSimpleImage("settingBrandImagePreview",currentBrandImageUrl,pendingBrandImageFile,"brand");
+    renderSimpleImage("settingEntryBackgroundPreview",currentEntryBackgroundUrl,pendingEntryBackgroundFile,"entryBackground");
+    renderSimpleImage("settingEntryProductImagePreview",currentEntryProductImageUrl,pendingEntryProductImageFile,"entryProduct");
+    renderSimpleImage("settingEntryCaptionImagePreview",currentEntryCaptionImageUrl,pendingEntryCaptionImageFile,"entryCaption");
+
     currentLogoUrl=data.logo_url||"";
     currentBackgroundUrl=data.background_url||"";
     currentBackgroundType=data.background_type||inferBackgroundType(currentBackgroundUrl);
+    if($("settingBackgroundViewMode")) $("settingBackgroundViewMode").value=is360BackgroundType(currentBackgroundType)?"360":"normal";
     backgroundEnabled=data.background_enabled!==false;
     currentMusicUrl=data.music_url||"";
     musicEnabled=data.music_enabled!==false;
@@ -292,10 +433,36 @@
         currentLogoUrl=await uploadMedia(pendingLogoFile,"logo");
         pendingLogoFile=null;
       }
+      if(pendingBrandImageFile){
+        msg.textContent="Subiendo imagen de marca…";
+        currentBrandImageUrl=await uploadMedia(pendingBrandImageFile,"header-brand");
+        pendingBrandImageFile=null;
+      }
+      if(pendingEntryBackgroundFile){
+        msg.textContent="Subiendo fondo de entrada…";
+        currentEntryBackgroundUrl=await uploadMedia(pendingEntryBackgroundFile,"entry-background");
+        pendingEntryBackgroundFile=null;
+      }
+      if(pendingEntryProductImageFile){
+        msg.textContent="Subiendo imagen flotante de entrada…";
+        currentEntryProductImageUrl=await uploadMedia(pendingEntryProductImageFile,"entry-product");
+        pendingEntryProductImageFile=null;
+      }
+
+
+      if(pendingEntryCaptionImageFile){
+        msg.textContent="Subiendo imagen de la frase…";
+        currentEntryCaptionImageUrl=await uploadMedia(pendingEntryCaptionImageFile,"entry-caption");
+        pendingEntryCaptionImageFile=null;
+      }
+
       if(pendingBackgroundFile){
         msg.textContent="Subiendo fondo…";
         currentBackgroundUrl=await uploadMedia(pendingBackgroundFile,"background");
-        currentBackgroundType=inferBackgroundType(pendingBackgroundFile.name,pendingBackgroundFile.type);
+        currentBackgroundType=composeBackgroundType(
+          inferBackgroundType(pendingBackgroundFile.name,pendingBackgroundFile.type),
+          $("settingBackgroundViewMode")?.value||"normal"
+        );
         pendingBackgroundFile=null;
         backgroundEnabled=true;
       }
@@ -310,7 +477,7 @@
         const effectiveType = pendingBackgroundFile
           ? inferBackgroundType(pendingBackgroundFile.name,pendingBackgroundFile.type)
           : currentBackgroundType;
-        if(!backgroundEnabled || effectiveType!=="video"){
+        if(!backgroundEnabled || baseBackgroundType(effectiveType)!=="video"){
           const proceed=confirm("Elegiste usar audio del video, pero el fondo actual no es un video. Puedes guardar así y subir un video después. ¿Deseas continuar?");
           if(!proceed){
             msg.textContent="";
@@ -319,21 +486,37 @@
         }
       }
 
+      if(!$("settingPickup")?.checked && !$("settingShipping")?.checked){
+        throw new Error("Activa al menos una opción de entrega: Recoger pedido o Envío.");
+      }
+      if(!$("settingTransfer")?.checked && !$("settingCash")?.checked){
+        throw new Error("Activa al menos una forma de pago: Transferencia o Efectivo.");
+      }
+
+      const storeNameValue=$("settingStoreName").value.trim();
       const payload={
         id:1,
-        store_name:$("settingStoreName").value.trim(),
-        owner_name:$("settingOwnerName").value.trim(),
-        tagline:$("settingTagline").value.trim(),
+        store_name:storeNameValue,
         whatsapp:$("settingWhatsapp").value.trim().replace(/[^\d]/g,""),
         email:$("settingEmail").value.trim(),
         address:$("settingAddress").value.trim(),
         city:$("settingCity").value.trim(),
-        currency:$("settingCurrency").value,
+        currency:"MXN",
         instagram:normalizeNetworkInput("instagram",$("settingInstagram").value),
         facebook:normalizeNetworkInput("facebook",$("settingFacebook").value),
         tiktok:normalizeNetworkInput("tiktok",$("settingTiktok").value),
         youtube:normalizeNetworkInput("youtube",$("settingYoutube").value),
         logo_url:currentLogoUrl,
+        header_brand_mode:currentBrandImageUrl ? "image" : "text",
+        header_brand_text:storeNameValue||"ROCKSTAR",
+        header_brand_image_url:currentBrandImageUrl,
+        brand_glow_color:$("settingBrandGlowColor")?.value||"#e5bd70",
+        entry_product_glow_color:$("settingEntryProductGlowColor")?.value||"#e5bd70",
+        entry_caption_glow_color:$("settingEntryCaptionGlowColor")?.value||"#ff2028",
+        entry_background_url:currentEntryBackgroundUrl,
+        entry_caption_image_url:currentEntryCaptionImageUrl,
+        entry_caption_mode:currentEntryCaptionImageUrl ? "image" : "none",
+        entry_product_image_url:currentEntryProductImageUrl,
         background_url:currentBackgroundUrl,
         background_type:currentBackgroundType,
         background_enabled:backgroundEnabled,
@@ -348,6 +531,7 @@
         notification_email:$("settingNotificationEmail")?.value.trim()||"",
         admin_email_notifications:$("settingAdminEmailNotifications")?.checked!==false,
         customer_email_notifications:$("settingCustomerEmailNotifications")?.checked!==false,
+        push_vapid_public_key:$("settingPushVapidPublicKey")?.value.trim()||"",
         shipping_policy:$("settingShippingPolicy").value.trim(),
         returns_policy:$("settingReturnsPolicy").value.trim(),
         privacy_policy:$("settingPrivacyPolicy").value.trim(),
@@ -359,15 +543,37 @@
       const {error}=await db.from("store_settings").upsert(payload,{onConflict:"id"});
       if(error)throw error;
 
+      // Verificación real: vuelve a leer los campos de la frase para confirmar
+      // que Supabase guardó tanto la imagen como su color. Esto evita mostrar
+      // "guardado" cuando la columna o la actualización no persistieron.
+      const {data:captionSaved,error:captionVerifyError}=await db
+        .from("store_settings")
+        .select("entry_caption_image_url,entry_caption_glow_color,entry_caption_mode")
+        .eq("id",1)
+        .maybeSingle();
+      if(captionVerifyError)throw captionVerifyError;
+      const savedCaptionUrl=String(captionSaved?.entry_caption_image_url||"").trim();
+      const wantedCaptionUrl=String(currentEntryCaptionImageUrl||"").trim();
+      if(savedCaptionUrl!==wantedCaptionUrl){
+        throw new Error("La imagen de la frase no quedó guardada en Supabase.");
+      }
+      currentEntryCaptionImageUrl=savedCaptionUrl;
+
       renderLogo(); renderBackground(); renderMusic();
+      renderSimpleImage("settingBrandImagePreview",currentBrandImageUrl,pendingBrandImageFile,"brand");
+      renderSimpleImage("settingEntryBackgroundPreview",currentEntryBackgroundUrl,pendingEntryBackgroundFile,"entryBackground");
+      renderSimpleImage("settingEntryProductImagePreview",currentEntryProductImageUrl,pendingEntryProductImageFile,"entryProduct");
+      renderSimpleImage("settingEntryCaptionImagePreview",currentEntryCaptionImageUrl,pendingEntryCaptionImageFile,"entryCaption");
       msg.textContent="Configuración guardada correctamente.";
-      document.querySelectorAll("[data-admin-store-name]").forEach(el=>el.textContent="ROCKSTAR");
+      document.querySelectorAll("[data-admin-store-name]").forEach(el=>el.textContent=storeNameValue||"ROCKSTAR");
     }catch(error){
       console.error(error);
       msg.textContent="No se pudo guardar.";
       const detail=String(error?.message||error||"");
-      if(/background_url|background_type|background_enabled|music_url|music_enabled|column/i.test(detail)){
-        alert("Falta preparar Supabase para V16.2. Ejecuta primero supabase/V16_2_ROCKSTAR_MEDIA_SETTINGS.sql en SQL Editor.");
+      if(/Activa al menos una opción de entrega|Activa al menos una forma de pago/i.test(detail)){
+        alert(detail);
+      }else if(/background_url|background_type|background_enabled|music_url|music_enabled|column/i.test(detail)){
+        alert("Supabase todavía no tiene todos los campos de la portada. Ejecuta el archivo supabase/PORTADA_EDITABLE.sql de ESTA versión y vuelve a guardar.");
       }else{
         alert("No se pudo guardar/subir el archivo. Verifica tu conexión, permisos del bucket store-branding y el tamaño del archivo.");
       }
