@@ -1,0 +1,8 @@
+ROCKSTAR STORE V22.4.2
+
+Base: V22.4.1 3D LETRAS SIN CRUCE.
+Cambio único de esta versión:
+- ROCKSTAR y la imagen de la frase conservan el mismo color y brillo tanto en el frente como durante la parte trasera del giro.
+- Se mantiene la corrección para que las letras no se crucen ni se muestren espejadas.
+- No se modificó la gorra, portada, posiciones, Panoraven, Push, carrito, productos, pedidos, correos ni Supabase.
+- No requiere SQL nuevo.

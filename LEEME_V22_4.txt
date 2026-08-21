@@ -1,0 +1,19 @@
+ROCKSTAR STORE V22.4 — 3D LIMPIO + GIRO DE GORRA POR FOTOS
+
+BASE: V22.1 estable (Panoraven 360 + Push).
+No contiene los motores 3D experimentales de V22.2 a V22.3.7.
+
+ROCKSTAR y FRASE:
+- Sin giro 3D
+- Giro 3D lento
+- Giro 3D normal
+Se renderizan en un solo canvas para evitar logos/frases duplicados.
+
+GORRA:
+- NO se inventa un modelo 3D.
+- El giro usa las fotos REALES cargadas en el producto.
+- La foto principal se usa como frente.
+- Orden recomendado: frente, 3/4 derecho, lado derecho, atrás, lado izquierdo, 3/4 izquierdo.
+- Mientras más ángulos ordenados haya, más continuo se verá el giro.
+
+SQL: ejecutar supabase/V22_4_3D_Y_GIRO_POR_FOTOS.sql una sola vez si aún no existen estos campos.

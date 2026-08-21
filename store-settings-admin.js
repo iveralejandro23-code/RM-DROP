@@ -154,6 +154,34 @@
     return viewMode==="360" ? `${cleanBase}360` : cleanBase;
   }
 
+  function isPanoravenBackgroundType(type){
+    return String(type||"").toLowerCase()==="panoraven360";
+  }
+
+  function normalizePanoravenUrl(value){
+    const raw=String(value||"").trim();
+    if(!raw)return "";
+    try{
+      const url=new URL(/^https?:\/\//i.test(raw)?raw:`https://${raw.replace(/^\/+/,"")}`);
+      if(!/(^|\.)panoraven\.com$/i.test(url.hostname))return "";
+      const parts=url.pathname.split("/").filter(Boolean);
+      const modeIndex=parts.findIndex(x=>/^(slider|embed)$/i.test(x));
+      if(modeIndex<0 || !parts[modeIndex+1])return "";
+      const locale=modeIndex>0 ? parts[modeIndex-1] : "es";
+      const id=parts[modeIndex+1].replace(/[^A-Za-z0-9_-]/g,"");
+      if(!id)return "";
+      return `https://panoraven.com/${locale}/embed/${id}`;
+    }catch(_){ return ""; }
+  }
+
+  function syncBackgroundModeUi(){
+    const mode=$("settingBackgroundViewMode")?.value||"normal";
+    const box=$("settingPanoravenBox");
+    const file=$("settingBackgroundFile");
+    if(box) box.hidden=mode!=="panoraven";
+    if(file) file.disabled=mode==="panoraven";
+  }
+
   function renderLogo(){
     const el=$("settingLogoPreview");
     revoke("logo");
@@ -171,10 +199,13 @@
     const img=$("settingBackgroundImagePreview");
     const video=$("settingBackgroundVideoPreview");
     const empty=$("settingBackgroundEmpty");
+    const pano=$("settingPanoravenPreview");
     revoke("background");
     img.style.display="none";
     video.style.display="none";
     video.pause(); video.removeAttribute("src");
+    if(pano){ pano.hidden=true; pano.removeAttribute("src"); }
+    syncBackgroundModeUi();
 
     if(!backgroundEnabled){
       empty.textContent="Fondo desactivado. La tienda mostrará un fondo oscuro neutro.";
@@ -199,6 +230,11 @@
     }
 
     empty.style.display="none";
+    if(isPanoravenBackgroundType(type)){
+      const embed=normalizePanoravenUrl(src);
+      if(pano && embed){ pano.src=embed; pano.hidden=false; }
+      return;
+    }
     if(baseBackgroundType(type)==="video"){
       video.src=src; video.style.display="block";
       video.load();
@@ -336,11 +372,26 @@
   });
 
   $("settingBackgroundViewMode")?.addEventListener("change",()=>{
-    const base=pendingBackgroundFile
-      ? inferBackgroundType(pendingBackgroundFile.name,pendingBackgroundFile.type)
-      : baseBackgroundType(currentBackgroundType||inferBackgroundType(currentBackgroundUrl));
-    currentBackgroundType=composeBackgroundType(base,$("settingBackgroundViewMode")?.value||"normal");
+    const mode=$("settingBackgroundViewMode")?.value||"normal";
+    if(mode==="panoraven"){
+      pendingBackgroundFile=null;
+      currentBackgroundType="panoraven360";
+    }else{
+      const base=baseBackgroundType(currentBackgroundType||inferBackgroundType(currentBackgroundUrl));
+      currentBackgroundType=composeBackgroundType(base,mode);
+    }
+    syncBackgroundModeUi();
     renderBackground();
+  });
+
+  $("settingPanoravenUrl")?.addEventListener("input",()=>{
+    if($("settingBackgroundViewMode")?.value!=="panoraven")return;
+    const normalized=normalizePanoravenUrl($("settingPanoravenUrl").value);
+    const preview=$("settingPanoravenPreview");
+    if(preview){
+      if(normalized){ preview.src=normalized; preview.hidden=false; }
+      else { preview.hidden=true; preview.removeAttribute("src"); }
+    }
   });
 
   $("settingMusicFile")?.addEventListener("change",()=>{
@@ -395,6 +446,9 @@
     if($("settingBrandGlowColor")) $("settingBrandGlowColor").value=data.brand_glow_color||"#e5bd70";
     if($("settingEntryProductGlowColor")) $("settingEntryProductGlowColor").value=data.entry_product_glow_color||"#e5bd70";
     if($("settingEntryCaptionGlowColor")) $("settingEntryCaptionGlowColor").value=data.entry_caption_glow_color||"#ff2028";
+    if($("settingBrand3DLevel")) $("settingBrand3DLevel").value=data.brand_3d_level||"off";
+    if($("settingEntryProduct3DLevel")) $("settingEntryProduct3DLevel").value=data.entry_product_3d_level||"off";
+    if($("settingEntryCaption3DLevel")) $("settingEntryCaption3DLevel").value=data.entry_caption_3d_level||"off";
 
     currentBrandImageUrl=data.header_brand_image_url||"";
     currentEntryBackgroundUrl=data.entry_background_url||"";
@@ -408,7 +462,11 @@
     currentLogoUrl=data.logo_url||"";
     currentBackgroundUrl=data.background_url||"";
     currentBackgroundType=data.background_type||inferBackgroundType(currentBackgroundUrl);
-    if($("settingBackgroundViewMode")) $("settingBackgroundViewMode").value=is360BackgroundType(currentBackgroundType)?"360":"normal";
+    if($("settingBackgroundViewMode")){
+      $("settingBackgroundViewMode").value=isPanoravenBackgroundType(currentBackgroundType)?"panoraven":(is360BackgroundType(currentBackgroundType)?"360":"normal");
+    }
+    if($("settingPanoravenUrl")) $("settingPanoravenUrl").value=isPanoravenBackgroundType(currentBackgroundType)?currentBackgroundUrl:"";
+    syncBackgroundModeUi();
     backgroundEnabled=data.background_enabled!==false;
     currentMusicUrl=data.music_url||"";
     musicEnabled=data.music_enabled!==false;
@@ -456,15 +514,27 @@
         pendingEntryCaptionImageFile=null;
       }
 
-      if(pendingBackgroundFile){
+      const backgroundViewMode=$("settingBackgroundViewMode")?.value||"normal";
+      if(backgroundViewMode==="panoraven"){
+        const embedUrl=normalizePanoravenUrl($("settingPanoravenUrl")?.value||currentBackgroundUrl);
+        if(!embedUrl) throw new Error("Pega un enlace válido de Panoraven (/slider/ o /embed/).");
+        pendingBackgroundFile=null;
+        currentBackgroundUrl=embedUrl;
+        currentBackgroundType="panoraven360";
+        backgroundEnabled=true;
+      }else if(pendingBackgroundFile){
         msg.textContent="Subiendo fondo…";
         currentBackgroundUrl=await uploadMedia(pendingBackgroundFile,"background");
         currentBackgroundType=composeBackgroundType(
           inferBackgroundType(pendingBackgroundFile.name,pendingBackgroundFile.type),
-          $("settingBackgroundViewMode")?.value||"normal"
+          backgroundViewMode
         );
         pendingBackgroundFile=null;
         backgroundEnabled=true;
+      }else if(isPanoravenBackgroundType(currentBackgroundType)){
+        currentBackgroundUrl="";
+        currentBackgroundType="image";
+        backgroundEnabled=false;
       }
       if(pendingMusicFile){
         msg.textContent="Subiendo música…";
@@ -513,6 +583,9 @@
         brand_glow_color:$("settingBrandGlowColor")?.value||"#e5bd70",
         entry_product_glow_color:$("settingEntryProductGlowColor")?.value||"#e5bd70",
         entry_caption_glow_color:$("settingEntryCaptionGlowColor")?.value||"#ff2028",
+        brand_3d_level:$("settingBrand3DLevel")?.value||"off",
+        entry_product_3d_level:$("settingEntryProduct3DLevel")?.value||"off",
+        entry_caption_3d_level:$("settingEntryCaption3DLevel")?.value||"off",
         entry_background_url:currentEntryBackgroundUrl,
         entry_caption_image_url:currentEntryCaptionImageUrl,
         entry_caption_mode:currentEntryCaptionImageUrl ? "image" : "none",
@@ -570,7 +643,7 @@
       console.error(error);
       msg.textContent="No se pudo guardar.";
       const detail=String(error?.message||error||"");
-      if(/Activa al menos una opción de entrega|Activa al menos una forma de pago/i.test(detail)){
+      if(/Activa al menos una opción de entrega|Activa al menos una forma de pago|Panoraven/i.test(detail)){
         alert(detail);
       }else if(/background_url|background_type|background_enabled|music_url|music_enabled|column/i.test(detail)){
         alert("Supabase todavía no tiene todos los campos de la portada. Ejecuta el archivo supabase/PORTADA_EDITABLE.sql de ESTA versión y vuelve a guardar.");

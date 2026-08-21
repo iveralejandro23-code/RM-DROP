@@ -661,6 +661,14 @@
           <span>Color de luz alrededor de la marca</span>
           <input id="settingBrandGlowColor" type="color" value="#e5bd70">
         </label>
+        <label class="rockstar-3d-control" for="settingBrand3DLevel">
+          <span>Volumen y giro 3D de ROCKSTAR</span>
+          <select id="settingBrand3DLevel">
+            <option value="off">Sin giro 3D</option>
+            <option value="soft">Giro 3D lento</option>
+            <option value="strong">Giro 3D normal</option>
+          </select>
+        </label>
         <small>Imagen opcional para reemplazar o acompañar el texto · JPG, PNG o WEBP · Máx. 8 MB</small>
         <div class="rockstar-media-actions">
           <button id="settingBrandImageRemove" class="secondary small-btn" type="button">Quitar imagen de marca</button>
@@ -679,6 +687,14 @@
         <label class="rockstar-inline-color-control" for="settingEntryCaptionGlowColor">
           <span>Color de luz alrededor de la imagen de la frase</span>
           <input id="settingEntryCaptionGlowColor" type="color" value="#ff2028">
+        </label>
+        <label class="rockstar-3d-control" for="settingEntryCaption3DLevel">
+          <span>Volumen y giro 3D de la frase</span>
+          <select id="settingEntryCaption3DLevel">
+            <option value="off">Sin giro 3D</option>
+            <option value="soft">Giro 3D lento</option>
+            <option value="strong">Giro 3D normal</option>
+          </select>
         </label>
         <small>Esta es la única frase que se mostrará en la portada. Los fondos blancos o negros conectados a los bordes se vuelven transparentes para dejar ver el fondo de la portada · Máx. 8 MB</small>
         <div class="rockstar-media-actions">
@@ -704,6 +720,15 @@
           <span>Color de luz alrededor de esta imagen</span>
           <input id="settingEntryProductGlowColor" type="color" value="#e5bd70">
         </label>
+        <label class="rockstar-3d-control" for="settingEntryProduct3DLevel">
+          <span>Giro de la gorra usando sus fotos</span>
+          <select id="settingEntryProduct3DLevel">
+            <option value="off">Sin giro</option>
+            <option value="soft">Giro lento por fotos</option>
+            <option value="strong">Giro normal por fotos</option>
+          </select>
+        </label>
+        <small>Para un giro completo, sube al producto fotos ordenadas de frente, laterales y parte trasera. La foto marcada como principal será el frente.</small>
         <small>Puedes subir cualquier imagen. Los fondos claros se integran visualmente con el fondo de la portada · Máx. 8 MB</small>
         <div class="rockstar-media-actions">
           <button id="settingEntryProductImageRemove" class="secondary small-btn" type="button">Usar imagen del producto</button>
@@ -723,10 +748,17 @@
           <span>Modo de visualización</span>
           <select id="settingBackgroundViewMode">
             <option value="normal">Fondo normal</option>
-            <option value="360">360° interactivo</option>
+            <option value="360">Archivo 360° interactivo</option>
+            <option value="panoraven">Panoraven 360° por enlace</option>
           </select>
         </label>
-        <small>Para 360° usa una foto o video equirectangular 2:1. En computadora arrastra con el mouse; en celular, con el dedo.</small>
+        <div id="settingPanoravenBox" class="rockstar-panoraven-box" hidden>
+          <label for="settingPanoravenUrl">Enlace de Panoraven</label>
+          <input id="settingPanoravenUrl" type="url" inputmode="url" placeholder="https://panoraven.com/es/slider/... o /embed/...">
+          <small>Pega el enlace compartido de Panoraven. ROCKSTAR lo convierte automáticamente al visor incrustado.</small>
+          <iframe id="settingPanoravenPreview" class="rockstar-panoraven-preview" title="Vista previa 360 de Panoraven" allowfullscreen allow="accelerometer; magnetometer; gyroscope; xr-spatial-tracking" hidden></iframe>
+        </div>
+        <small>Archivo 360: usa foto o video equirectangular 2:1. Panoraven: pega un enlace /slider/ o /embed/. En computadora arrastra con el mouse; en celular, con el dedo.</small>
         <div class="rockstar-media-actions">
           <button id="settingBackgroundRemove" class="secondary small-btn" type="button">Quitar fondo</button>
         </div>
@@ -1012,7 +1044,7 @@
   <script src="supabase-products-admin.js"></script>
   <script src="supabase-categories-admin.js"></script>
   <script src="supabase-orders-admin.js"></script>
-  <script src="store-settings-admin.js?v=21.5"></script>
+  <script src="store-settings-admin.js?v=22.4"></script>
   </div>
   <script src="admin-navigation.js"></script>
   <script src="account-admin.js"></script>

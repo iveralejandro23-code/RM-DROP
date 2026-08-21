@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="es" class="rockstar-entry-loading">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,7 +8,16 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&family=Oswald:wght@500;600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=21.5" />
+  <style id="rockstar-entry-anti-flash">
+    html.rockstar-entry-loading #rockstarEntry{
+      visibility:hidden !important;
+      opacity:0 !important;
+    }
+    html.rockstar-entry-loading body{
+      background:#000 !important;
+    }
+  </style>
+  <link rel="stylesheet" href="styles.css?v=22.4.28" />
   <!-- RIVER_PRODUCTION_URL: agrega aquí el dominio final cuando se publique -->
   <link rel="manifest" href="manifest.webmanifest">
 </head>
@@ -327,14 +336,15 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.min.js"></script>
   <script src="rockstar-360.js?v=21.5"></script>
-  <script src="store-settings-store.js?v=21.5"></script>
+  <script src="store-settings-store.js?v=22.4"></script>
   <script src="app.js?v=21.0"></script>
   <script src="rockstar-experience.js"></script>
   <script src="supabase-products-store.js?v=18.5-final"></script>
   <script src="supabase-categories-store.js"></script>
 
   <script src="product-zoom.js"></script>
-  <script src="rockstar-entry.js?v=21.5-portada-conservada"></script>
+  <script src="rockstar-entry.js?v=22.4.28"></script>
+  <script src="store-brand-3d.js?v=22.4.25"></script>
   <!-- ROCKSTAR V18.0 · DISEÑO COMPACTO HORIZONTAL -->
 
   <nav class="rockstar-mobile-dock" aria-label="Navegación rápida">

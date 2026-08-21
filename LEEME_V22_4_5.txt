@@ -1,0 +1,9 @@
+ROCKSTAR STORE V22.4.5
+
+Base exacta: V22.4.4.
+Único cambio funcional: replica correctamente el mismo render 3D aprobado en los dos elementos de la barra superior: logo/corona y ROCKSTAR.
+
+Corrección técnica: el header conservaba una animación CSS antigua y el tamaño se estaba midiendo cuando la imagen estaba girada/de perfil. Ahora se mide el tamaño y posición de layout sin transformaciones y el motor 3D reemplaza visualmente a ambos elementos.
+
+No se modifica portada, frase, gorra, catálogo, carrito, pedidos, Push, Panoraven, Admin ni Supabase.
+No requiere SQL nuevo.

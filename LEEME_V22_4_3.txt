@@ -1,0 +1,7 @@
+ROCKSTAR STORE V22.4.3
+
+Base: V22.4.2 aprobada.
+Cambio único: el mismo efecto 3D de ROCKSTAR aprobado en la entrada se aplica también a las apariciones de la marca ROCKSTAR dentro de la tienda (hero, bloque de marca, footer y marca superior), usando la misma imagen/corona cargada en Admin y el mismo nivel 3D/color de resplandor.
+
+NO se modificó la entrada, la frase, la gorra, productos, carrito, pedidos, Push, Panoraven, Supabase ni demás funciones.
+No requiere SQL nuevo.

@@ -1,4 +1,2 @@
-ROCKSTAR STORE V22 — NOTIFICACIONES PUSH
-Base: V21.5 360 interactivo + portada conservada.
-Agrega PWA y Web Push para nuevos pedidos al administrador.
-No modifica portada, catálogo, carrito, pedidos, promociones, correo ni 360.
+ROCKSTAR STORE V22.4 — 3D LIMPIO + GIRO DE GORRA POR FOTOS
+Base estable V22.1.

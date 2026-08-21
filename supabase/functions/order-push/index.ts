@@ -42,7 +42,7 @@ Deno.serve(async(req)=>{
     title:`🛒 Nuevo pedido ${order.folio||""}`,
     body:`${order.customer_name||"Cliente"} · ${money(order.total)}`,
     tag:`rockstar-order-${order.id||Date.now()}`,
-    url:"./admin.html#ordersPanel",
+    url:"https://iveralejandro23-code.github.io/julian-reynoso-store/admin.html#ordersPanel",
     data:{order_id:order.id||null,folio:order.folio||null}
   });
 

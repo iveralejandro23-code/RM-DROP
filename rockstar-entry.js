@@ -22,6 +22,9 @@
       glowColor:'#e5bd70',
       productGlowColor:'#e5bd70',
       captionGlowColor:'#ff2028',
+      brand3DLevel:'off',
+      product3DLevel:'off',
+      caption3DLevel:'off',
       entryCaptionImageUrl:'',
       entryBackgroundUrl:'',
       entryProductImageUrl:''
@@ -177,6 +180,153 @@
     }
   }
 
+
+  // ===== V22.4: motor limpio. No crea copias DOM de las imágenes. =====
+  const spinState=new Map();
+  let hatSpinTimer=null;
+  let hatSpinToken=0;
+
+  function level3D(v){return ['off','soft','strong'].includes(v)?v:'off';}
+
+  function stopCanvas3D(stage){
+    if(!stage)return;
+    const state=spinState.get(stage);
+    if(state?.raf)cancelAnimationFrame(state.raf);
+    spinState.delete(stage);
+    stage.querySelector(':scope > .rockstar-3d-canvas')?.remove();
+    stage.classList.remove('rockstar-canvas-3d-active');
+  }
+
+  function makeTintCanvas(img,color){
+    const c=document.createElement('canvas');
+    const w=img.naturalWidth||600,h=img.naturalHeight||200;
+    c.width=w;c.height=h;
+    const x=c.getContext('2d');
+    x.drawImage(img,0,0,w,h);
+    x.globalCompositeOperation='source-in';
+    x.fillStyle=color;
+    x.fillRect(0,0,w,h);
+    x.globalCompositeOperation='source-over';
+    return c;
+  }
+
+  function startCanvas3D(stage,img,level,glowColor){
+    stopCanvas3D(stage);
+    level=level3D(level);
+    if(level==='off'||!stage||!img||!img.src)return;
+    const launch=()=>{
+      if(!img.naturalWidth||!img.naturalHeight)return;
+      const rect=img.getBoundingClientRect();
+      if(rect.width<2||rect.height<2)return;
+      const canvas=document.createElement('canvas');
+      canvas.className='rockstar-3d-canvas';
+      const dpr=Math.min(2,window.devicePixelRatio||1);
+      const cssW=Math.max(80,rect.width),cssH=Math.max(30,rect.height);
+      const pad=Math.round(Math.max(cssW,cssH)*.28);
+      canvas.width=Math.round((cssW+pad*2)*dpr);
+      canvas.height=Math.round((cssH+pad*2)*dpr);
+      canvas.style.width=(cssW+pad*2)+'px';
+      canvas.style.height=(cssH+pad*2)+'px';
+      stage.appendChild(canvas);
+      stage.classList.add('rockstar-canvas-3d-active');
+      const ctx=canvas.getContext('2d');
+      ctx.scale(dpr,dpr);
+      const totalW=cssW+pad*2,totalH=cssH+pad*2,cx=totalW/2,cy=totalH/2;
+      const tint=makeTintCanvas(img,'#5a3b1b');
+      const duration=level==='soft'?14000:8000;
+      const depth=level==='soft'?14:20;
+      const layers=level==='soft'?10:14;
+      const started=performance.now();
+      const state={raf:0};spinState.set(stage,state);
+      function frame(now){
+        if(spinState.get(stage)!==state)return;
+        ctx.clearRect(0,0,totalW,totalH);
+        const a=((now-started)%duration)/duration*Math.PI*2;
+        const c=Math.cos(a),sn=Math.sin(a);
+        const faceW=Math.max(1,Math.abs(c)*cssW);
+        // Extrusión: solo siluetas tintadas muy juntas. Nunca se dibuja una segunda cara desplazada.
+        for(let i=layers;i>=1;i--){
+          const z=(i/layers)*depth;
+          const off=sn*z;
+          const alpha=.16+.34*(i/layers);
+          ctx.save();ctx.globalAlpha=alpha;
+          ctx.translate(cx+off,cy);
+          ctx.drawImage(tint,-faceW/2,-cssH/2,faceW,cssH);
+          ctx.restore();
+        }
+        // V22.4.2: frente y reverso conservan exactamente el mismo color y brillo.
+        // En el reverso se vuelve a dibujar el arte original SIN espejarlo: así no se
+        // cruzan las letras y tampoco se apagan / vuelven opacas durante la vuelta.
+        ctx.save();
+        ctx.translate(cx,cy);
+        ctx.globalAlpha=1;
+        ctx.drawImage(img,-faceW/2,-cssH/2,faceW,cssH);
+        ctx.restore();
+        // Luz exterior elegida en Admin.
+        ctx.save();ctx.globalCompositeOperation='destination-over';ctx.shadowColor=glowColor||'#e5bd70';ctx.shadowBlur=22;ctx.fillStyle='rgba(0,0,0,0.001)';ctx.fillRect(cx-cssW*.28,cy-cssH*.28,cssW*.56,cssH*.56);ctx.restore();
+        state.raf=requestAnimationFrame(frame);
+      }
+      state.raf=requestAnimationFrame(frame);
+    };
+    if(img.complete)requestAnimationFrame(launch); else img.addEventListener('load',()=>requestAnimationFrame(launch),{once:true});
+  }
+
+  function stopHatSpin(){
+    hatSpinToken++;
+    if(hatSpinTimer){clearTimeout(hatSpinTimer);hatSpinTimer=null;}
+    imageButton?.classList.remove('rockstar-photo-spin-active');
+    image?.classList.remove('rockstar-photo-spin-frame');
+  }
+
+  function featuredProductObject(){
+    try{
+      if(typeof PRODUCTS!=='undefined'&&Array.isArray(PRODUCTS)){
+        return PRODUCTS.find(p=>String(p.id)===String(featuredId))||null;
+      }
+    }catch(_){ }
+    return null;
+  }
+
+  async function transparentProductData(url){
+    try{
+      const response=await fetch(url,{mode:'cors',cache:'force-cache'});if(!response.ok)throw 0;
+      const blob=await response.blob();const bitmap=await createImageBitmap(blob);
+      const canvas=document.createElement('canvas');canvas.width=bitmap.width;canvas.height=bitmap.height;
+      const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(bitmap,0,0);
+      const frame=ctx.getImageData(0,0,canvas.width,canvas.height),d=frame.data,w=canvas.width,h=canvas.height;
+      const seen=new Uint8Array(w*h),stack=[];
+      const isBg=(x,y)=>{const i=(y*w+x)*4,r=d[i],g=d[i+1],b=d[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b);return ((r+g+b)/3>=205&&mx-mn<=48)||(r>=235&&g>=235&&b>=235)};
+      const push=(x,y)=>{const k=y*w+x;if(!seen[k]&&isBg(x,y)){seen[k]=1;stack.push(k)}};
+      for(let x=0;x<w;x++){push(x,0);push(x,h-1)}for(let y=0;y<h;y++){push(0,y);push(w-1,y)}
+      while(stack.length){const k=stack.pop(),x=k%w,y=(k/w)|0,i=k*4;d[i+3]=0;if(x>0)push(x-1,y);if(x+1<w)push(x+1,y);if(y>0)push(x,y-1);if(y+1<h)push(x,y+1)}
+      ctx.putImageData(frame,0,0);bitmap.close?.();return canvas.toDataURL('image/png');
+    }catch(_){return url;}
+  }
+
+  async function startHatPhotoSpin(level){
+    stopHatSpin();level=level3D(level);if(level==='off')return;
+    const product=featuredProductObject();
+    if(!product)return;
+    const ordered=[product.image,...(Array.isArray(product.images)?product.images:[])].filter(Boolean);
+    const urls=[...new Set(ordered)];
+    if(urls.length<2)return;
+    const token=hatSpinToken;
+    imageButton.classList.add('rockstar-photo-spin-active');image.classList.add('rockstar-photo-spin-frame');
+    // Procesar una vez cada ángulo para que conserve color pero no el fondo claro.
+    const frames=[];for(const u of urls){if(token!==hatSpinToken)return;frames.push(await transparentProductData(u));}
+    let i=0;const delay=level==='soft'?850:500;
+    const tick=()=>{if(token!==hatSpinToken)return;image.style.opacity='0.2';setTimeout(()=>{if(token!==hatSpinToken)return;i=(i+1)%frames.length;image.src=frames[i];image.style.opacity='1';hatSpinTimer=setTimeout(tick,delay);},90)};
+    image.src=frames[0];image.style.opacity='1';hatSpinTimer=setTimeout(tick,delay);
+  }
+
+  function applyMotionModes(cfg){
+    const brandStage=document.getElementById('rockstarEntryLogo');
+    const captionStage=document.getElementById('rockstarEntryCaption');
+    if(brandImageEl&&!brandImageEl.hidden)startCanvas3D(brandStage,brandImageEl,cfg.brand3DLevel,cfg.glowColor);else stopCanvas3D(brandStage);
+    if(captionImageEl&&!captionImageEl.hidden)startCanvas3D(captionStage,captionImageEl,cfg.caption3DLevel,cfg.captionGlowColor);else stopCanvas3D(captionStage);
+    startHatPhotoSpin(cfg.product3DLevel);
+  }
+
   function applyEntryConfig(){
     const cfg=getConfig();
     const glow=cfg.glowColor||'#e5bd70';
@@ -252,9 +402,14 @@
       image.alt='Imagen destacada de entrada';
       image.dataset.customEntryImage='1';
       makeProductBackgroundTransparent(image,cfg.entryProductImageUrl);
+      image.classList.add('rockstar-entry-product-spin-2d');
     }else{
       delete image.dataset.customEntryImage;
     }
+
+    // Espera a que la eliminación de fondos actualice las imágenes y después
+    // aplica únicamente los modos seleccionados.
+    setTimeout(()=>applyMotionModes(cfg),220);
   }
 
   function chooseCard(){
@@ -263,16 +418,10 @@
     return cap||cards[0]||null;
   }
 
+
   function syncFeaturedProduct(){
-    const card=chooseCard();
-    if(!card)return false;
-    featuredId=card.getAttribute('data-product-id');
-    const cardImg=card.querySelector('.store-product-card-main-image');
-    if(cardImg?.src && !image.dataset.customEntryImage){
-      image.src=cardImg.src;
-      image.alt=cardImg.alt||'Producto destacado';
-      makeProductBackgroundTransparent(image,cardImg.src);
-    }
+    // V22.4.28: la imagen de la portada la controla exclusivamente Admin.
+    // Ya no se reemplaza con productos/imágenes del catálogo.
     return true;
   }
 
@@ -296,11 +445,40 @@
 
   imageButton?.addEventListener('click',closeEntry);
 
-  applyEntryConfig();
-  window.addEventListener('river:store-settings-loaded',()=>{
-    applyEntryConfig();
-    syncFeaturedProduct();
-  });
+  let entryReleased=false;
+  const releaseEntry=()=>{
+    if(entryReleased)return;
+    entryReleased=true;
+    document.documentElement.classList.remove('rockstar-entry-loading');
+    entry.classList.add('rockstar-entry-ready');
+  };
+
+  const paintFinalEntry=()=>{
+    try{
+      applyEntryConfig();
+      syncFeaturedProduct();
+    }finally{
+      // Dos frames permiten aplicar la configuración antes del primer render visible.
+      requestAnimationFrame(()=>requestAnimationFrame(releaseEntry));
+    }
+  };
+
+  // Si la configuración ya existe, pintar directamente.
+  if(window.RIVER_STORE_SETTINGS || window.ROCKSTAR_ENTRY_CONFIG){
+    paintFinalEntry();
+  }
+
+  // Camino normal: esperar la configuración real.
+  window.addEventListener('river:store-settings-loaded',paintFinalEntry,{once:true});
+
+  // LÍMITE DURO: aunque Supabase, Storage o una imagen fallen,
+  // la portada se libera sí o sí. No puede quedarse bloqueada.
+  window.setTimeout(()=>{
+    if(!entryReleased){
+      try{ applyEntryConfig(); }catch(_){}
+      requestAnimationFrame(releaseEntry);
+    }
+  },900);
 
   if(!syncFeaturedProduct()){
     const grid=document.getElementById('storeProductGrid');

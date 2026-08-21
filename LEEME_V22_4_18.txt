@@ -1,0 +1,5 @@
+ROCKSTAR V22.4.18
+Base: V22.4.5 estable.
+Cambio único funcional: header superior (corona + ROCKSTAR) usa el mismo motor canvas 3D que las marcas públicas inferiores.
+Se conservan las medidas de V22.4.2 y se neutraliza solo el rotateY CSS plano de esas dos imágenes.
+Se añadió observación de cambios de src/hidden para regenerar el canvas después del procesamiento transparente de Admin.

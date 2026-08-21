@@ -1,0 +1,11 @@
+ROCKSTAR STORE V22.4.4 — 3D HEADER LOGO + ROCKSTAR
+
+Base exacta: V22.4.3.
+Único cambio funcional:
+- El logo pequeño configurado en Admin (corona/logo) usa el mismo efecto 3D.
+- La imagen ROCKSTAR de la barra superior usa el mismo efecto 3D.
+- Ambos pueden estar visibles al mismo tiempo sin pisarse ni duplicarse.
+
+No se modificaron portada, frase, gorra, productos, carrito, pedidos,
+notificaciones Push, Panoraven ni Supabase.
+No requiere SQL nuevo.

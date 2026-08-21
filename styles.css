@@ -4053,18 +4053,15 @@ body.rockstar-v16 > header.site-header .brand{
   animation:rockstarLogoFloat 3.8s ease-in-out infinite !important;
   white-space:nowrap !important;
 }
+/* V22.4.19: ya no se gira cada hijo del header con CSS.
+   El 3D del logo/corona lo controla exclusivamente store-brand-3d.js. */
 body.rockstar-v16 > header.site-header .brand > *{
-  animation:rockstarLogoTurn 10s linear infinite !important;
   transform-origin:center center !important;
   backface-visibility:visible !important;
 }
 @keyframes rockstarLogoFloat{
   0%,100%{transform:translate(-50%,-50%) translateY(-2px)}
   50%{transform:translate(-50%,-50%) translateY(4px)}
-}
-@keyframes rockstarLogoTurn{
-  0%{transform:perspective(700px) rotateY(0deg)}
-  100%{transform:perspective(700px) rotateY(360deg)}
 }
 @media(max-width:800px){
   body.rockstar-v16 > header.site-header .brand{
@@ -4330,10 +4327,7 @@ body.rockstar-v16 > header.site-header .brand span[data-store-name]{
     animation:rockstarHeaderFloatOnly 3.8s ease-in-out infinite !important;
     flex:0 0 auto !important;
   }
-  body.rockstar-v16 > header.site-header .brand > *{
-    animation:rockstarLogoTurn 10s linear infinite !important;
-  }
-  body.rockstar-v16 > header.site-header .main-nav{
+body.rockstar-v16 > header.site-header .main-nav{
     margin-left:auto !important;
   }
 }
@@ -4976,3 +4970,129 @@ body.rockstar-v16 > .rockstar-global-bg .rockstar-global-video,
 .rockstar-background-mode-control{display:grid;gap:7px;margin-top:12px;text-align:left;}
 .rockstar-background-mode-control>span{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;}
 .rockstar-background-mode-control select{width:100%;min-height:42px;border-radius:8px;padding:0 12px;background:#0b0d10;color:#f5f5f5;border:1px solid rgba(229,189,112,.35);}
+
+
+/* ROCKSTAR V22.1 — Panoraven 360 por enlace */
+.rockstar-panoraven-frame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#05070a;display:block;pointer-events:auto;touch-action:auto;}
+.rockstar-panoraven-box{margin-top:12px;padding:12px;border:1px solid rgba(229,189,112,.22);border-radius:10px;background:rgba(255,255,255,.025);}
+.rockstar-panoraven-box label{display:block;font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;margin-bottom:7px;}
+.rockstar-panoraven-box input{width:100%;min-height:42px;border-radius:8px;padding:0 12px;background:#0b0d10;color:#f5f5f5;border:1px solid rgba(229,189,112,.35);}
+.rockstar-panoraven-preview{display:block;width:100%;height:280px;margin-top:12px;border:0;border-radius:10px;background:#05070a;}
+.rockstar-panoraven-preview[hidden]{display:none!important;}
+
+
+/* ==========================================================
+   ROCKSTAR V22.4 — 3D LIMPIO + GIRO DE GORRA POR FOTOS
+   Parte de V22.1 estable. No contiene los motores 3D de
+   V22.2–V22.3.7. ROCKSTAR y frase usan un solo canvas; la
+   gorra usa las fotos reales del producto, sin duplicados.
+   ========================================================== */
+.rockstar-3d-control{display:grid;gap:7px;margin-top:12px;text-align:left;width:100%;}
+.rockstar-3d-control>span{font-size:12px;font-weight:800;letter-spacing:.04em;text-transform:uppercase;}
+.rockstar-3d-control select{width:100%;min-height:42px;border-radius:8px;padding:0 12px;background:#0b0d10;color:#f5f5f5;border:1px solid rgba(229,189,112,.35);}
+.rockstar-3d-canvas{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);pointer-events:none;display:block;z-index:4;max-width:none!important;}
+#rockstarEntryLogo.rockstar-canvas-3d-active,#rockstarEntryCaption.rockstar-canvas-3d-active{position:relative;transform:none!important;animation:none!important;}
+#rockstarEntryLogo.rockstar-canvas-3d-active>img,#rockstarEntryCaption.rockstar-canvas-3d-active>img{visibility:hidden!important;opacity:0!important;}
+#rockstarEntryProductButton.rockstar-photo-spin-active{transform:none!important;animation:rockstarHatFloat 3.5s ease-in-out infinite!important;}
+#rockstarEntryProductImage.rockstar-photo-spin-frame{transition:opacity .14s ease!important;object-fit:contain!important;object-position:center!important;}
+@keyframes rockstarHatFloat{0%,100%{transform:translateY(-3px)}50%{transform:translateY(5px)}}
+@media(prefers-reduced-motion:reduce){.rockstar-3d-canvas{display:none!important}#rockstarEntryLogo.rockstar-canvas-3d-active>img,#rockstarEntryCaption.rockstar-canvas-3d-active>img{visibility:visible!important;opacity:1!important}#rockstarEntryProductButton.rockstar-photo-spin-active{animation:none!important}}
+
+/* V22.4.3 — el mismo 3D aprobado de la portada también en ROCKSTAR dentro de la tienda. */
+.rockstar-public-brand,
+body.rockstar-v16 > header.site-header .brand{position:relative;}
+.rockstar-store-3d-canvas{
+  position:absolute;
+  left:50%;top:50%;
+  transform:translate(-50%,-50%);
+  pointer-events:none;
+  z-index:3;
+  max-width:none!important;
+}
+.rockstar-public-brand.rockstar-store-3d-active{
+  min-height:var(--rockstar-store-brand-height,82px);
+  overflow:visible!important;
+}
+.rockstar-public-brand-hero.rockstar-store-3d-active{--rockstar-store-brand-height:145px;}
+.rockstar-public-brand-statement.rockstar-store-3d-active{--rockstar-store-brand-height:82px;}
+.rockstar-public-brand-footer.rockstar-store-3d-active{--rockstar-store-brand-height:58px;}
+body.rockstar-v16 > header.site-header .brand.rockstar-store-3d-active{
+  overflow:visible!important;
+  min-width:130px;
+  min-height:52px;
+}
+/* V22.4.25: el canvas genérico del header ya no se escala aquí.
+   El 3D inferior conserva sus reglas originales. */
+@media(max-width:800px){
+  .rockstar-public-brand-hero.rockstar-store-3d-active{--rockstar-store-brand-height:100px;}
+  .rockstar-public-brand-statement.rockstar-store-3d-active{--rockstar-store-brand-height:68px;}
+  body.rockstar-v16 > header.site-header .brand.rockstar-store-3d-active{min-width:104px;min-height:46px;}
+  /* V22.4.25: sin escala adicional para canvas del header. */
+}
+
+
+
+/* ==========================================================
+   ROCKSTAR V22.4.25 — ÚNICO CONTROL VISUAL DEL 3D SUPERIOR
+   NO cambia tamaño, posición, separación ni distribución del header.
+   ========================================================== */
+body.rockstar-v16 > header.site-header .brand{
+  overflow:visible !important;
+}
+body.rockstar-v16 > header.site-header .brand > img[data-store-logo],
+body.rockstar-v16 > header.site-header .brand > img[data-header-brand-image]{
+  animation:none !important;
+  transform:none !important;
+}
+body.rockstar-v16 > header.site-header .brand > canvas.rockstar-header-3d-canvas{
+  position:absolute !important;
+  display:block !important;
+  pointer-events:none !important;
+  margin:0 !important;
+  padding:0 !important;
+  border:0 !important;
+  max-width:none !important;
+  max-height:none !important;
+  transform:translate(-50%,-50%) !important;
+  transform-origin:center center !important;
+  animation:none !important;
+  filter:none !important;
+  opacity:1 !important;
+  backface-visibility:visible !important;
+}
+body.rockstar-v16 > header.site-header .brand > canvas.rockstar-header-3d-canvas[data-header-target="store-logo"]{
+  z-index:12 !important;
+}
+body.rockstar-v16 > header.site-header .brand > canvas.rockstar-header-3d-canvas[data-header-target="brand-image"]{
+  z-index:11 !important;
+}
+
+
+/* V22.4.27 — anti-flash seguro.
+   No altera el diseño ni el 3D; solo controla el primer render de la portada. */
+html.rockstar-entry-loading #rockstarEntry{
+  visibility:hidden !important;
+  opacity:0 !important;
+}
+#rockstarEntry.rockstar-entry-ready{
+  visibility:visible !important;
+  opacity:1 !important;
+}
+
+
+/* ==========================================================
+   ROCKSTAR V22.4.28 — GORRA PRINCIPAL: SOLO IMAGEN DE ADMIN + GIRO 2D
+   No usa 3D, no cambia proporciones y no toma imágenes del catálogo.
+   ========================================================== */
+#rockstarEntryProductImage.rockstar-entry-product-spin-2d,
+#rockstarEntryProductButton .rockstar-entry-product-spin-2d{
+  transform-origin:50% 50% !important;
+  animation:rockstarEntryProductSpin2D 12s linear infinite !important;
+  backface-visibility:visible !important;
+  will-change:transform;
+}
+
+@keyframes rockstarEntryProductSpin2D{
+  from{ transform:rotate(0deg) !important; }
+  to{ transform:rotate(360deg) !important; }
+}

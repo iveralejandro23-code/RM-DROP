@@ -1,0 +1,7 @@
+<!doctype html><html><body class="rockstar-v16">
+<header class="site-header"><a class="brand"><img data-store-logo src="assets/demo_la_cream.jpg" style="display:block;width:46px;height:46px"><img data-header-brand-image src="assets/demo_trucker_cafe.jpg" style="display:block;width:190px;height:52px"></a></header>
+<div class="rockstar-public-brand" data-public-brand-slot><img data-public-brand-image src="assets/demo_urban_verde.jpg" style="display:block;width:190px;height:52px"></div>
+<pre id="out"></pre>
+<script>window.ROCKSTAR_ENTRY_CONFIG={brand3DLevel:'strong',glowColor:'#e5bd70'};let adds=0,rems=0;const mo=new MutationObserver(ms=>ms.forEach(m=>{[...m.addedNodes].forEach(n=>{if(n.nodeType===1&&n.matches?.('canvas.rockstar-store-3d-header-canvas'))adds++});[...m.removedNodes].forEach(n=>{if(n.nodeType===1&&n.matches?.('canvas.rockstar-store-3d-header-canvas'))rems++})}));mo.observe(document.documentElement,{subtree:true,childList:true}); setTimeout(()=>{document.getElementById('out').textContent=JSON.stringify({adds,rems,canvases:document.querySelectorAll('.rockstar-store-3d-header-canvas').length,level:document.documentElement.dataset.rockstarHeader3dLevel});},1800)</script>
+<script src="store-brand-3d.js?v=22.4.20"></script>
+</body></html>

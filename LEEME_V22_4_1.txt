@@ -1,0 +1,7 @@
+ROCKSTAR STORE V22.4.1 — 3D LETRAS SIN CRUCE
+
+Base: V22.4 estable.
+Cambio único: ROCKSTAR y la frase conservan el mismo efecto 3D que ya se veía bien, pero al pasar a la mitad posterior del giro ya no se dibuja una copia espejada del texto. El reverso usa únicamente la silueta de volumen, evitando letras cruzadas/duplicadas.
+
+No se modificaron: portada, posiciones, gorra, Panoraven, Push, carrito, pedidos, productos, correos ni configuración Supabase.
+No requiere SQL nuevo.

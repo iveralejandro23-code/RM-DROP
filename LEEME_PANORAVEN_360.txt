@@ -1,0 +1,11 @@
+ROCKSTAR V22.1 — PANORAVEN 360 POR ENLACE
+
+Admin > Datos de la tienda > Fondo de la tienda:
+1. En Modo de visualización selecciona "Panoraven 360° por enlace".
+2. Pega un enlace de Panoraven, por ejemplo:
+   https://panoraven.com/es/slider/aAl0Qd9ocx
+3. ROCKSTAR lo convierte automáticamente a /embed/ y muestra una vista previa.
+4. Guarda configuración.
+
+No requiere SQL nuevo: reutiliza background_url y background_type.
+Para uso comercial revisa el plan/licencia de Panoraven correspondiente.

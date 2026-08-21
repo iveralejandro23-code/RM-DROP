@@ -123,6 +123,25 @@
     return /360$/i.test(String(type||""));
   }
 
+  function isPanoravenBackgroundType(type){
+    return String(type||"").toLowerCase()==="panoraven360";
+  }
+
+  function normalizePanoravenUrl(value){
+    const raw=String(value||"").trim();
+    if(!raw)return "";
+    try{
+      const url=new URL(raw);
+      if(!/(^|\.)panoraven\.com$/i.test(url.hostname))return "";
+      const parts=url.pathname.split("/").filter(Boolean);
+      const modeIndex=parts.findIndex(x=>/^(slider|embed)$/i.test(x));
+      if(modeIndex<0 || !parts[modeIndex+1])return "";
+      const locale=modeIndex>0 ? parts[modeIndex-1] : "es";
+      const id=parts[modeIndex+1].replace(/[^A-Za-z0-9_-]/g,"");
+      return id ? `https://panoraven.com/${locale}/embed/${id}` : "";
+    }catch(_){ return ""; }
+  }
+
   function applySettings(data){
     if(!data) return;
     window.RIVER_STORE_SETTINGS = data;
@@ -210,6 +229,9 @@
       glowColor,
       productGlowColor: String(data.entry_product_glow_color || "#e5bd70").trim() || "#e5bd70",
       captionGlowColor: String(data.entry_caption_glow_color || "#ff2028").trim() || "#ff2028",
+      brand3DLevel: String(data.brand_3d_level || "off").trim() || "off",
+      product3DLevel: String(data.entry_product_3d_level || "off").trim() || "off",
+      caption3DLevel: String(data.entry_caption_3d_level || "off").trim() || "off",
       entryCaptionImageUrl: String(data.entry_caption_image_url || "").trim(),
       entryBackgroundUrl: String(data.entry_background_url || "").trim(),
       entryProductImageUrl: String(data.entry_product_image_url || "").trim()
@@ -273,6 +295,7 @@
     const backgroundType=String(data.background_type||"").trim().toLowerCase();
     const bundledPoster="assets/media/rockstar-poster.jpg";
     const backgroundBaseType=baseBackgroundType(backgroundType);
+    const backgroundIsPanoraven=isPanoravenBackgroundType(backgroundType);
     const backgroundIs360=is360BackgroundType(backgroundType);
 
     window.ROCKSTAR_BACKGROUND_TYPE=backgroundType;
@@ -296,6 +319,25 @@
           const source=backgroundVideo.querySelector("source");
           if(source) source.removeAttribute("src");
           backgroundVideo.style.setProperty("display","none","important");
+        }
+      }else if(backgroundUrl && backgroundIsPanoraven && viewer360){
+        backgroundFallback.style.setProperty("background","#05070a","important");
+        if(backgroundVideo){
+          backgroundVideo.pause();
+          backgroundVideo.removeAttribute("src");
+          backgroundVideo.style.setProperty("display","none","important");
+        }
+        const embedUrl=normalizePanoravenUrl(backgroundUrl);
+        if(embedUrl){
+          const iframe=document.createElement("iframe");
+          iframe.className="rockstar-panoraven-frame";
+          iframe.src=embedUrl;
+          iframe.title="Fondo 360 interactivo";
+          iframe.setAttribute("allowfullscreen","");
+          iframe.setAttribute("allow","accelerometer; magnetometer; gyroscope; xr-spatial-tracking; fullscreen");
+          iframe.setAttribute("referrerpolicy","strict-origin-when-cross-origin");
+          viewer360.replaceChildren(iframe);
+          viewer360.hidden=false;
         }
       }else if(backgroundUrl && backgroundIs360 && window.Rockstar360Viewer && viewer360){
         backgroundFallback.style.setProperty("background","#05070a","important");
