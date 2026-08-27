@@ -59,7 +59,7 @@
 
 
   // V20.2 — Convierte fondos negros/casi negros de logos en transparencia real.
-  // Se usa tanto para la marca ROCKSTAR como para el logo pequeño del header.
+  // Se usa para la marca ROCKSTAR.
   const transparentBrandCache = new Map();
   async function transparentizeDarkBackground(url){
     const source=String(url||"").trim();
@@ -97,18 +97,15 @@
     if(!img || !originalUrl) return;
     img.src=originalUrl;
     delete img.dataset.transparentHeaderBrand;
-    delete img.dataset.transparentStoreLogo;
     delete img.dataset.transparentPublicBrand;
     transparentizeDarkBackground(originalUrl).then(result=>{
       if(!img.isConnected || img.dataset.originalBrandSource!==originalUrl) return;
       if(result){
         img.src=result;
         if(kind==="header") img.dataset.transparentHeaderBrand="1";
-        if(kind==="logo") img.dataset.transparentStoreLogo="1";
         if(kind==="public") img.dataset.transparentPublicBrand="1";
       }else{
         if(kind==="header") img.dataset.transparentHeaderBrand="fallback";
-        if(kind==="logo") img.dataset.transparentStoreLogo="fallback";
         if(kind==="public") img.dataset.transparentPublicBrand="fallback";
       }
     });
@@ -161,20 +158,6 @@
     if(locationBits.length){
       setText("[data-store-location]", locationBits.join(" · "));
     }
-
-    document.querySelectorAll("[data-store-logo]").forEach(img=>{
-      if(data.logo_url){
-        const logoUrl=String(data.logo_url).trim();
-        img.dataset.originalBrandSource=logoUrl;
-        applyTransparentImage(img,logoUrl,"logo");
-        img.style.display = "block";
-        img.alt = `Logo de ${storeName}`;
-      }else{
-        img.removeAttribute("src");
-        img.style.display = "none";
-        delete img.dataset.originalBrandSource;
-      }
-    });
 
     // Marca gráfica: la imagen de Admin tiene prioridad; el nombre de tienda es respaldo.
     const brandMode = data.header_brand_image_url ? "image" : "text";

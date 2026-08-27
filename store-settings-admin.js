@@ -29,9 +29,6 @@
   const form=$("storeSettingsForm");
   if(!form)return;
 
-  let currentLogoUrl="";
-  let pendingLogoFile=null;
-  let logoObjectUrl="";
 
   let currentBrandImageUrl="";
   let pendingBrandImageFile=null;
@@ -61,22 +58,12 @@
   let musicObjectUrl="";
 
   function revoke(which){
-    if(which==="logo" && logoObjectUrl){URL.revokeObjectURL(logoObjectUrl);logoObjectUrl="";}
     if(which==="brand" && brandImageObjectUrl){URL.revokeObjectURL(brandImageObjectUrl);brandImageObjectUrl="";}
     if(which==="entryBackground" && entryBackgroundObjectUrl){URL.revokeObjectURL(entryBackgroundObjectUrl);entryBackgroundObjectUrl="";}
     if(which==="entryProduct" && entryProductImageObjectUrl){URL.revokeObjectURL(entryProductImageObjectUrl);entryProductImageObjectUrl="";}
     if(which==="entryCaption" && entryCaptionImageObjectUrl){URL.revokeObjectURL(entryCaptionImageObjectUrl);entryCaptionImageObjectUrl="";}
     if(which==="background" && backgroundObjectUrl){URL.revokeObjectURL(backgroundObjectUrl);backgroundObjectUrl="";}
     if(which==="music" && musicObjectUrl){URL.revokeObjectURL(musicObjectUrl);musicObjectUrl="";}
-  }
-
-  function validateLogo(file){
-    if(!file)return false;
-    if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
-      alert("Logo: usa JPG, PNG o WEBP."); return false;
-    }
-    if(file.size>5*1024*1024){alert("Logo: máximo 5 MB.");return false;}
-    return true;
   }
 
   function validateVisual(file,label="Imagen",maxMb=8){
@@ -182,19 +169,6 @@
     if(file) file.disabled=mode==="panoraven";
   }
 
-  function renderLogo(){
-    const el=$("settingLogoPreview");
-    revoke("logo");
-    if(pendingLogoFile){
-      logoObjectUrl=URL.createObjectURL(pendingLogoFile);
-      el.src=logoObjectUrl; el.style.display="block";
-    }else if(currentLogoUrl){
-      el.src=currentLogoUrl; el.style.display="block";
-    }else{
-      el.removeAttribute("src"); el.style.display="none";
-    }
-  }
-
   function renderBackground(){
     const img=$("settingBackgroundImagePreview");
     const video=$("settingBackgroundVideoPreview");
@@ -289,19 +263,6 @@
     if(!data?.publicUrl)throw new Error("No se pudo obtener la URL pública.");
     return data.publicUrl;
   }
-
-  if($("settingLogoFile")){
-    $("settingLogoFile").disabled=false;
-    $("settingLogoFile").removeAttribute("disabled");
-    $("settingLogoFile").setAttribute("aria-disabled","false");
-  }
-
-  $("settingLogoFile")?.addEventListener("change",()=>{
-    const file=$("settingLogoFile").files?.[0];
-    if(file && validateLogo(file)) pendingLogoFile=file;
-    $("settingLogoFile").value="";
-    renderLogo();
-  });
 
   $("settingBrandImageFile")?.addEventListener("change",()=>{
     const file=$("settingBrandImageFile").files?.[0];
@@ -459,7 +420,6 @@
     renderSimpleImage("settingEntryProductImagePreview",currentEntryProductImageUrl,pendingEntryProductImageFile,"entryProduct");
     renderSimpleImage("settingEntryCaptionImagePreview",currentEntryCaptionImageUrl,pendingEntryCaptionImageFile,"entryCaption");
 
-    currentLogoUrl=data.logo_url||"";
     currentBackgroundUrl=data.background_url||"";
     currentBackgroundType=data.background_type||inferBackgroundType(currentBackgroundUrl);
     if($("settingBackgroundViewMode")){
@@ -475,7 +435,6 @@
     if($("settingAudioModeVideo")) $("settingAudioModeVideo").checked=audioMode==="video";
     if($("settingAudioModeMusic")) $("settingAudioModeMusic").checked=audioMode==="music";
 
-    renderLogo();
     renderBackground();
     renderMusic();
   }
@@ -486,11 +445,6 @@
     msg.textContent="Guardando…";
 
     try{
-      if(pendingLogoFile){
-        msg.textContent="Subiendo logo…";
-        currentLogoUrl=await uploadMedia(pendingLogoFile,"logo");
-        pendingLogoFile=null;
-      }
       if(pendingBrandImageFile){
         msg.textContent="Subiendo imagen de marca…";
         currentBrandImageUrl=await uploadMedia(pendingBrandImageFile,"header-brand");
@@ -576,7 +530,7 @@
         facebook:normalizeNetworkInput("facebook",$("settingFacebook").value),
         tiktok:normalizeNetworkInput("tiktok",$("settingTiktok").value),
         youtube:normalizeNetworkInput("youtube",$("settingYoutube").value),
-        logo_url:currentLogoUrl,
+        logo_url:"", // V22.4.40: corona eliminada de la tienda
         header_brand_mode:currentBrandImageUrl ? "image" : "text",
         header_brand_text:storeNameValue||"ROCKSTAR",
         header_brand_image_url:currentBrandImageUrl,
@@ -632,7 +586,7 @@
       }
       currentEntryCaptionImageUrl=savedCaptionUrl;
 
-      renderLogo(); renderBackground(); renderMusic();
+      renderBackground(); renderMusic();
       renderSimpleImage("settingBrandImagePreview",currentBrandImageUrl,pendingBrandImageFile,"brand");
       renderSimpleImage("settingEntryBackgroundPreview",currentEntryBackgroundUrl,pendingEntryBackgroundFile,"entryBackground");
       renderSimpleImage("settingEntryProductImagePreview",currentEntryProductImageUrl,pendingEntryProductImageFile,"entryProduct");

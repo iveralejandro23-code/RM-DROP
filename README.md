@@ -1,24 +1,24 @@
-# ROCKSTAR STORE — V21 ENTREGA FINAL
+# ROCKSTAR STORE — V22.4.33
 
-Paquete consolidado para operación de la tienda.
+Versión consolidada y limpiada desde V22.4.32.
 
-## Accesos
-- Tienda pública: `index.html`
-- Administración: `login.html` / `admin.html`
-- Manual de uso: Admin → **Manual de uso**
+## Estado actual
+- La tienda entra directamente al catálogo; la antigua sección `#inicio` ya no existe.
+- La portada usa únicamente la imagen seleccionada desde Admin.
+- El header conserva el 3D aprobado de corona + ROCKSTAR.
+- ROCKSTAR de la portada espera su imagen transparente antes de iniciar el 3D.
+- El sistema antiguo de múltiples fotos fue retirado.
+- Se retiraron reglas CSS de `.rockstar-real-hero`, la animación antigua `rockstarBrandWordTurn` y la función muerta `syncFeaturedProduct()`.
 
-## Configuración que sí controla la tienda
-- Datos de contacto, ubicación y redes.
-- Logo y marca gráfica ROCKSTAR.
-- Portada de entrada: fondo, imagen principal, frase gráfica y sus resplandores.
-- Fondo y sonido de la tienda.
-- Recoger pedido / Envío.
-- Transferencia / Efectivo.
-- Correos de pedido y políticas.
+## Archivos principales
+- `index.html`: tienda pública.
+- `login.html` / `admin.html`: administración.
+- `rockstar-entry.js`: pantalla de entrada.
+- `store-brand-3d.js`: 3D del header y marcas públicas.
+- `styles.css`: estilos.
 
-La moneda está fijada en MXN para que catálogo, pedidos y correos sean consistentes.
+## Documentación especializada conservada
+- `LEEME_PANORAVEN_360.txt`
+- `PUSH_SETUP/LEEME_ACTIVAR_PUSH.txt`
 
-## Supabase
-La carpeta `supabase/` contiene la referencia SQL actual y la configuración de portada. Esta actualización V21 no requiere ejecutar SQL adicional si la versión anterior ya funcionaba correctamente.
-
-No publiques claves privadas, secretos de Resend ni credenciales administrativas dentro del frontend.
+Esta limpieza no requiere SQL nuevo si la versión anterior ya funcionaba.

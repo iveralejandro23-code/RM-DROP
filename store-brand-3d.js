@@ -2,7 +2,7 @@
   'use strict';
 
   // V22.4.25 — reconexión real del header sin reinicios
-  // y aplica EXACTAMENTE el mismo render a las dos imágenes del header.
+  // y aplica el mismo render a ROCKSTAR en header y secciones públicas.
   // No cambia tamaños ni layout: usa el tamaño real que ya tenían en V22.4.2.
 
   const states=new Map();
@@ -64,7 +64,15 @@
       ctx.clearRect(0,0,totalW,totalH);
       const a=((now-started)%duration)/duration*Math.PI*2;
       const c=Math.cos(a),sn=Math.sin(a);
-      const faceW=Math.max(1,Math.abs(c)*cssW);
+      // V22.4.39: conservar el SIGNO de cos(a) durante toda la vuelta.
+      // Con Math.abs(c) la segunda mitad se reflejaba hacia adelante y visualmente
+      // parecía que ROCKSTAR regresaba. Con escala firmada sigue 0→360° en un solo sentido.
+      // V22.4.40: giro 3D continuo sin corte al pasar de perfil.
+      // Conserva el signo para no regresar, pero mantiene un grosor mínimo
+      // para que ROCKSTAR no desaparezca en 90°/270°.
+      const sideSign=c>=0?1:-1;
+      const minProfile=Math.max(.035,Math.min(.07,depth/Math.max(1,cssW)));
+      const faceScale=sideSign*Math.max(Math.abs(c),minProfile);
 
       for(let i=layers;i>=1;i--){
         const z=(i/layers)*depth;
@@ -73,14 +81,16 @@
         ctx.save();
         ctx.globalAlpha=alpha;
         ctx.translate(cx+off,cy);
-        ctx.drawImage(tint,-faceW/2,-cssH/2,faceW,cssH);
+        ctx.scale(faceScale,1);
+        ctx.drawImage(tint,-cssW/2,-cssH/2,cssW,cssH);
         ctx.restore();
       }
 
       ctx.save();
       ctx.translate(cx,cy);
       ctx.globalAlpha=1;
-      ctx.drawImage(img,-faceW/2,-cssH/2,faceW,cssH);
+      ctx.scale(faceScale,1);
+      ctx.drawImage(img,-cssW/2,-cssH/2,cssW,cssH);
       ctx.restore();
 
       ctx.save();
@@ -124,8 +134,7 @@
 
   // V22.4.25 — controlador estable del HEADER.
   // Usa EXACTAMENTE draw3D(), el mismo render usado por el ROCKSTAR inferior.
-  // La diferencia es solo el posicionamiento, porque corona y ROCKSTAR son
-  // dos imágenes independientes dentro del mismo .brand.
+  // El header de tienda contiene únicamente ROCKSTAR.
 
   function headerBox(img){
     const w=img.offsetWidth || img.getBoundingClientRect().width || 0;
@@ -178,7 +187,7 @@
 
       const canvas=document.createElement('canvas');
       canvas.className='rockstar-header-3d-canvas';
-      canvas.dataset.headerTarget=img.hasAttribute('data-store-logo')?'store-logo':'brand-image';
+      canvas.dataset.headerTarget='brand-image';
       canvas.style.left=left+'px';
       canvas.style.top=top+'px';
       stage.appendChild(canvas);
@@ -211,7 +220,7 @@
     const level='strong';
 
     document.querySelectorAll(
-      'header.site-header [data-store-logo], header.site-header [data-header-brand-image]'
+      'header.site-header [data-header-brand-image]'
     ).forEach(img=>startHeader(img,level,glow));
 
     document.documentElement.dataset.rockstarHeader3dCanvases=
@@ -248,14 +257,14 @@
       const changed=mutations.some(m=>
         m.type==='attributes' &&
         m.target instanceof HTMLImageElement &&
-        m.target.matches('[data-store-logo],[data-header-brand-image]') &&
+        m.target.matches('[data-header-brand-image]') &&
         ['src','hidden','style'].includes(m.attributeName)
       );
       if(changed) setTimeout(applyHeader3D,80);
     });
     observer.observe(header,{subtree:true,attributes:true,attributeFilter:['src','hidden','style']});
 
-    header.querySelectorAll('[data-store-logo],[data-header-brand-image]').forEach(img=>{
+    header.querySelectorAll('[data-header-brand-image]').forEach(img=>{
       img.addEventListener('load',()=>setTimeout(applyHeader3D,60));
     });
 

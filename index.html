@@ -17,11 +17,11 @@
       background:#000 !important;
     }
   </style>
-  <link rel="stylesheet" href="styles.css?v=22.4.28" />
+  <link rel="stylesheet" href="styles.css?v=22.4.40" />
   <!-- RIVER_PRODUCTION_URL: agrega aquí el dominio final cuando se publique -->
   <link rel="manifest" href="manifest.webmanifest">
 </head>
-<body class="rockstar-v16">
+<body class="rockstar-v16 rockstar-entry-open">
 
   
   <audio id="rockstarAudio" src="assets/media/rockstar-music.mp3" loop preload="auto"></audio>
@@ -61,8 +61,7 @@
 
   <header class="site-header">
     <div class="container nav-wrap">
-      <a class="brand" href="#inicio">
-        <img class="store-brand-logo" data-store-logo alt="Logo de la tienda" style="display:none">
+      <a class="brand" href="#coleccion">
         <img class="header-brand-image" data-header-brand-image alt="" hidden>
         <span data-store-name data-header-brand-text>ROCKSTAR</span>
       </a>
@@ -70,7 +69,7 @@
       <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">☰</button>
 
       <nav class="main-nav" id="mainNav">
-        <a href="#inicio">Inicio</a>
+        <a href="#coleccion">Inicio</a>
         <a href="#coleccion">Tienda</a>
         <a href="#contacto">Contacto</a>
       </nav>
@@ -87,18 +86,6 @@
   </header>
 
   <main class="rockstar-page-shell">
-    
-  <section class="rockstar-real-hero" id="inicio">
-    <div class="container rockstar-real-hero-inner">
-      <div class="rockstar-real-hero-copy rockstar-compact-hero-copy">
-        <div class="rockstar-public-brand rockstar-public-brand-hero" data-public-brand-slot aria-label="ROCKSTAR">
-          <img data-public-brand-image alt="" hidden>
-          <span data-public-brand-text>ROCKSTAR</span>
-        </div>
-      </div>
-    </div>
-  </section>
-
 <section class="section collection" id="coleccion">
       <div class="container">
         <div class="section-heading rockstar-compact-heading">
@@ -336,19 +323,19 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.min.js"></script>
   <script src="rockstar-360.js?v=21.5"></script>
-  <script src="store-settings-store.js?v=22.4"></script>
+  <script src="store-settings-store.js?v=22.4.40"></script>
   <script src="app.js?v=21.0"></script>
   <script src="rockstar-experience.js"></script>
   <script src="supabase-products-store.js?v=18.5-final"></script>
   <script src="supabase-categories-store.js"></script>
 
   <script src="product-zoom.js"></script>
-  <script src="rockstar-entry.js?v=22.4.28"></script>
-  <script src="store-brand-3d.js?v=22.4.25"></script>
+  <script src="rockstar-entry.js?v=22.4.39"></script>
+  <script src="store-brand-3d.js?v=22.4.40"></script>
   <!-- ROCKSTAR V18.0 · DISEÑO COMPACTO HORIZONTAL -->
 
   <nav class="rockstar-mobile-dock" aria-label="Navegación rápida">
-    <a href="#inicio"><span>⌂</span><small>Inicio</small></a>
+    <a href="#coleccion"><span>⌂</span><small>Inicio</small></a>
     <a href="#coleccion"><span>▣</span><small>Tienda</small></a>
     <button type="button" onclick="document.getElementById('cartButton')?.click()"><span>🛒</span><small>Carrito</small></button>
     <a href="#contacto"><span>◉</span><small>Contacto</small></a>

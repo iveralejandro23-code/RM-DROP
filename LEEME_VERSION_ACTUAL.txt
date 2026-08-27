@@ -1,2 +1,18 @@
-ROCKSTAR STORE V22.4 — 3D LIMPIO + GIRO DE GORRA POR FOTOS
-Base estable V22.1.
+ROCKSTAR STORE V22.4.33 — LIMPIEZA REAL VERIFICADA
+
+Base: V22.4.32.
+
+Se eliminó:
+- CSS de la antigua sección .rockstar-real-hero.
+- Selectores obsoletos #inicio y #tienda de grupos antiguos.
+- Animación antigua rockstarBrandWordTurn.
+- Función muerta syncFeaturedProduct() y sus llamadas.
+- LEEME históricos de versiones anteriores.
+- __diag.html de desarrollo.
+
+Se conserva:
+- Header 3D aprobado.
+- Portada y giro actual.
+- Catálogo, carrito, pedidos, Admin, Supabase, música, Push y Panoraven.
+
+No requiere SQL nuevo.

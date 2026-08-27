@@ -646,12 +646,6 @@ linear-gradient(135deg,#161616 0%,#0b0b0b 58%,#050505 100%)}
   align-items:center;
   gap:10px;
 }
-.store-brand-logo{
-  width:42px;
-  height:42px;
-  object-fit:contain;
-  border-radius:4px;
-}
 .hero-photo.has-custom-cover{
   background-size:cover !important;
   background-position:center !important;
@@ -1112,8 +1106,6 @@ footer *{
 body,
 main,
 .rockstar-page-shell,
-#inicio,
-#tienda,
 #contacto{
   background-color:transparent !important;
 }
@@ -1221,10 +1213,6 @@ body{
   border-radius:50%;
   color:var(--rs-gold);
   font-size:14px;
-}
-.store-brand-logo[style*="display: none"],
-.store-brand-logo[style*="display:none"]{
-  display:none !important;
 }
 .main-nav a{
   color:var(--rs-text) !important;
@@ -1885,8 +1873,6 @@ main,
 body{
   padding-top:78px !important;
 }
-#inicio,
-#tienda,
 #coleccion,
 #contacto{
   scroll-margin-top:90px !important;
@@ -1979,8 +1965,6 @@ footer{
   body{
     padding-top:68px !important;
   }
-  #inicio,
-  #tienda,
   #coleccion,
   #contacto{
     scroll-margin-top:78px !important;
@@ -2068,35 +2052,11 @@ body > *:not(.rockstar-global-bg){
 .main-nav a:hover{
   color:var(--rs-gold-2) !important;
 }
-
-/* Hero REAL */
-.rockstar-real-hero{
-  min-height:480px;
-  display:flex;
-  align-items:center;
-  background:transparent !important;
-}
-.rockstar-real-hero-inner{
-  width:min(1240px,calc(100% - 40px));
-}
-.rockstar-real-hero-copy{
-  width:min(560px,100%);
-  padding:68px 0 54px;
-}
 .rockstar-real-kicker{
   color:var(--rs-gold-2);
   font-size:14px;
   font-weight:800;
   letter-spacing:3px;
-}
-.rockstar-real-hero h1{
-  margin:12px 0 22px;
-  font-family:"Oswald",sans-serif;
-  font-size:clamp(82px,10vw,142px);
-  line-height:.84;
-  color:#fff;
-  letter-spacing:-2px;
-  text-shadow:0 4px 18px rgba(0,0,0,.90);
 }
 .rockstar-gold-divider{
   width:380px;
@@ -2113,13 +2073,6 @@ body > *:not(.rockstar-global-bg){
   height:1px;
   flex:1;
   background:var(--rs-gold);
-}
-.rockstar-real-hero p{
-  max-width:500px;
-  color:#fff;
-  font-size:18px;
-  line-height:1.7;
-  text-shadow:0 2px 12px rgba(0,0,0,.95);
 }
 .rockstar-real-actions{
   margin-top:24px;
@@ -2351,15 +2304,6 @@ footer{
   body{
     padding-top:68px !important;
   }
-  .rockstar-real-hero{
-    min-height:420px;
-  }
-  .rockstar-real-hero-copy{
-    padding:54px 0 36px;
-  }
-  .rockstar-real-hero h1{
-    font-size:clamp(68px,21vw,96px);
-  }
   .store-product-grid{
     grid-template-columns:1fr !important;
   }
@@ -2456,27 +2400,9 @@ body.rockstar-v15 > header.site-header{
 body.rockstar-v15 > header.site-header .nav-wrap{
   height:76px !important;
 }
-body.rockstar-v15 #inicio,
 body.rockstar-v15 #coleccion,
 body.rockstar-v15 #contacto{
   scroll-margin-top:90px !important;
-}
-
-/* ----- HERO REAL: así se ve la tienda, no es parte del fondo ----- */
-body.rockstar-v15 .rockstar-real-hero{
-  min-height:430px !important;
-  display:flex !important;
-  align-items:center !important;
-  background:transparent !important;
-}
-body.rockstar-v15 .rockstar-real-hero-copy{
-  padding:58px 0 46px !important;
-}
-body.rockstar-v15 .rockstar-real-hero h1{
-  font-size:clamp(78px,9vw,130px) !important;
-}
-body.rockstar-v15 .rockstar-real-hero p{
-  max-width:520px !important;
 }
 
 /* ----- TIENDA: sin repetir otro encabezado gigante ----- */
@@ -2690,12 +2616,6 @@ body.rockstar-v15 > footer{
   body.rockstar-v15 > header.site-header,
   body.rockstar-v15 > header.site-header .nav-wrap{
     height:68px !important;
-  }
-  body.rockstar-v15 .rockstar-real-hero{
-    min-height:390px !important;
-  }
-  body.rockstar-v15 .rockstar-real-hero-copy{
-    padding:42px 0 30px !important;
   }
   body.rockstar-v15 .store-product-grid{
     grid-template-columns:1fr !important;
@@ -3593,24 +3513,6 @@ body.rockstar-v15 .store-product-info,
 }
 .nav-wrap{min-height:68px !important}
 .brand{gap:9px !important}
-.store-brand-logo{max-height:42px !important;max-width:74px !important;object-fit:contain !important}
-
-/* Hero corto: conserva exactamente el fondo/video configurado */
-.rockstar-real-hero{
-  min-height:44vh !important;
-  height:44vh !important;
-  max-height:520px !important;
-  display:flex !important;
-  align-items:flex-end !important;
-  padding:0 !important;
-}
-.rockstar-real-hero-inner{
-  width:100% !important;
-  min-height:100% !important;
-  display:flex !important;
-  align-items:flex-end !important;
-  padding-bottom:34px !important;
-}
 .rockstar-compact-hero-copy{
   max-width:520px !important;
   padding:18px 22px !important;
@@ -3749,18 +3651,10 @@ footer{padding:24px 0 90px !important;background:rgba(2,3,5,.78) !important}
   .menu-toggle{grid-column:1 !important;grid-row:1 !important;margin:0 !important;font-size:22px !important}
   .brand{grid-column:2 !important;grid-row:1 !important;justify-self:center !important;font-size:15px !important;min-width:0 !important}
   .brand span{max-width:120px !important;overflow:hidden !important;text-overflow:ellipsis !important;white-space:nowrap !important}
-  .store-brand-logo{max-height:38px !important;max-width:58px !important}
   .cart-button{grid-column:3 !important;grid-row:1 !important;padding:7px 8px !important}
   .rockstar-sound{grid-column:4 !important;grid-row:1 !important;width:38px !important;min-width:38px !important;padding:0 !important}
   .rockstar-sound span{display:none !important}
   .main-nav{top:60px !important}
-
-  .rockstar-real-hero{
-    min-height:32svh !important;
-    height:32svh !important;
-    max-height:360px !important;
-  }
-  .rockstar-real-hero-inner{padding-bottom:16px !important}
   .rockstar-compact-hero-copy{
     max-width:78% !important;
     padding:12px 14px !important;
@@ -4094,22 +3988,6 @@ body.rockstar-v16 .brand::before{
   content:none !important;
   display:none !important;
 }
-
-/* Los nombres ROCKSTAR visibles conservan el mismo giro lento
-   del logo principal. El header ya tiene su propia animación. */
-body.rockstar-v16 .rockstar-real-hero h1[data-store-name],
-body.rockstar-v16 .rockstar-statement > .container > span,
-body.rockstar-v16 .footer-brand[data-store-name]{
-  display:inline-block;
-  transform-style:preserve-3d;
-  transform-origin:center center;
-  animation:rockstarBrandWordTurn 10s linear infinite;
-}
-@keyframes rockstarBrandWordTurn{
-  0%{transform:perspective(900px) rotateY(0deg)}
-  100%{transform:perspective(900px) rotateY(360deg)}
-}
-
 /* Pantalla de entrada: aparece antes del catálogo y usa el
    primer producto real que ya carga la tienda. */
 .rockstar-entry{
@@ -4240,12 +4118,6 @@ body.rockstar-entry-open{
   .rockstar-entry-feature strong{font-size:17px}
 }
 @media(prefers-reduced-motion:reduce){
-  body.rockstar-v16 .rockstar-real-hero h1[data-store-name],
-  body.rockstar-v16 .rockstar-statement > .container > span,
-  body.rockstar-v16 .footer-brand[data-store-name],
-  .rockstar-entry-logo span{
-    animation:none !important;
-  }
 }
 .store-product-card.rockstar-entry-target{
   outline:2px solid rgba(224,177,90,.92) !important;
@@ -4371,9 +4243,6 @@ body.rockstar-v16 > header.site-header .header-brand-image{
   max-width:190px;
   object-fit:contain;
   transform-origin:center center;
-}
-body.rockstar-v16 > header.site-header .brand:has(.header-brand-image:not([hidden])) .store-brand-logo{
-  display:none !important;
 }
 
 /* Portada: fondo editable, producto solo y sin tarjeta/cuadro. */
@@ -4786,28 +4655,9 @@ body.rockstar-entry-open .rockstar-entry-logo img[data-transparent-brand="1"]{
   object-position:center center !important;
   transform:none !important;
 }
-/* El logo pequeño configurado en Admin debe seguir visible aunque exista
-   una imagen gráfica ROCKSTAR en el mismo header. */
-body.rockstar-v16 > header.site-header .brand:has(.header-brand-image:not([hidden])) .store-brand-logo{
-  display:block !important;
-}
-body.rockstar-v16 > header.site-header .store-brand-logo{
-  width:46px !important;
-  height:46px !important;
-  min-width:46px !important;
-  max-width:46px !important;
-  max-height:46px !important;
-  border-radius:50% !important;
-  object-fit:cover !important;
-  background:transparent !important;
-  box-shadow:0 0 0 1px rgba(229,189,112,.45),0 0 14px rgba(229,189,112,.18) !important;
-}
 @media(max-width:520px){
   #rockstarEntryCaption{width:min(440px,92vw) !important;}
   #rockstarEntryCaptionImage:not([hidden]){max-width:min(420px,88vw) !important;max-height:82px !important;}
-  body.rockstar-v16 > header.site-header .store-brand-logo{
-    width:40px !important;height:40px !important;min-width:40px !important;max-width:40px !important;max-height:40px !important;
-  }
 }
 
 
@@ -4854,25 +4704,6 @@ body.rockstar-v16 > header.site-header .store-brand-logo{
 .rockstar-public-brand-hero img{max-width:min(520px,78vw);max-height:145px;}
 .rockstar-public-brand-statement img{max-width:min(270px,60vw);max-height:82px;}
 .rockstar-public-brand-footer img{max-width:180px;max-height:58px;}
-body.rockstar-v16 > header.site-header .header-brand-image,
-body.rockstar-v16 > header.site-header .store-brand-logo{
-  background:transparent!important;
-}
-body.rockstar-v16 > header.site-header .header-brand-image[data-transparent-header-brand="1"],
-body.rockstar-v16 > header.site-header .store-brand-logo[data-transparent-store-logo="1"]{
-  mix-blend-mode:normal!important;
-}
-body.rockstar-v16 > header.site-header .header-brand-image[data-transparent-header-brand="fallback"],
-body.rockstar-v16 > header.site-header .store-brand-logo[data-transparent-store-logo="fallback"]{
-  mix-blend-mode:screen!important;
-}
-/* La foto/logo pequeño conserva su tamaño, pero sin círculo negro artificial. */
-body.rockstar-v16 > header.site-header .store-brand-logo{
-  object-fit:contain!important;
-  box-shadow:none!important;
-  border:0!important;
-  padding:0!important;
-}
 @media(max-width:520px){
   .rockstar-public-brand-hero img{max-width:min(330px,78vw);max-height:100px;}
   .rockstar-public-brand-statement img{max-width:min(220px,62vw);max-height:68px;}
@@ -4880,49 +4711,6 @@ body.rockstar-v16 > header.site-header .store-brand-logo{
 
 /* V21 · Disponibilidad real del checkout */
 .checkout-availability-message{margin:12px 0 0;padding:12px 14px;border:1px solid rgba(229,189,112,.35);background:rgba(8,10,13,.78);font-size:.82rem;line-height:1.5}
-
-/* ==========================================================
-   ROCKSTAR V21.1 — INICIO LIMPIO ANTES DEL CATÁLOGO
-   Al entrar desde la portada se muestra primero una pantalla
-   completa con el fondo configurado. El catálogo comienza
-   después del primer viewport o al pulsar “Tienda”.
-   ========================================================== */
-body.rockstar-v16 .rockstar-real-hero{
-  min-height:calc(100svh - 68px) !important;
-  height:calc(100svh - 68px) !important;
-  max-height:none !important;
-  padding:0 !important;
-  display:block !important;
-  background:transparent !important;
-}
-body.rockstar-v16 .rockstar-real-hero-inner{
-  min-height:100% !important;
-  height:100% !important;
-  padding:0 !important;
-}
-/* La primera pantalla de la tienda queda visualmente libre. */
-body.rockstar-v16 .rockstar-real-hero-copy,
-body.rockstar-v16 .rockstar-public-brand-hero{
-  display:none !important;
-}
-/* El catálogo inicia justo después del viewport inicial. */
-body.rockstar-v16 #coleccion{
-  scroll-margin-top:72px !important;
-}
-body.rockstar-v16 #inicio{
-  scroll-margin-top:0 !important;
-}
-@media(max-width:800px){
-  body.rockstar-v16 .rockstar-real-hero{
-    min-height:calc(100svh - 60px) !important;
-    height:calc(100svh - 60px) !important;
-    max-height:none !important;
-  }
-  body.rockstar-v16 #coleccion{
-    scroll-margin-top:64px !important;
-  }
-}
-
 
 /* ==========================================================
    ROCKSTAR V21.2 — FONDO 360 COMPLETO SIN RECORTE
@@ -5039,11 +4827,6 @@ body.rockstar-v16 > header.site-header .brand.rockstar-store-3d-active{
 body.rockstar-v16 > header.site-header .brand{
   overflow:visible !important;
 }
-body.rockstar-v16 > header.site-header .brand > img[data-store-logo],
-body.rockstar-v16 > header.site-header .brand > img[data-header-brand-image]{
-  animation:none !important;
-  transform:none !important;
-}
 body.rockstar-v16 > header.site-header .brand > canvas.rockstar-header-3d-canvas{
   position:absolute !important;
   display:block !important;
@@ -5059,9 +4842,6 @@ body.rockstar-v16 > header.site-header .brand > canvas.rockstar-header-3d-canvas
   filter:none !important;
   opacity:1 !important;
   backface-visibility:visible !important;
-}
-body.rockstar-v16 > header.site-header .brand > canvas.rockstar-header-3d-canvas[data-header-target="store-logo"]{
-  z-index:12 !important;
 }
 body.rockstar-v16 > header.site-header .brand > canvas.rockstar-header-3d-canvas[data-header-target="brand-image"]{
   z-index:11 !important;
@@ -5080,19 +4860,219 @@ html.rockstar-entry-loading #rockstarEntry{
 }
 
 
+
+
 /* ==========================================================
-   ROCKSTAR V22.4.28 — GORRA PRINCIPAL: SOLO IMAGEN DE ADMIN + GIRO 2D
-   No usa 3D, no cambia proporciones y no toma imágenes del catálogo.
+   ROCKSTAR V22.4.30 — GORRA DE ADMIN: GIRO LATERAL 360° CONTINUO
+   Misma imagen, sin cambio de fotos y sin extrusión 3D.
+   El eje Y coincide con el sentido lateral usado por las marcas 3D.
    ========================================================== */
-#rockstarEntryProductImage.rockstar-entry-product-spin-2d,
-#rockstarEntryProductButton .rockstar-entry-product-spin-2d{
+#rockstarEntryProductButton{
+  perspective:1000px !important;
+  overflow:visible !important;
+}
+
+#rockstarEntryProductImage.rockstar-entry-product-spin-side{
   transform-origin:50% 50% !important;
-  animation:rockstarEntryProductSpin2D 12s linear infinite !important;
+  transform-style:preserve-3d !important;
   backface-visibility:visible !important;
+  animation:rockstarEntryProductSpinSide var(--rockstar-entry-product-spin-duration,12s) linear infinite !important;
   will-change:transform;
 }
 
-@keyframes rockstarEntryProductSpin2D{
-  from{ transform:rotate(0deg) !important; }
-  to{ transform:rotate(360deg) !important; }
+@keyframes rockstarEntryProductSpinSide{
+  0%{transform:rotateY(0deg);}
+  25%{transform:rotateY(90deg);}
+  50%{transform:rotateY(180deg);}
+  75%{transform:rotateY(270deg);}
+  100%{transform:rotateY(360deg);}
+}
+
+
+/* ==========================================================
+   ROCKSTAR V22.4.33 — TIENDA SIN PORTADA DUPLICADA
+   ========================================================== */
+body.rockstar-v16 #coleccion{scroll-margin-top:72px !important;}
+@media(max-width:800px){
+  body.rockstar-v16 #coleccion{scroll-margin-top:64px !important;}
+}
+
+
+/* ==========================================================
+   ROCKSTAR V22.4.34 — PORTADA Y TIENDA SEPARADAS
+   ========================================================== */
+body.rockstar-v16:not(.rockstar-entry-open) #rockstarEntry{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+body.rockstar-v16.rockstar-store-open #rockstarEntry{
+  display:none !important;
+  visibility:hidden !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+  width:0 !important;
+  height:0 !important;
+  min-width:0 !important;
+  min-height:0 !important;
+  margin:0 !important;
+  padding:0 !important;
+  overflow:hidden !important;
+}
+
+body.rockstar-v16.rockstar-store-open #rockstarEntry *{
+  display:none !important;
+}
+
+body.rockstar-v16.rockstar-store-open main.rockstar-page-shell{
+  margin-top:0 !important;
+  padding-top:0 !important;
+}
+
+body.rockstar-v16.rockstar-store-open #coleccion{
+  margin-top:0 !important;
+  min-height:0 !important;
+}
+
+
+/* ==========================================================
+   ROCKSTAR V22.4.35 — FONDO 360 MANIPULABLE + CATÁLOGO SIN BLUR
+   - Las zonas transparentes/vacías de la tienda dejan pasar el puntero
+     al visor 360 que está detrás.
+   - Los controles reales de producto siguen siendo clicables.
+   - Se elimina el backdrop-filter del catálogo, pero no se cambia
+     tamaño, posición ni estructura de los productos.
+   ========================================================== */
+
+/* 1) Fondo 360: en computadora y celular responde directamente al arrastre. */
+body.rockstar-v16.rockstar-store-open .rockstar-global-bg.is-360 .rockstar-360-viewer,
+body.rockstar-v16.rockstar-store-open .rockstar-global-bg.is-360 .rockstar-360-canvas{
+  pointer-events:auto !important;
+  touch-action:none !important;
+}
+
+/* Panoraven también debe conservar su interacción nativa. */
+body.rockstar-v16.rockstar-store-open .rockstar-panoraven-frame{
+  pointer-events:auto !important;
+  touch-action:auto !important;
+}
+
+/* 2) La estructura transparente del catálogo NO captura el puntero.
+      Así los espacios donde solo se ve el fondo permiten mover el 360. */
+body.rockstar-v16.rockstar-store-open main.rockstar-page-shell,
+body.rockstar-v16.rockstar-store-open #coleccion,
+body.rockstar-v16.rockstar-store-open #coleccion > .container,
+body.rockstar-v16.rockstar-store-open #coleccion .section-heading,
+body.rockstar-v16.rockstar-store-open #storeCategoryFilterWrap,
+body.rockstar-v16.rockstar-store-open #storeProductGrid{
+  pointer-events:none !important;
+}
+
+/* 3) La tarjeta tampoco bloquea el fondo en sus zonas de cristal.
+      Solo sus controles vuelven a aceptar interacción. */
+body.rockstar-v16.rockstar-store-open .store-product-card,
+body.rockstar-v16.rockstar-store-open .store-product-media-column,
+body.rockstar-v16.rockstar-store-open .store-product-info{
+  pointer-events:none !important;
+}
+
+/* Controles que sí deben seguir funcionando normalmente. */
+body.rockstar-v16.rockstar-store-open .store-category-filters button,
+body.rockstar-v16.rockstar-store-open .store-product-image,
+body.rockstar-v16.rockstar-store-open .store-media-thumb,
+body.rockstar-v16.rockstar-store-open .store-product-info button,
+body.rockstar-v16.rockstar-store-open .store-product-info a,
+body.rockstar-v16.rockstar-store-open .btn,
+body.rockstar-v16.rockstar-store-open input,
+body.rockstar-v16.rockstar-store-open select,
+body.rockstar-v16.rockstar-store-open textarea{
+  pointer-events:auto !important;
+}
+
+/* 4) Quitar el vidrio borroso que estaba alterando el fondo.
+      Se mantiene una ligera transparencia para que el producto sea legible,
+      pero SIN desenfoque de la escena 360. */
+body.rockstar-v16.rockstar-store-open #coleccion,
+body.rockstar-v16.rockstar-store-open #coleccion > .container,
+body.rockstar-v16.rockstar-store-open #coleccion .section-heading,
+body.rockstar-v16.rockstar-store-open #storeCategoryFilterWrap,
+body.rockstar-v16.rockstar-store-open .store-category-filters button,
+body.rockstar-v16.rockstar-store-open .store-product-card,
+body.rockstar-v16.rockstar-store-open .store-product-media-column,
+body.rockstar-v16.rockstar-store-open .store-product-media,
+body.rockstar-v16.rockstar-store-open .store-product-main-media,
+body.rockstar-v16.rockstar-store-open .store-product-image,
+body.rockstar-v16.rockstar-store-open .store-product-info,
+body.rockstar-v16.rockstar-store-open .store-product-info .btn,
+body.rockstar-v16.rockstar-store-open .product-whatsapp{
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+
+/* No añadir una película translúcida grande encima del escenario. */
+body.rockstar-v16.rockstar-store-open #coleccion,
+body.rockstar-v16.rockstar-store-open #coleccion > .container{
+  background:transparent !important;
+}
+
+/* Tarjeta visible pero limpia: sin efecto de lente/blur sobre el fondo. */
+body.rockstar-v16.rockstar-store-open .store-product-card{
+  background:rgba(5,7,10,.08) !important;
+}
+body.rockstar-v16.rockstar-store-open .store-product-media-column,
+body.rockstar-v16.rockstar-store-open .store-product-media,
+body.rockstar-v16.rockstar-store-open .store-product-main-media,
+body.rockstar-v16.rockstar-store-open .store-product-image{
+  background:rgba(0,0,0,.03) !important;
+}
+body.rockstar-v16.rockstar-store-open .store-product-info{
+  background:rgba(3,5,8,.07) !important;
+}
+
+/* El overlay global solo oscurece ligeramente; nunca desenfoca. */
+body.rockstar-v16.rockstar-store-open .rockstar-global-overlay{
+  backdrop-filter:none !important;
+  -webkit-backdrop-filter:none !important;
+}
+
+
+/* ==========================================================
+   ROCKSTAR V22.4.36 — SEPARADORES CORTOS EN PRODUCTOS
+   Solo acorta las dos líneas horizontales indicadas por el usuario.
+   ========================================================== */
+
+/* Quitar el borde que actualmente cruza todo el ancho. */
+body.rockstar-v16.rockstar-store-open #coleccion .section-heading,
+body.rockstar-v16.rockstar-store-open #storeCategoryFilterWrap{
+  position:relative !important;
+  border-bottom:0 !important;
+}
+
+/* Dibujar la misma línea, pero únicamente desde el borde izquierdo
+   hasta aproximadamente 350 px (la marca verde de referencia). */
+body.rockstar-v16.rockstar-store-open #coleccion .section-heading::after,
+body.rockstar-v16.rockstar-store-open #storeCategoryFilterWrap::after{
+  content:"" !important;
+  position:absolute !important;
+  left:0 !important;
+  bottom:0 !important;
+  width:min(350px,100%) !important;
+  height:1px !important;
+  background:rgba(217,173,90,.35) !important;
+  pointer-events:none !important;
+}
+
+/* La segunda línea era un poco más tenue. */
+body.rockstar-v16.rockstar-store-open #storeCategoryFilterWrap::after{
+  background:rgba(217,173,90,.25) !important;
+}
+
+/* En pantallas pequeñas nunca sobresale del contenido. */
+@media(max-width:520px){
+  body.rockstar-v16.rockstar-store-open #coleccion .section-heading::after,
+  body.rockstar-v16.rockstar-store-open #storeCategoryFilterWrap::after{
+    width:min(78vw,350px) !important;
+  }
 }

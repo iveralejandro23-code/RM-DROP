@@ -8,9 +8,7 @@
   const brandImageEl=document.getElementById('rockstarEntryBrandImage');
   const captionImageEl=document.getElementById('rockstarEntryCaptionImage');
   const captionContainer=document.getElementById('rockstarEntryCaption');
-  let featuredId=null;
-
-  const DEFAULT_BG='assets/media/entry-default-bg.jpeg';
+const DEFAULT_BG='assets/media/entry-default-bg.jpeg';
 
   document.body.classList.add('rockstar-entry-open');
 
@@ -32,12 +30,11 @@
   }
 
   async function makeBrandBackgroundTransparent(img,url){
-    if(!img || !url)return;
-    // Evita volver a procesar la misma imagen.
-    if(img.dataset.processedSource===url)return;
+    if(!img || !url)return false;
+    if(img.dataset.processedSource===url && img.dataset.transparentBrand==='1')return true;
     img.dataset.processedSource=url;
     try{
-      const response=await fetch(url,{mode:'cors',cache:'force-cache'});
+      const response=await fetch(url,{mode:'cors',cache:'no-store'});
       if(!response.ok)throw new Error('No se pudo leer la imagen de marca');
       const blob=await response.blob();
       const bitmap=await createImageBitmap(blob);
@@ -47,29 +44,67 @@
       const ctx=canvas.getContext('2d',{willReadFrequently:true});
       ctx.drawImage(bitmap,0,0);
       const frame=ctx.getImageData(0,0,canvas.width,canvas.height);
-      const d=frame.data;
-      // Convierte fondos negros o casi negros en transparencia real.
-      // Los bordes suaves se conservan con una transición gradual.
-      for(let i=0;i<d.length;i+=4){
-        const r=d[i],g=d[i+1],b=d[i+2];
-        const max=Math.max(r,g,b);
-        const min=Math.min(r,g,b);
-        const lum=(r+g+b)/3;
-        const neutral=(max-min)<28;
-        if(neutral && lum<=42){
-          d[i+3]=0;
-        }else if(neutral && lum<88){
-          d[i+3]=Math.round(d[i+3]*((lum-42)/46));
-        }
+      const d=frame.data,w=canvas.width,h=canvas.height;
+      const seen=new Uint8Array(w*h),stack=[];
+
+      const isBg=(x,y)=>{
+        const i=(y*w+x)*4,r=d[i],g=d[i+1],b=d[i+2];
+        const mx=Math.max(r,g,b),mn=Math.min(r,g,b),lum=(r+g+b)/3;
+        const neutral=(mx-mn)<=34;
+        return neutral && (lum<=78 || lum>=215);
+      };
+      const push=(x,y)=>{
+        const k=y*w+x;
+        if(!seen[k] && isBg(x,y)){seen[k]=1;stack.push(k);}
+      };
+      for(let x=0;x<w;x++){push(x,0);push(x,h-1);}
+      for(let y=0;y<h;y++){push(0,y);push(w-1,y);}
+      while(stack.length){
+        const k=stack.pop(),x=k%w,y=(k/w)|0,i=k*4;
+        d[i+3]=0;
+        if(x>0)push(x-1,y);
+        if(x+1<w)push(x+1,y);
+        if(y>0)push(x,y-1);
+        if(y+1<h)push(x,y+1);
       }
       ctx.putImageData(frame,0,0);
-      img.src=canvas.toDataURL('image/png');
+
+      let minX=w,minY=h,maxX=-1,maxY=-1;
+      for(let y=0;y<h;y++){
+        for(let x=0;x<w;x++){
+          if(d[(y*w+x)*4+3]>18){
+            if(x<minX)minX=x;if(x>maxX)maxX=x;
+            if(y<minY)minY=y;if(y>maxY)maxY=y;
+          }
+        }
+      }
+      let output=canvas;
+      if(maxX>=minX && maxY>=minY){
+        const pad=Math.max(4,Math.round(Math.min(w,h)*0.018));
+        const sx=Math.max(0,minX-pad),sy=Math.max(0,minY-pad);
+        const sw=Math.min(w-sx,(maxX-minX+1)+pad*2);
+        const sh=Math.min(h-sy,(maxY-minY+1)+pad*2);
+        const cropped=document.createElement('canvas');
+        cropped.width=sw;cropped.height=sh;
+        cropped.getContext('2d').drawImage(canvas,sx,sy,sw,sh,0,0,sw,sh);
+        output=cropped;
+      }
+
+      const processed=output.toDataURL('image/png');
+      await new Promise(resolve=>{
+        let doneCalled=false;
+        const done=()=>{if(doneCalled)return;doneCalled=true;resolve();};
+        img.addEventListener('load',done,{once:true});
+        img.addEventListener('error',done,{once:true});
+        img.src=processed;
+        if(img.complete)setTimeout(done,0);
+      });
       img.dataset.transparentBrand='1';
       bitmap.close?.();
+      return true;
     }catch(_){
-      // En caso de que el navegador bloquee el procesamiento, el CSS
-      // mix-blend-mode:screen sigue ocultando visualmente el negro.
       img.dataset.transparentBrand='fallback';
+      return false;
     }
   }
 
@@ -172,21 +207,28 @@
         cropped.getContext('2d').drawImage(canvas,sx,sy,sw,sh,0,0,sw,sh);
         output=cropped;
       }
-      img.src=output.toDataURL('image/png');
+      const processed=output.toDataURL('image/png');
+      await new Promise(resolve=>{
+        let doneCalled=false;
+        const done=()=>{if(doneCalled)return;doneCalled=true;resolve();};
+        img.addEventListener('load',done,{once:true});
+        img.addEventListener('error',done,{once:true});
+        img.src=processed;
+        if(img.complete)setTimeout(done,0);
+      });
       img.dataset.transparentCaption='1';
       bitmap.close?.();
+      return true;
     }catch(_){
       img.dataset.transparentCaption='fallback';
+      return false;
     }
   }
 
 
   // ===== V22.4: motor limpio. No crea copias DOM de las imágenes. =====
   const spinState=new Map();
-  let hatSpinTimer=null;
-  let hatSpinToken=0;
-
-  function level3D(v){return ['off','soft','strong'].includes(v)?v:'off';}
+function level3D(v){return ['off','soft','strong'].includes(v)?v:'off';}
 
   function stopCanvas3D(stage){
     if(!stage)return;
@@ -211,9 +253,12 @@
   }
 
   function startCanvas3D(stage,img,level,glowColor){
-    stopCanvas3D(stage);
     level=level3D(level);
-    if(level==='off'||!stage||!img||!img.src)return;
+    if(level==='off'||!stage||!img||!img.src){stopCanvas3D(stage);return;}
+    const sourceKey=img.currentSrc||img.src;
+    const current=spinState.get(stage);
+    if(current && current.sourceKey===sourceKey && current.level===level)return;
+    stopCanvas3D(stage);
     const launch=()=>{
       if(!img.naturalWidth||!img.naturalHeight)return;
       const rect=img.getBoundingClientRect();
@@ -237,30 +282,32 @@
       const depth=level==='soft'?14:20;
       const layers=level==='soft'?10:14;
       const started=performance.now();
-      const state={raf:0};spinState.set(stage,state);
+      const state={raf:0,sourceKey:(img.currentSrc||img.src),level};spinState.set(stage,state);
       function frame(now){
         if(spinState.get(stage)!==state)return;
         ctx.clearRect(0,0,totalW,totalH);
         const a=((now-started)%duration)/duration*Math.PI*2;
         const c=Math.cos(a),sn=Math.sin(a);
-        const faceW=Math.max(1,Math.abs(c)*cssW);
-        // Extrusión: solo siluetas tintadas muy juntas. Nunca se dibuja una segunda cara desplazada.
+        // V22.4.39: ROCKSTAR y frase usan exactamente el mismo giro 0→360°.
+        // No usar Math.abs(c): eso hace que la segunda mitad de la vuelta
+        // se pliegue hacia adelante y parezca regresar.
+        const faceScale=c;
+        // Extrusión: solo siluetas tintadas muy juntas.
         for(let i=layers;i>=1;i--){
           const z=(i/layers)*depth;
           const off=sn*z;
           const alpha=.16+.34*(i/layers);
           ctx.save();ctx.globalAlpha=alpha;
           ctx.translate(cx+off,cy);
-          ctx.drawImage(tint,-faceW/2,-cssH/2,faceW,cssH);
+          ctx.scale(faceScale,1);
+          ctx.drawImage(tint,-cssW/2,-cssH/2,cssW,cssH);
           ctx.restore();
         }
-        // V22.4.2: frente y reverso conservan exactamente el mismo color y brillo.
-        // En el reverso se vuelve a dibujar el arte original SIN espejarlo: así no se
-        // cruzan las letras y tampoco se apagan / vuelven opacas durante la vuelta.
         ctx.save();
         ctx.translate(cx,cy);
         ctx.globalAlpha=1;
-        ctx.drawImage(img,-faceW/2,-cssH/2,faceW,cssH);
+        ctx.scale(faceScale,1);
+        ctx.drawImage(img,-cssW/2,-cssH/2,cssW,cssH);
         ctx.restore();
         // Luz exterior elegida en Admin.
         ctx.save();ctx.globalCompositeOperation='destination-over';ctx.shadowColor=glowColor||'#e5bd70';ctx.shadowBlur=22;ctx.fillStyle='rgba(0,0,0,0.001)';ctx.fillRect(cx-cssW*.28,cy-cssH*.28,cssW*.56,cssH*.56);ctx.restore();
@@ -270,61 +317,19 @@
     };
     if(img.complete)requestAnimationFrame(launch); else img.addEventListener('load',()=>requestAnimationFrame(launch),{once:true});
   }
-
-  function stopHatSpin(){
-    hatSpinToken++;
-    if(hatSpinTimer){clearTimeout(hatSpinTimer);hatSpinTimer=null;}
-    imageButton?.classList.remove('rockstar-photo-spin-active');
-    image?.classList.remove('rockstar-photo-spin-frame');
-  }
-
-  function featuredProductObject(){
-    try{
-      if(typeof PRODUCTS!=='undefined'&&Array.isArray(PRODUCTS)){
-        return PRODUCTS.find(p=>String(p.id)===String(featuredId))||null;
-      }
-    }catch(_){ }
-    return null;
-  }
-
-  async function transparentProductData(url){
-    try{
-      const response=await fetch(url,{mode:'cors',cache:'force-cache'});if(!response.ok)throw 0;
-      const blob=await response.blob();const bitmap=await createImageBitmap(blob);
-      const canvas=document.createElement('canvas');canvas.width=bitmap.width;canvas.height=bitmap.height;
-      const ctx=canvas.getContext('2d',{willReadFrequently:true});ctx.drawImage(bitmap,0,0);
-      const frame=ctx.getImageData(0,0,canvas.width,canvas.height),d=frame.data,w=canvas.width,h=canvas.height;
-      const seen=new Uint8Array(w*h),stack=[];
-      const isBg=(x,y)=>{const i=(y*w+x)*4,r=d[i],g=d[i+1],b=d[i+2],mx=Math.max(r,g,b),mn=Math.min(r,g,b);return ((r+g+b)/3>=205&&mx-mn<=48)||(r>=235&&g>=235&&b>=235)};
-      const push=(x,y)=>{const k=y*w+x;if(!seen[k]&&isBg(x,y)){seen[k]=1;stack.push(k)}};
-      for(let x=0;x<w;x++){push(x,0);push(x,h-1)}for(let y=0;y<h;y++){push(0,y);push(w-1,y)}
-      while(stack.length){const k=stack.pop(),x=k%w,y=(k/w)|0,i=k*4;d[i+3]=0;if(x>0)push(x-1,y);if(x+1<w)push(x+1,y);if(y>0)push(x,y-1);if(y+1<h)push(x,y+1)}
-      ctx.putImageData(frame,0,0);bitmap.close?.();return canvas.toDataURL('image/png');
-    }catch(_){return url;}
-  }
-
-  async function startHatPhotoSpin(level){
-    stopHatSpin();level=level3D(level);if(level==='off')return;
-    const product=featuredProductObject();
-    if(!product)return;
-    const ordered=[product.image,...(Array.isArray(product.images)?product.images:[])].filter(Boolean);
-    const urls=[...new Set(ordered)];
-    if(urls.length<2)return;
-    const token=hatSpinToken;
-    imageButton.classList.add('rockstar-photo-spin-active');image.classList.add('rockstar-photo-spin-frame');
-    // Procesar una vez cada ángulo para que conserve color pero no el fondo claro.
-    const frames=[];for(const u of urls){if(token!==hatSpinToken)return;frames.push(await transparentProductData(u));}
-    let i=0;const delay=level==='soft'?850:500;
-    const tick=()=>{if(token!==hatSpinToken)return;image.style.opacity='0.2';setTimeout(()=>{if(token!==hatSpinToken)return;i=(i+1)%frames.length;image.src=frames[i];image.style.opacity='1';hatSpinTimer=setTimeout(tick,delay);},90)};
-    image.src=frames[0];image.style.opacity='1';hatSpinTimer=setTimeout(tick,delay);
-  }
-
   function applyMotionModes(cfg){
     const brandStage=document.getElementById('rockstarEntryLogo');
     const captionStage=document.getElementById('rockstarEntryCaption');
-    if(brandImageEl&&!brandImageEl.hidden)startCanvas3D(brandStage,brandImageEl,cfg.brand3DLevel,cfg.glowColor);else stopCanvas3D(brandStage);
-    if(captionImageEl&&!captionImageEl.hidden)startCanvas3D(captionStage,captionImageEl,cfg.caption3DLevel,cfg.captionGlowColor);else stopCanvas3D(captionStage);
-    startHatPhotoSpin(cfg.product3DLevel);
+    if(brandImageEl&&!brandImageEl.hidden && brandImageEl.dataset.transparentBrand==='1'){
+      startCanvas3D(brandStage,brandImageEl,cfg.brand3DLevel,cfg.glowColor);
+    }else{
+      stopCanvas3D(brandStage);
+    }
+    if(captionImageEl&&!captionImageEl.hidden && captionImageEl.dataset.transparentCaption==='1'){
+      startCanvas3D(captionStage,captionImageEl,cfg.caption3DLevel,cfg.captionGlowColor);
+    }else{
+      stopCanvas3D(captionStage);
+    }
   }
 
   function applyEntryConfig(){
@@ -355,12 +360,16 @@
           brandImageEl.dataset.originalSource=source;
           brandImageEl.src=source;
           delete brandImageEl.dataset.processedSource;
+          delete brandImageEl.dataset.transparentBrand;
         }
         brandImageEl.hidden=false;
         brandImageEl.style.display='block';
-        // Quita de verdad el fondo negro de JPG/PNG subidos por el usuario.
-        // El resultado queda transparente y deja ver el fondo general rojo.
-        makeBrandBackgroundTransparent(brandImageEl,source);
+        // Esperar la versión transparente antes de crear las capas 3D.
+        makeBrandBackgroundTransparent(brandImageEl,source).then(()=>{
+          if(brandImageEl.dataset.originalSource===source){
+            applyMotionModes(getConfig());
+          }
+        });
       }else{
         brandImageEl.hidden=true;
         brandImageEl.style.display='none';
@@ -382,10 +391,15 @@
           captionImageEl.dataset.originalSource=source;
           captionImageEl.src=source;
           delete captionImageEl.dataset.processedCaptionSource;
+          delete captionImageEl.dataset.transparentCaption;
         }
         captionImageEl.hidden=false;
         captionImageEl.style.display='block';
-        makeCaptionBackgroundTransparent(captionImageEl,source);
+        makeCaptionBackgroundTransparent(captionImageEl,source).then(()=>{
+          if(captionImageEl.dataset.originalSource===source){
+            applyMotionModes(getConfig());
+          }
+        });
       }else{
         captionImageEl.hidden=true;
         captionImageEl.style.display='none';
@@ -397,12 +411,25 @@
 
     // Si el administrador subió una imagen específica para la portada,
     // se usa esa. Si no, se conserva la imagen principal del producto.
+    // V22.4.37: la opción de Admin controla realmente el giro de la imagen.
+    // off = sin giro, soft = giro lento, strong = giro normal.
+    image.classList.remove('rockstar-entry-product-spin-side');
+    image.style.removeProperty('--rockstar-entry-product-spin-duration');
+
     if(cfg.entryProductImageUrl){
       image.src=cfg.entryProductImageUrl;
       image.alt='Imagen destacada de entrada';
       image.dataset.customEntryImage='1';
       makeProductBackgroundTransparent(image,cfg.entryProductImageUrl);
-      image.classList.add('rockstar-entry-product-spin-2d');
+
+      const productSpinLevel=level3D(cfg.product3DLevel);
+      if(productSpinLevel!=='off'){
+        image.style.setProperty(
+          '--rockstar-entry-product-spin-duration',
+          productSpinLevel==='soft' ? '18s' : '12s'
+        );
+        image.classList.add('rockstar-entry-product-spin-side');
+      }
     }else{
       delete image.dataset.customEntryImage;
     }
@@ -411,35 +438,19 @@
     // aplica únicamente los modos seleccionados.
     setTimeout(()=>applyMotionModes(cfg),220);
   }
-
-  function chooseCard(){
-    const cards=[...document.querySelectorAll('.store-product-card[data-product-id]')];
-    const cap=cards.find(c=>/gorra|cap|felona|trucker|snapback/i.test(c.textContent||''));
-    return cap||cards[0]||null;
-  }
-
-
-  function syncFeaturedProduct(){
-    // V22.4.28: la imagen de la portada la controla exclusivamente Admin.
-    // Ya no se reemplaza con productos/imágenes del catálogo.
-    return true;
-  }
-
-  function closeEntry(){
-    // La foto de entrada solo abre la tienda. No manda directo al catálogo.
-    // Al terminar la transición, la vista queda al inicio para mostrar primero
-    // el fondo completo; el usuario decide cuándo bajar o tocar “Tienda”.
-    syncFeaturedProduct();
+function closeEntry(){
     entry.classList.add('is-leaving');
     document.body.classList.remove('rockstar-entry-open');
+    document.body.classList.add('rockstar-store-open');
+
     window.setTimeout(()=>{
       entry.hidden=true;
-      const inicio=document.getElementById('inicio');
-      if(inicio){
-        inicio.scrollIntoView({behavior:'auto',block:'start'});
-      }else{
-        window.scrollTo({top:0,left:0,behavior:'auto'});
-      }
+      entry.setAttribute('aria-hidden','true');
+      entry.style.display='none';
+
+      const tienda=document.getElementById('coleccion');
+      if(tienda)tienda.scrollIntoView({behavior:'auto',block:'start'});
+      else window.scrollTo({top:0,left:0,behavior:'auto'});
     },430);
   }
 
@@ -455,9 +466,13 @@
 
   const paintFinalEntry=()=>{
     try{
+      document.body.classList.add('rockstar-entry-open');
+      document.body.classList.remove('rockstar-store-open');
+      entry.hidden=false;
+      entry.style.removeProperty('display');
+      entry.setAttribute('aria-hidden','false');
       applyEntryConfig();
-      syncFeaturedProduct();
-    }finally{
+}finally{
       // Dos frames permiten aplicar la configuración antes del primer render visible.
       requestAnimationFrame(()=>requestAnimationFrame(releaseEntry));
     }
@@ -480,14 +495,4 @@
     }
   },900);
 
-  if(!syncFeaturedProduct()){
-    const grid=document.getElementById('storeProductGrid');
-    if(grid){
-      const observer=new MutationObserver(()=>{
-        if(syncFeaturedProduct())observer.disconnect();
-      });
-      observer.observe(grid,{childList:true,subtree:true});
-      window.setTimeout(()=>observer.disconnect(),12000);
-    }
-  }
 })();
