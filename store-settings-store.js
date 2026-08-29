@@ -371,7 +371,27 @@
     const soundButton=document.getElementById("rockstarSound");
     const musicEnabled=data.music_enabled!==false;
     const musicUrl=String(data.music_url||"").trim();
-    const audioMode=data.audio_mode==="video" ? "video" : "music";
+    const savedAudioMode=data.audio_mode==="video" ? "video" : "music";
+    // Una música personalizada tiene prioridad para que nunca quede ignorada
+    // por una selección anterior de "audio del video" en Administración.
+    const audioMode=(musicEnabled && musicUrl) ? "music" : savedAudioMode;
+
+    const extractYouTubeId=value=>{
+      const raw=String(value||"").trim();
+      if(!raw)return "";
+      try{
+        const url=new URL(raw);
+        const host=url.hostname.replace(/^www\./i,"").toLowerCase();
+        if(host==="youtu.be")return (url.pathname.split("/").filter(Boolean)[0]||"").slice(0,11);
+        if(host==="youtube.com" || host==="m.youtube.com" || host==="music.youtube.com"){
+          if(url.pathname==="/watch")return (url.searchParams.get("v")||"").slice(0,11);
+          const parts=url.pathname.split("/").filter(Boolean);
+          if(["embed","shorts","live"].includes(parts[0]))return (parts[1]||"").slice(0,11);
+        }
+      }catch(_){}
+      return "";
+    };
+    const youtubeId=extractYouTubeId(musicUrl);
 
     window.ROCKSTAR_AUDIO_MODE=audioMode;
 
@@ -407,7 +427,20 @@
           audio.removeAttribute("src");
           audio.load();
           soundButton.style.display="none";
+        }else if(youtubeId){
+          audio.pause();
+          audio.removeAttribute("src");
+          audio.load();
+          soundButton._rockstarVideoSource=null;
+          soundButton.dataset.audioSource="youtube";
+          soundButton.dataset.youtubeId=youtubeId;
+          document.dispatchEvent(new CustomEvent("rockstar:youtube-source",{detail:{id:youtubeId}}));
+          soundButton.style.display="";
+          soundButton.setAttribute("aria-label","Activar música de YouTube");
+          const label=soundButton.querySelector("span");
+          if(label) label.textContent="MÚSICA";
         }else{
+          delete soundButton.dataset.youtubeId;
           const desired=musicUrl||window.ROCKSTAR_BUNDLED_MUSIC_SRC;
           if(audio.getAttribute("src")!==desired){
             const wasPlaying=!audio.paused;

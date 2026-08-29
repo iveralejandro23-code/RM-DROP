@@ -252,12 +252,12 @@ function level3D(v){return ['off','soft','strong'].includes(v)?v:'off';}
     return c;
   }
 
-  function startCanvas3D(stage,img,level,glowColor){
+  function startCanvas3D(stage,img,level,glowColor,frontLocked=false){
     level=level3D(level);
     if(level==='off'||!stage||!img||!img.src){stopCanvas3D(stage);return;}
     const sourceKey=img.currentSrc||img.src;
     const current=spinState.get(stage);
-    if(current && current.sourceKey===sourceKey && current.level===level)return;
+    if(current && current.sourceKey===sourceKey && current.level===level && current.frontLocked===frontLocked)return;
     stopCanvas3D(stage);
     const launch=()=>{
       if(!img.naturalWidth||!img.naturalHeight)return;
@@ -282,11 +282,14 @@ function level3D(v){return ['off','soft','strong'].includes(v)?v:'off';}
       const depth=level==='soft'?14:20;
       const layers=level==='soft'?10:14;
       const started=performance.now();
-      const state={raf:0,sourceKey:(img.currentSrc||img.src),level};spinState.set(stage,state);
+      const state={raf:0,sourceKey:(img.currentSrc||img.src),level,frontLocked};spinState.set(stage,state);
       function frame(now){
         if(spinState.get(stage)!==state)return;
         ctx.clearRect(0,0,totalW,totalH);
-        const a=((now-started)%duration)/duration*Math.PI*2;
+        // La frase inferior debe conservar siempre la misma vista frontal.
+        // Mantiene su volumen y resplandor, pero no gira de perfil ni muestra
+        // el reverso. ROCKSTAR conserva su vuelta 3D completa sin cambios.
+        const a=frontLocked ? 0 : ((now-started)%duration)/duration*Math.PI*2;
         const c=Math.cos(a),sn=Math.sin(a);
         // V22.4.39: ROCKSTAR y frase usan exactamente el mismo giro 0→360°.
         // No usar Math.abs(c): eso hace que la segunda mitad de la vuelta
@@ -311,7 +314,7 @@ function level3D(v){return ['off','soft','strong'].includes(v)?v:'off';}
         ctx.restore();
         // Luz exterior elegida en Admin.
         ctx.save();ctx.globalCompositeOperation='destination-over';ctx.shadowColor=glowColor||'#e5bd70';ctx.shadowBlur=22;ctx.fillStyle='rgba(0,0,0,0.001)';ctx.fillRect(cx-cssW*.28,cy-cssH*.28,cssW*.56,cssH*.56);ctx.restore();
-        state.raf=requestAnimationFrame(frame);
+        if(!frontLocked)state.raf=requestAnimationFrame(frame);
       }
       state.raf=requestAnimationFrame(frame);
     };
@@ -326,7 +329,7 @@ function level3D(v){return ['off','soft','strong'].includes(v)?v:'off';}
       stopCanvas3D(brandStage);
     }
     if(captionImageEl&&!captionImageEl.hidden && captionImageEl.dataset.transparentCaption==='1'){
-      startCanvas3D(captionStage,captionImageEl,cfg.caption3DLevel,cfg.captionGlowColor);
+      startCanvas3D(captionStage,captionImageEl,cfg.caption3DLevel,cfg.captionGlowColor,true);
     }else{
       stopCanvas3D(captionStage);
     }
@@ -391,15 +394,21 @@ function level3D(v){return ['off','soft','strong'].includes(v)?v:'off';}
           captionImageEl.dataset.originalSource=source;
           captionImageEl.src=source;
           delete captionImageEl.dataset.processedCaptionSource;
-          delete captionImageEl.dataset.transparentCaption;
+          // La frase subida ya se conserva tal como viene. No se vuelve a
+          // procesar porque esa limpieza automática quitaba relleno y brillo
+          // pocos instantes después de cargar la portada.
+          captionImageEl.dataset.transparentCaption='1';
         }
         captionImageEl.hidden=false;
         captionImageEl.style.display='block';
-        makeCaptionBackgroundTransparent(captionImageEl,source).then(()=>{
+        const showCaption=()=>{
           if(captionImageEl.dataset.originalSource===source){
+            captionImageEl.dataset.transparentCaption='1';
             applyMotionModes(getConfig());
           }
-        });
+        };
+        if(captionImageEl.complete)requestAnimationFrame(showCaption);
+        else captionImageEl.addEventListener('load',showCaption,{once:true});
       }else{
         captionImageEl.hidden=true;
         captionImageEl.style.display='none';

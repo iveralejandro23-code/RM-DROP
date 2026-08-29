@@ -779,12 +779,15 @@
 
     <div class="settings-field wide rockstar-media-setting">
       <span class="settings-label">🎵 MÚSICA DE FONDO</span>
-      <span class="settings-help">Sube la música que sonará en la tienda. El cliente seguirá usando el botón MÚSICA para activar o pausar.</span>
+      <span class="settings-help">Sube un archivo o pega un enlace directo de audio. El cliente seguirá usando el botón MÚSICA para activar o silenciar.</span>
       <div class="branding-upload-box rockstar-media-upload">
         <div id="settingMusicEmpty" class="rockstar-media-empty">Sin música personalizada. Se usa la pista incluida en la tienda.</div>
         <audio id="settingMusicPreview" class="rockstar-audio-preview" controls preload="metadata"></audio>
         <input id="settingMusicFile" type="file" accept="audio/mpeg,audio/mp3,audio/wav,audio/x-wav,audio/mp4">
-        <small>MP3 recomendado · Máx. 15 MB</small>
+        <small>Archivo: MP3 recomendado · Máx. 15 MB</small>
+        <label for="settingMusicUrl">Enlace directo de música</label>
+        <input id="settingMusicUrl" type="url" inputmode="url" placeholder="https://ejemplo.com/cancion.mp3">
+        <small>Acepta un enlace público directo a MP3, WAV o M4A, o un enlace de YouTube. Los enlaces de YouTube se reproducen cuando la tienda está publicada por HTTPS.</small>
         <div class="rockstar-media-actions">
           <button id="settingMusicRemove" class="secondary small-btn" type="button">Quitar música</button>
         </div>
@@ -1034,7 +1037,7 @@
   <script src="supabase-products-admin.js"></script>
   <script src="supabase-categories-admin.js"></script>
   <script src="supabase-orders-admin.js"></script>
-  <script src="store-settings-admin.js?v=22.4"></script>
+  <script src="store-settings-admin.js?v=22.4.44"></script>
   </div>
   <script src="admin-navigation.js"></script>
   <script src="account-admin.js"></script>

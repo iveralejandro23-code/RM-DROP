@@ -120,6 +120,42 @@
     return true;
   }
 
+  function normalizeMusicUrl(value){
+    const raw=String(value||"").trim();
+    if(!raw)return "";
+    if(/^https?:\/\//i.test(raw))return raw;
+    return "https://"+raw.replace(/^\/+/,"");
+  }
+
+  function validateMusicUrl(value){
+    const normalized=normalizeMusicUrl(value);
+    if(!normalized)return "";
+    try{
+      const url=new URL(normalized);
+      if(!/^https?:$/.test(url.protocol))throw new Error("protocol");
+      return url.href;
+    }catch(_){
+      alert("Música: pega un enlace público válido que comience con https://");
+      return "";
+    }
+  }
+
+  function extractYouTubeId(value){
+    const raw=String(value||"").trim();
+    if(!raw)return "";
+    try{
+      const url=new URL(raw);
+      const host=url.hostname.replace(/^www\./i,"").toLowerCase();
+      if(host==="youtu.be")return (url.pathname.split("/").filter(Boolean)[0]||"").slice(0,11);
+      if(host==="youtube.com" || host==="m.youtube.com" || host==="music.youtube.com"){
+        if(url.pathname==="/watch")return (url.searchParams.get("v")||"").slice(0,11);
+        const parts=url.pathname.split("/").filter(Boolean);
+        if(["embed","shorts","live"].includes(parts[0]))return (parts[1]||"").slice(0,11);
+      }
+    }catch(_){}
+    return "";
+  }
+
   function inferBackgroundType(fileOrUrl, mime=""){
     if(mime.startsWith("video/")) return "video";
     if(mime.startsWith("image/")) return "image";
@@ -199,6 +235,12 @@
 
     if(!src){
       empty.textContent="Sin fondo personalizado. Se usa el fondo incluido en la tienda.";
+      empty.style.display="block";
+      return;
+    }
+
+    if(extractYouTubeId(src)){
+      empty.textContent="Enlace de YouTube listo. Se reproducirá desde el botón MÚSICA de la tienda publicada.";
       empty.style.display="block";
       return;
     }
@@ -360,8 +402,22 @@
     if(file && validateMusic(file)){
       pendingMusicFile=file;
       musicEnabled=true;
+      if($("settingMusicUrl")) $("settingMusicUrl").value="";
+      if($("settingAudioModeMusic")) $("settingAudioModeMusic").checked=true;
     }
     $("settingMusicFile").value="";
+    renderMusic();
+  });
+
+  $("settingMusicUrl")?.addEventListener("change",()=>{
+    const input=$("settingMusicUrl");
+    const url=validateMusicUrl(input?.value);
+    if(!url)return;
+    pendingMusicFile=null;
+    currentMusicUrl=url;
+    musicEnabled=true;
+    if($("settingAudioModeMusic")) $("settingAudioModeMusic").checked=true;
+    input.value=url;
     renderMusic();
   });
 
@@ -369,6 +425,7 @@
     pendingMusicFile=null;
     currentMusicUrl="";
     musicEnabled=false;
+    if($("settingMusicUrl")) $("settingMusicUrl").value="";
     renderMusic();
   });
 
@@ -430,6 +487,7 @@
     backgroundEnabled=data.background_enabled!==false;
     currentMusicUrl=data.music_url||"";
     musicEnabled=data.music_enabled!==false;
+    if($("settingMusicUrl")) $("settingMusicUrl").value=currentMusicUrl;
 
     const audioMode=(data.audio_mode==="video") ? "video" : "music";
     if($("settingAudioModeVideo")) $("settingAudioModeVideo").checked=audioMode==="video";
@@ -495,6 +553,14 @@
         currentMusicUrl=await uploadMedia(pendingMusicFile,"music");
         pendingMusicFile=null;
         musicEnabled=true;
+      }else if($("settingMusicUrl")?.value.trim()){
+        const linkedMusicUrl=validateMusicUrl($("settingMusicUrl").value);
+        if(!linkedMusicUrl) throw new Error("El enlace de música no es válido.");
+        currentMusicUrl=linkedMusicUrl;
+        musicEnabled=true;
+        $("settingMusicUrl").value=linkedMusicUrl;
+      }else if(musicEnabled){
+        currentMusicUrl="";
       }
 
       if($("settingAudioModeVideo")?.checked){
@@ -549,7 +615,9 @@
         background_enabled:backgroundEnabled,
         music_url:currentMusicUrl,
         music_enabled:musicEnabled,
-        audio_mode:$("settingAudioModeVideo")?.checked ? "video" : "music",
+        // Si existe una música personalizada, siempre se conecta al botón.
+        // La opción de audio del video se usa únicamente cuando no hay música.
+        audio_mode:(musicEnabled && currentMusicUrl) ? "music" : ($("settingAudioModeVideo")?.checked ? "video" : "music"),
         pickup_enabled:$("settingPickup").checked,
         shipping_enabled:$("settingShipping").checked,
         payment_transfer:$("settingTransfer").checked,
