@@ -1,7 +1,7 @@
 {
   "name": "RM-DROP Admin",
   "short_name": "RM-DROP",
-  "description": "Administración y notificaciones de pedidos ROCKSTAR",
+  "description": "Administración y notificaciones de pedidos RM-DROP",
   "start_url": "./admin.html",
   "scope": "./",
   "display": "standalone",
