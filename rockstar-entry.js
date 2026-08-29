@@ -363,16 +363,21 @@ function level3D(v){return ['off','soft','strong'].includes(v)?v:'off';}
           brandImageEl.dataset.originalSource=source;
           brandImageEl.src=source;
           delete brandImageEl.dataset.processedSource;
-          delete brandImageEl.dataset.transparentBrand;
+          // La imagen de marca subida desde Admin se conserva exactamente
+          // como viene. La limpieza automática quitaba el relleno y brillo
+          // del logotipo pocos instantes después de cargar la portada.
+          brandImageEl.dataset.transparentBrand='1';
         }
         brandImageEl.hidden=false;
         brandImageEl.style.display='block';
-        // Esperar la versión transparente antes de crear las capas 3D.
-        makeBrandBackgroundTransparent(brandImageEl,source).then(()=>{
+        const showBrand=()=>{
           if(brandImageEl.dataset.originalSource===source){
+            brandImageEl.dataset.transparentBrand='1';
             applyMotionModes(getConfig());
           }
-        });
+        };
+        if(brandImageEl.complete)requestAnimationFrame(showBrand);
+        else brandImageEl.addEventListener('load',showBrand,{once:true});
       }else{
         brandImageEl.hidden=true;
         brandImageEl.style.display='none';

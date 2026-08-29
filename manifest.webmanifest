@@ -1,7 +1,7 @@
 {
-  "name": "ANG_CAPS_TJ Admin",
-  "short_name": "ANG_CAPS_TJ",
-  "description": "Administración y notificaciones de pedidos ANG_CAPS-TJ",
+  "name": "ROCKSTAR Admin",
+  "short_name": "ROCKSTAR",
+  "description": "Administración y notificaciones de pedidos ROCKSTAR",
   "start_url": "./admin.html",
   "scope": "./",
   "display": "standalone",
